@@ -67,7 +67,7 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
       alert('🎉 Application Submitted Successfully!');
     } catch (error) {
       console.error("Submission failed:", error);
-      alert('An error occurred while submitting your application. Please try again.');
+      alert('Error submitting application: ' + error.message);
     } finally {
       setIsSubmitting(false);
     }

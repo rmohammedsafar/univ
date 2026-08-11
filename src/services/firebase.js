@@ -51,9 +51,13 @@ export const loadCMSConfigFromStorage = () => {
   return null;
 };
 
-const withTimeout = (promise, ms = 15000) => {
+const withTimeout = (promise, ms = 60000) => {
   return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error('Firebase operation timed out. Please check your Firebase rules and configuration.')), ms);
+    const timer = setTimeout(() => {
+      const err = new Error('Firebase operation timed out. Please check your Firebase rules and configuration.');
+      alert('Error submitting application: ' + err.message);
+      reject(err);
+    }, ms);
     promise.then(value => {
       clearTimeout(timer);
       resolve(value);
