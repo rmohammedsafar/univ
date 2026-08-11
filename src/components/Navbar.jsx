@@ -36,7 +36,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
       <header className="app-header">
         <a href="#" className="brand-container">
           <img
-            src="assets/logo.svg"
+            src="assets/logo.jpg"
             alt="University of East Florida Emblem"
             className="brand-logo-img"
             onError={(e) => {

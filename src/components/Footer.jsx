@@ -126,7 +126,7 @@ export default function Footer({ onOpenAdminLogin }) {
           {/* Brand Column */}
           <div className="footer-brand">
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <img src="assets/logo.svg" alt="UEF Crest" style={{ width: 44, height: 44 }} />
+              <img src="assets/logo.jpg" alt="UEF Crest" style={{ width: 44, height: 44 }} />
               <div>
                 <h3 style={{ color: '#fff', fontSize: 18, fontFamily: 'var(--font-serif)' }}>UNIVERSITY OF EAST FLORIDA</h3>
                 <span style={{ fontSize: 11, color: 'var(--gold-primary)', textTransform: 'uppercase', letterSpacing: 1 }}>
