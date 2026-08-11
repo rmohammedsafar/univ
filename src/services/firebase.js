@@ -8,13 +8,13 @@ import { getFirestore, collection, addDoc, getDocs, orderBy, query } from 'fireb
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCnVcAQOWjSYY9DatMNOIocSCLcAsPMaRE",
-  authDomain: "uniusa-143f9.firebaseapp.com",
-  projectId: "uniusa-143f9",
-  storageBucket: "uniusa-143f9.firebasestorage.app",
-  messagingSenderId: "645682227632",
-  appId: "1:645682227632:web:35151151acf230c9a5ce75",
-  measurementId: "G-WQSRH7REX5"
+  apiKey: "AIzaSyC5aK_bNcjjfVrSTpMk21kdOQCHci9vM8w",
+  authDomain: "american-board-online.firebaseapp.com",
+  projectId: "american-board-online",
+  storageBucket: "american-board-online.firebasestorage.app",
+  messagingSenderId: "534691734340",
+  appId: "1:534691734340:web:3fcc482f648b0d9fd32d11",
+  measurementId: "G-XRGW1FG2WX"
 };
 
 const app = initializeApp(FIREBASE_CONFIG);
