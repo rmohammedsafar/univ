@@ -184,7 +184,6 @@ export const INITIAL_RESEARCH_PAPERS = [
     author: "Dr. Aris Thorne & UEF AI Research Group",
     journal: "Journal of Theoretical Computer Science (2026)",
     category: "ARTIFICIAL INTELLIGENCE",
-    doi: "10.1016/j.tcs.2026.04.012",
     abstract: "A rigorous mathematical formulation analyzing gradient flow stability and loss landscape geometry in transformer architectures under asynchronous remote computation constraints."
   },
   {
@@ -192,7 +191,6 @@ export const INITIAL_RESEARCH_PAPERS = [
     author: "Prof. Marcus Vance & Department of Economics",
     journal: "Review of Financial Economics & Tech (2026)",
     category: "FINANCIAL TECHNOLOGY",
-    doi: "10.1093/rfet/qaa045",
     abstract: "An analytical study examining cross-border liquidity mechanisms, smart contract formal verification, and macroeconomic stability in non-custodial digital asset networks."
   },
   {
@@ -200,7 +198,6 @@ export const INITIAL_RESEARCH_PAPERS = [
     author: "Dean Eleanor Vance & UEF Senate",
     journal: "International Journal of Online Higher Education (2025)",
     category: "DISTANCE PEDAGOGY",
-    doi: "10.1007/s10639-025-11204-y",
     abstract: "A comprehensive empirical evaluation of student engagement, assessment integrity, and knowledge retention in theoretical 100% remote university degree programs."
   }
 ];

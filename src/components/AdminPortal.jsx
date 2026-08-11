@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { saveCMSConfigToStorage, getApplicationRecords } from '../services/firebase';
 
 export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
+  const [applications, setApplications] = useState([]);
 
   // New Program Form State
   const [newProgTitle, setNewProgTitle] = useState('');
@@ -14,7 +15,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
   const [newProgDuration, setNewProgDuration] = useState('1.5 Years (100% Online)');
   const [newProgDesc, setNewProgDesc] = useState('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
 
-  const applications = getApplicationRecords();
+  useEffect(() => {
+    async function fetchApps() {
+      const apps = await getApplicationRecords();
+      setApplications(apps);
+    }
+    fetchApps();
+  }, []);
 
   const handleAddProgramSubmit = (e) => {
     e.preventDefault();
@@ -133,31 +140,43 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
               <table className="admin-table">
                 <thead>
                   <tr>
-                    <th>Tracking ID</th>
                     <th>Student Name</th>
                     <th>Email & Country</th>
                     <th>Program</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th>Documents</th>
                   </tr>
                 </thead>
                 <tbody>
                   {applications.length === 0 ? (
                     <tr>
-                      <td colSpan="6" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
+                      <td colSpan="5" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
                         No student applications recorded yet.
                       </td>
                     </tr>
                   ) : (
                     applications.map(app => (
-                      <tr key={app.trackingId}>
-                        <td style={{ fontFamily: 'monospace', color: 'var(--gold-light)' }}>{app.trackingId}</td>
+                      <tr key={app.id}>
                         <td style={{ fontWeight: 'bold' }}>{app.fullName}</td>
                         <td>{app.email} ({app.country})</td>
                         <td>{app.programTitle}</td>
                         <td><span className="online-tag" style={{ position: 'static' }}>{app.status}</span></td>
                         <td>
-                          <button className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px' }}>Inspect Documents</button>
+                          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            {app.marksheetUrls?.map((url, i) => (
+                              <a key={i} href={url} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', textDecoration: 'none' }}>
+                                📄 Marksheet {i + 1}
+                              </a>
+                            ))}
+                            {app.idUrls?.map((url, i) => (
+                              <a key={i} href={url} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', textDecoration: 'none', borderColor: '#63b3ed', color: '#63b3ed' }}>
+                                🪪 Gov ID {i + 1}
+                              </a>
+                            ))}
+                            {(!app.marksheetUrls?.length && !app.idUrls?.length) && (
+                              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>No Docs Uploaded</span>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))

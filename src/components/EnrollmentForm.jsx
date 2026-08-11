@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
-import { saveApplicationRecord } from '../services/firebase';
+import React, { useState, useRef } from 'react';
+import { saveApplicationRecord, uploadDocument } from '../services/firebase';
 import { sendConfirmationEmail } from '../services/emailService';
 
 export default function EnrollmentForm({ programs, selectedProgramId }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [country, setCountry] = useState('United States');
-  const [targetProgram, setTargetProgram] = useState(selectedProgramId || (programs[0] ? programs[0].id : 'ms-cs-ai'));
-  const [highestQual, setHighestQual] = useState('Bachelor Degree / Graduation');
+  const [country, setCountry] = useState('');
+  const [targetProgram, setTargetProgram] = useState(selectedProgramId || '');
+  const [highestQual, setHighestQual] = useState('');
   const [gpaPercent, setGpaPercent] = useState('82');
   const [marksheetFiles, setMarksheetFiles] = useState([]);
   const [idFiles, setIdFiles] = useState([]);
+  const [marksheetActive, setMarksheetActive] = useState(false);
+  const [idActive, setIdActive] = useState(false);
   const [submittedApp, setSubmittedApp] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const marksheetRef = useRef();
+  const idRef = useRef();
+
+  const handleDrop = (e, setter, setActive) => {
+    e.preventDefault();
+    setActive(false);
+    const files = Array.from(e.dataTransfer.files);
+    setter(files);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,86 +33,134 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
       return;
     }
 
-    const prog = programs.find(p => p.id === targetProgram) || programs[0];
-    const trackingId = 'UEF-' + Math.floor(100000 + Math.random() * 900000);
+    setIsSubmitting(true);
 
-    const appData = {
-      trackingId,
-      fullName,
-      email,
-      country,
-      programId: prog.id,
-      programTitle: prog.title || prog.name,
-      highestQual,
-      gpaPercent: `${gpaPercent}%`,
-      status: parseInt(gpaPercent) >= 75 ? 'ADMITTED (UNCONDITIONAL)' : 'ADMITTED (CONDITIONAL PREP)',
-      submittedAt: new Date().toLocaleString("en-US", { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-      marksheetCount: marksheetFiles.length || 1,
-      idUploaded: idFiles.length > 0 ? 'Verified Passport/ID' : 'Pending Verification'
-    };
+    try {
+      // 1. Upload files to Firebase Storage concurrently
+      const marksheetUploads = marksheetFiles.map(file => uploadDocument(file, 'applications/marksheets'));
+      const idUploads = idFiles.map(file => uploadDocument(file, 'applications/ids'));
 
-    saveApplicationRecord(appData);
-    await sendConfirmationEmail(appData);
-    setSubmittedApp(appData);
-    alert(`🎉 Application Submitted Successfully! Official Confirmation Email & Receipt sent for Tracking ID ${trackingId}.`);
+      const marksheetUrls = await Promise.all(marksheetUploads);
+      const idUrls = await Promise.all(idUploads);
+
+      const prog = programs.find(p => p.id === targetProgram) || programs[0];
+      const score = parseInt(gpaPercent);
+      const appData = {
+        fullName,
+        email,
+        country,
+        programId: prog?.id,
+        programTitle: prog?.title || prog?.name || 'Selected Program',
+        highestQual,
+        gpaPercent: `${gpaPercent}%`,
+        status: score >= 75 ? 'ADMITTED (UNCONDITIONAL)' : 'ADMITTED (CONDITIONAL PREP)',
+        submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        marksheetCount: marksheetFiles.length || 0,
+        marksheetUrls: marksheetUrls.filter(url => url !== null),
+        idUploaded: idFiles.length > 0 ? 'Verified Passport/ID' : 'Pending Verification',
+        idUrls: idUrls.filter(url => url !== null)
+      };
+
+      await saveApplicationRecord(appData);
+      await sendConfirmationEmail(appData);
+      setSubmittedApp(appData);
+      alert('🎉 Application Submitted Successfully!');
+    } catch (error) {
+      console.error("Submission failed:", error);
+      alert('An error occurred while submitting your application. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section className="section-wrapper" id="applySection">
       <div className="section-header">
-        <span className="section-tag">Online Admissions 2026</span>
-        <h2 className="section-title">ENROLL NOW & UPLOAD MARKSHEETS</h2>
-        <p className="section-desc">
-          Complete your official application for 100% remote online study. Attach your academic marksheets and nationality ID for instant eligibility evaluation.
-        </p>
+        <h2 className="section-title">ENROLL NOW</h2>
       </div>
 
       <div className="application-portal-box" style={{ maxWidth: '900px', margin: '0 auto' }}>
+        
+        <h3 style={{ fontSize: '18px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          📝 STUDENT PROFILE & ACADEMIC DETAILS
+        </h3>
+
         <form onSubmit={handleSubmit}>
+
+          {/* Row 1 */}
           <div className="form-grid-2">
             <div className="form-group">
-              <label className="form-label">Full Student Legal Name *</label>
-              <input 
-                type="text" 
-                className="form-control" 
-                placeholder="e.g. Eleanor Vance" 
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required 
-              />
+              <label className="form-label">Full Legal Name *</label>
+              <input type="text" className="form-control" placeholder="e.g. Alexander Hamilton"
+                value={fullName} onChange={e => setFullName(e.target.value)} required />
             </div>
-
             <div className="form-group">
-              <label className="form-label">Student Email Address *</label>
-              <input 
-                type="email" 
-                className="form-control" 
-                placeholder="eleanor@example.com" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required 
-              />
+              <label className="form-label">Email Address *</label>
+              <input type="email" className="form-control" placeholder="alexander@example.com"
+                value={email} onChange={e => setEmail(e.target.value)} required />
             </div>
           </div>
 
+          {/* Row 2 */}
           <div className="form-grid-2">
             <div className="form-group">
+              <label className="form-label">Phone Number with Country Code *</label>
+              <input type="text" className="form-control" placeholder="+1 (555) 019-2834" required />
+            </div>
+            <div className="form-group">
               <label className="form-label">Country of Residence *</label>
-              <select className="form-select" value={country} onChange={(e) => setCountry(e.target.value)} required>
-                <option value="United States">🇺🇸 United States</option>
-                <option value="United Kingdom">🇬🇧 United Kingdom</option>
-                <option value="Canada">🇨🇦 Canada</option>
-                <option value="India">🇮🇳 India</option>
-                <option value="Japan">🇯🇵 Japan</option>
-                <option value="Germany">🇩🇪 Germany</option>
-                <option value="Australia">🇦🇺 Australia</option>
-                <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
+              <select className="form-select" value={country} onChange={e => setCountry(e.target.value)} required>
+                <option value="" disabled hidden>-- Select Your Country of Residence --</option>
+                <option>🇺🇸 United States</option>
+                <option>🇬🇧 United Kingdom</option>
+                <option>🇨🇦 Canada</option>
+                <option>🇦🇺 Australia</option>
+                <option>🇮🇳 India</option>
+                <option>🇨🇳 China</option>
+                <option>🇯🇵 Japan</option>
+                <option>🇰🇷 South Korea</option>
+                <option>🇩🇪 Germany</option>
+                <option>🇫🇷 France</option>
+                <option>🇮🇹 Italy</option>
+                <option>🇪🇸 Spain</option>
+                <option>🇧🇷 Brazil</option>
+                <option>🇲🇽 Mexico</option>
+                <option>🇿🇦 South Africa</option>
+                <option>🇳🇬 Nigeria</option>
+                <option>🇪🇬 Egypt</option>
+                <option>🇸🇦 Saudi Arabia</option>
+                <option>🇦🇪 United Arab Emirates</option>
+                <option>🇸🇬 Singapore</option>
+                <option>🇲🇾 Malaysia</option>
+                <option>🇮🇩 Indonesia</option>
+                <option>🇵🇭 Philippines</option>
+                <option>🇳🇿 New Zealand</option>
+                <option>🇮🇪 Ireland</option>
+                <option>🇳🇱 Netherlands</option>
+                <option>🇸🇪 Sweden</option>
+                <option>🇨🇭 Switzerland</option>
               </select>
             </div>
+          </div>
 
+          {/* Row 3 */}
+          <div className="form-grid-2">
             <div className="form-group">
-              <label className="form-label">Target Degree Program *</label>
-              <select className="form-select" value={targetProgram} onChange={(e) => setTargetProgram(e.target.value)} required>
+              <label className="form-label">Highest Qualification *</label>
+              <select className="form-select" value={highestQual} onChange={e => setHighestQual(e.target.value)} required>
+                <option value="" disabled hidden>-- Select Highest Qualification --</option>
+                <option>SSLC / Secondary School (10th)</option>
+                <option>Plus Two / Higher Secondary (12th)</option>
+                <option>Bachelor's Degree / Graduation (B.A., B.Sc, B.Com)</option>
+                <option>B.Tech / B.E. Engineering Degree</option>
+                <option>Master's Degree / Post Graduation (M.A., M.Sc, M.Tech)</option>
+                <option>Doctorate / Ph.D.</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Degree Program *</label>
+              <select className="form-select" value={targetProgram} onChange={e => setTargetProgram(e.target.value)} required>
+                <option value="" disabled hidden>-- Select Degree Program --</option>
                 {programs.map(p => (
                   <option key={p.id} value={p.id}>
                     {p.degree ? `${p.degree} in ` : ''}{p.title || p.name}
@@ -109,76 +170,87 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
             </div>
           </div>
 
-          <div className="form-grid-2">
-            <div className="form-group">
-              <label className="form-label">Highest Qualification *</label>
-              <select className="form-select" value={highestQual} onChange={(e) => setHighestQual(e.target.value)} required>
-                <option value="SSLC / 10th Standard">SSLC / Secondary School (10th)</option>
-                <option value="Plus Two / 12th Standard">Plus Two / Higher Secondary (12th)</option>
-                <option value="Bachelor Degree / Graduation">Bachelor's Degree / Graduation (B.A., B.Sc, B.Com)</option>
-                <option value="B.Tech / B.E. Engineering">B.Tech / B.E. Engineering Degree</option>
-                <option value="Master Degree / Post Graduation">Master's Degree / Post Graduation (M.A., M.Sc, M.Tech)</option>
-                <option value="Doctorate / Ph.D.">Doctorate / Ph.D.</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Prior Academic Score (%) *</label>
-              <input 
-                type="number" 
-                className="form-control" 
-                placeholder="e.g. 78" 
-                value={gpaPercent}
-                onChange={(e) => setGpaPercent(e.target.value)}
-                required 
-              />
-            </div>
+          {/* Row 4 */}
+          <div className="form-group">
+            <label className="form-label">Previous High School / College / University Name *</label>
+            <input type="text" className="form-control" placeholder="e.g. St. Jude High School / State University" required />
           </div>
 
-          {/* SIDE-BY-SIDE COMPACT ELEGANT UPLOADERS */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', margin: '20px 0' }}>
-            {/* Uploader 1: Academic Marksheets */}
-            <div className="drop-zone" style={{ padding: '16px', border: '1.5px dashed var(--border-gold)', borderRadius: '12px', textAlign: 'center', background: 'rgba(0,0,0,0.3)' }}>
-              <div style={{ fontSize: '24px', marginBottom: '4px' }}>📄</div>
-              <h4 style={{ fontSize: '13px', color: 'var(--gold-light)', margin: '0 0 4px 0' }}>Academic Marksheets</h4>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: '0 0 10px 0' }}>PDF, JPG, PNG (SSLC, Plus Two, Degree)</p>
-              <input 
-                type="file" 
-                multiple 
-                onChange={(e) => setMarksheetFiles(Array.from(e.target.files))}
-                style={{ fontSize: '11px', color: 'var(--text-muted)' }} 
-              />
+          {/* Row 5: SIDE-BY-SIDE STYLED DROP ZONES */}
+          <div className="form-grid-2" style={{ marginBottom: '24px' }}>
+
+            {/* Marksheet Uploader */}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', minHeight: '42px' }}>
+                <span style={{ color: '#d4af37' }}>📁</span> UPLOAD MARKSHEET / TRANSCRIPTS *
+              </label>
+              <div
+                className={`drop-zone${marksheetActive ? ' drop-zone-active' : ''}`}
+                onClick={() => marksheetRef.current.click()}
+                onDragOver={e => { e.preventDefault(); setMarksheetActive(true); }}
+                onDragLeave={() => setMarksheetActive(false)}
+                onDrop={e => handleDrop(e, setMarksheetFiles, setMarksheetActive)}
+                style={{ minHeight: '120px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <div className="drop-icon" style={{ fontSize: '30px', margin: 0 }}>📚</div>
+                <input
+                  ref={marksheetRef}
+                  type="file"
+                  multiple
+                  className="hidden-file-input"
+                  onChange={e => setMarksheetFiles(Array.from(e.target.files))}
+                />
+                {marksheetFiles.length > 0 && (
+                  <div style={{ position: 'absolute', bottom: '10px' }}>
+                    {marksheetFiles.map((f, i) => (
+                      <div key={i} style={{ fontSize: '11px', color: '#34d399', background: 'rgba(16,185,129,0.1)', padding: '3px 8px', borderRadius: '4px', marginTop: '4px' }}>
+                        ✅ {f.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Uploader 2: Nationality ID */}
-            <div className="drop-zone" style={{ padding: '16px', border: '1.5px dashed var(--border-gold)', borderRadius: '12px', textAlign: 'center', background: 'rgba(0,0,0,0.3)' }}>
-              <div style={{ fontSize: '24px', marginBottom: '4px' }}>🪪</div>
-              <h4 style={{ fontSize: '13px', color: 'var(--gold-light)', margin: '0 0 4px 0' }}>Nationality Verification ID</h4>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: '0 0 10px 0' }}>Passport, National ID, Driving License</p>
-              <input 
-                type="file" 
-                onChange={(e) => setIdFiles(Array.from(e.target.files))}
-                style={{ fontSize: '11px', color: 'var(--text-muted)' }} 
-              />
+            {/* Nationality ID Uploader */}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', minHeight: '42px' }}>
+                <span style={{ color: '#63b3ed' }}>🪪</span> UPLOAD PASSPORT / GOVT ID (NATIONALITY VERIFICATION) *
+              </label>
+              <div
+                className={`drop-zone${idActive ? ' drop-zone-active' : ''}`}
+                onClick={() => idRef.current.click()}
+                onDragOver={e => { e.preventDefault(); setIdActive(true); }}
+                onDragLeave={() => setIdActive(false)}
+                onDrop={e => handleDrop(e, setIdFiles, setIdActive)}
+                style={{ minHeight: '120px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <div className="drop-icon" style={{ fontSize: '30px', margin: 0 }}>🪪</div>
+                <input
+                  ref={idRef}
+                  type="file"
+                  className="hidden-file-input"
+                  onChange={e => setIdFiles(Array.from(e.target.files))}
+                />
+                {idFiles.length > 0 && (
+                  <div style={{ position: 'absolute', bottom: '10px' }}>
+                    {idFiles.map((f, i) => (
+                      <div key={i} style={{ fontSize: '11px', color: '#34d399', background: 'rgba(16,185,129,0.1)', padding: '3px 8px', borderRadius: '4px', marginTop: '4px' }}>
+                        ✅ {f.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
+
           </div>
 
-          <button type="submit" className="btn btn-gold" style={{ width: '100%', padding: '14px', fontSize: '15px', marginTop: '10px' }}>
-            🎓 Submit Official Application & Receive Tracking ID
+          <button type="submit" className="btn btn-gold" style={{ width: '100%', padding: '14px', fontSize: '15px' }} disabled={isSubmitting}>
+            {isSubmitting ? '⏳ Uploading Documents & Submitting...' : '🎓 Submit Official Application'}
           </button>
         </form>
 
-        {submittedApp && (
-          <div style={{ marginTop: '24px', padding: '20px', background: 'rgba(16,185,129,0.15)', border: '1px solid #10b981', borderRadius: '14px' }}>
-            <h4 style={{ color: '#34d399', margin: '0 0 8px 0', fontSize: '18px' }}>🎉 Application Decision Issued!</h4>
-            <p style={{ fontSize: '13px', color: '#fff', margin: '0 0 6px 0' }}>
-              Tracking ID: <strong style="font-family:monospace; color:var(--gold-light);">{submittedApp.trackingId}</strong> | Status: <strong style={{ color: '#34d399' }}>{submittedApp.status}</strong>
-            </p>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>
-              An official admission confirmation receipt has been dispatched to Registrar (<strong style={{ color: 'var(--gold-light)' }}>r.mohammedsafar@gmail.com</strong>).
-            </p>
-          </div>
-        )}
       </div>
     </section>
   );
