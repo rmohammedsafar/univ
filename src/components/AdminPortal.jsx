@@ -322,16 +322,16 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             📋 Admissions & Leads
           </button>
           <button 
-            className={`filter-pill ${activeTab === 'courses' ? 'active' : ''}`}
-            onClick={() => setActiveTab('courses')}
-          >
-            📚 Courses & Tuition CMS
-          </button>
-          <button 
             className={`filter-pill ${activeTab === 'inquiries' ? 'active' : ''}`}
             onClick={() => setActiveTab('inquiries')}
           >
             📧 General Inquiries
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'courses' ? 'active' : ''}`}
+            onClick={() => setActiveTab('courses')}
+          >
+            📚 Courses & Tuition CMS
           </button>
           <button 
             className={`filter-pill ${activeTab === 'hero' ? 'active' : ''}`}
