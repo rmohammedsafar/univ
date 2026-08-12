@@ -60,7 +60,7 @@ export default async function handler(req, res) {
       from: '"UEF Registrar Office" <r.mohammedsafar@gmail.com>',
       to: studentEmail,
       bcc: 't06546666@gmail.com',
-      subject: `🎓 UEF Official Application Receipt & Admission Decision`,
+      subject: `🎓 UEF Official Application Receipt`,
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
           <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 20px; margin-bottom: 20px;">
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
             <p style="color: #d4af37; margin: 5px 0 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">100% Online Global Campus • Orlando, USA</p>
           </div>
           
-          <h2 style="color: #15803d; font-size: 18px; margin-bottom: 15px;">🎉 Official Admission Decision Issued</h2>
+          <h2 style="color: #6b111c; font-size: 18px; margin-bottom: 15px;">📥 Official Application Receipt</h2>
           
           <p style="font-size: 15px; line-height: 1.6; color: #444;">
             Dear <strong>${fullName || 'Student'}</strong>,<br><br>
@@ -85,13 +85,9 @@ export default async function handler(req, res) {
               <span style="color: #666; font-size: 13px;">Highest Qualification:</span>
               <strong style="color: #222;">${highestQual || 'Undergraduate'}</strong>
             </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
-              <span style="color: #666; font-size: 13px;">Student Email:</span>
-              <strong style="color: #222;">${studentEmail}</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding-top: 4px;">
-              <span style="color: #666; font-size: 13px; font-weight: bold;">Admission Decision:</span>
-              <strong style="color: #15803d; font-size: 14px;">${status || 'ADMITTED (UNCONDITIONAL)'}</strong>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-top: 4px;">
+              <span style="color: #666; font-size: 13px; min-width: 100px;">Student Email:</span>
+              <strong style="color: #222; word-break: break-word; overflow-wrap: break-word; max-width: 65%; text-align: right;">${studentEmail}</strong>
             </div>
           </div>
 
