@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { saveCMSConfigToStorage, getApplicationRecords, getInquiryRecords } from '../services/firebase';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
@@ -79,6 +82,59 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
     saveCMSConfigToStorage(updated);
   };
 
+  const handleExportExcel = () => {
+    if (!applications || applications.length === 0) {
+      alert("No applications to export.");
+      return;
+    }
+    const formattedData = applications.map(app => ({
+      ID: app.id,
+      'Full Name': app.fullName,
+      'Email': app.email,
+      'Degree Program': app.program,
+      'Status': app.status,
+      'Submitted At': app.submittedAt,
+      'Document URL': app.documentUrl
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Applications");
+    XLSX.writeFile(workbook, "UEF_Applications.xlsx");
+  };
+
+  const handleExportPDF = () => {
+    if (!applications || applications.length === 0) {
+      alert("No applications to export.");
+      return;
+    }
+    const doc = new jsPDF();
+    doc.text("UEF Applications Roster", 14, 15);
+    
+    const tableColumn = ["ID", "Full Name", "Email", "Degree Program", "Status"];
+    const tableRows = [];
+
+    applications.forEach(app => {
+      const rowData = [
+        app.id || 'N/A',
+        app.fullName || 'N/A',
+        app.email || 'N/A',
+        app.program || 'N/A',
+        app.status || 'Pending'
+      ];
+      tableRows.push(rowData);
+    });
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+      styles: { fontSize: 9 },
+      headStyles: { fillColor: [107, 17, 28] } // Maroon
+    });
+
+    doc.save("UEF_Applications.pdf");
+  };
+
   return (
     <section className="section-wrapper" id="adminDashboardSection" style={{ display: 'block' }}>
       <div className="section-header">
@@ -98,11 +154,11 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
             </h3>
           </div>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <button className="btn btn-gold" onClick={() => alert("📥 Exporting Applicants Roster to CSV file...")} style={{ padding: '8px 14px', fontSize: '13px' }}>
-              📥 Export CSV
+            <button className="btn btn-gold" onClick={handleExportExcel} style={{ padding: '8px 14px', fontSize: '13px' }}>
+              📊 Export Excel
             </button>
-            <button className="btn btn-maroon" onClick={() => alert("🗄️ Exporting Applicants Roster to SQL script...")} style={{ padding: '8px 14px', fontSize: '13px' }}>
-              🗄️ Export SQL
+            <button className="btn btn-maroon" onClick={handleExportPDF} style={{ padding: '8px 14px', fontSize: '13px' }}>
+              📑 Export PDF
             </button>
             <button className="btn btn-outline" onClick={onLogout} style={{ borderColor: '#ef4444', color: '#f87171', padding: '8px 14px', fontSize: '13px' }}>
               🔒 Logout Admin
