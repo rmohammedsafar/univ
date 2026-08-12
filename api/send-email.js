@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     const mailOptions = {
       from: '"UEF Registrar Office" <r.mohammedsafar@gmail.com>',
       to: studentEmail,
-      bcc: 'r.mohammedsafar@gmail.com',
+      bcc: 't06546666@gmail.com',
       subject: `🎓 UEF Official Application Receipt & Admission Decision [${trackingId}]`,
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #0d090a; color: #fcf8f2; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37;">
