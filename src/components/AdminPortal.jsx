@@ -1062,6 +1062,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                             newHours[index].startTime = e.target.value;
                             setContactFormData({...contactFormData, dailyHours: newHours});
                           }}>
+                            <option value="Closed">Closed</option>
                             {Array.from({length: 12}).map((_, i) => <option key={`am-${i+1}`} value={`${i+1}:00 AM`}>{`${i+1}:00 AM`}</option>)}
                             {Array.from({length: 12}).map((_, i) => <option key={`pm-${i+1}`} value={`${i+1}:00 PM`}>{`${i+1}:00 PM`}</option>)}
                           </select>
@@ -1073,6 +1074,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                             newHours[index].endTime = e.target.value;
                             setContactFormData({...contactFormData, dailyHours: newHours});
                           }}>
+                            <option value="Closed">Closed</option>
                             {Array.from({length: 12}).map((_, i) => <option key={`am-${i+1}`} value={`${i+1}:00 AM`}>{`${i+1}:00 AM`}</option>)}
                             {Array.from({length: 12}).map((_, i) => <option key={`pm-${i+1}`} value={`${i+1}:00 PM`}>{`${i+1}:00 PM`}</option>)}
                           </select>

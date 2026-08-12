@@ -284,6 +284,8 @@ export const INITIAL_CONTACT_INFO = {
     { day: "Wednesday", startTime: "8:00 AM", endTime: "6:00 PM" },
     { day: "Thursday", startTime: "8:00 AM", endTime: "6:00 PM" },
     { day: "Friday", startTime: "8:00 AM", endTime: "6:00 PM" },
+    { day: "Saturday", startTime: "Closed", endTime: "Closed" },
+    { day: "Sunday", startTime: "Closed", endTime: "Closed" },
   ],
   timezone: "EST",
   watermark: "Degree certificates include cryptographically verifiable QR verification codes for instant employer authentication."

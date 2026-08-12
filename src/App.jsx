@@ -35,9 +35,15 @@ export default function App() {
   });
   const [contactInfo, setContactInfo] = useState(() => {
     let saved = loadContactConfigFromStorage();
-    if (saved && !saved.dailyHours) {
-      saved.dailyHours = INITIAL_CONTACT_INFO.dailyHours;
-      saveContactConfigToStorage(saved);
+    if (saved) {
+      if (!saved.dailyHours) {
+        saved.dailyHours = INITIAL_CONTACT_INFO.dailyHours;
+        saveContactConfigToStorage(saved);
+      } else if (saved.dailyHours.length === 5) {
+        saved.dailyHours.push({ day: "Saturday", startTime: "Closed", endTime: "Closed" });
+        saved.dailyHours.push({ day: "Sunday", startTime: "Closed", endTime: "Closed" });
+        saveContactConfigToStorage(saved);
+      }
     }
     return saved || INITIAL_CONTACT_INFO;
   });

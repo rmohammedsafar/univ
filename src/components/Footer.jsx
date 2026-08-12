@@ -7,10 +7,11 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
   const [inquiryEmail, setInquiryEmail] = useState('');
   const [isSending, setIsSending] = useState(false);
   
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const [selectedDay, setSelectedDay] = useState(daysOfWeek[0]);
+  const [hoursExpanded, setHoursExpanded] = useState(false);
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   
-  const currentDayInfo = contactInfo?.dailyHours?.find(d => d.day === selectedDay) || { startTime: '8:00 AM', endTime: '6:00 PM' };
+  const todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+  const currentDayInfo = contactInfo?.dailyHours?.find(d => d.day === todayName) || contactInfo?.dailyHours?.[0] || { startTime: '8:00 AM', endTime: '6:00 PM' };
 
   const handleInquiry = async (e) => {
     e.preventDefault();
@@ -70,20 +71,41 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
                 <p><a href={`mailto:${contactInfo?.email}`} style={{ color: 'var(--gold-primary)' }}>{contactInfo?.email}</a></p>
               </div>
             </div>
-            <div className="address-item">
-              <div className="address-icon">🕒</div>
-              <div className="address-text">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <h4 style={{ margin: 0 }}>Office Hours</h4>
-                  <select 
-                    value={selectedDay} 
-                    onChange={e => setSelectedDay(e.target.value)}
-                    style={{ background: 'transparent', border: '1px solid var(--border-gold)', color: 'var(--gold-light)', borderRadius: '4px', padding: '2px 4px', fontSize: '12px' }}
-                  >
-                    {daysOfWeek.map(day => <option key={day} value={day} style={{ color: '#000' }}>{day}</option>)}
-                  </select>
+            <div className="address-item" style={{ alignItems: 'flex-start' }}>
+              <div className="address-icon" style={{ marginTop: '4px' }}>🕒</div>
+              <div className="address-text" style={{ width: '100%', maxWidth: '280px' }}>
+                <div 
+                  onClick={() => setHoursExpanded(!hoursExpanded)}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', marginBottom: '6px' }}
+                >
+                  <h4 style={{ margin: 0 }}>Office Hours {contactInfo?.timezone && <span style={{fontSize: 12, fontWeight: 'normal', color: 'var(--text-muted)'}}>({contactInfo.timezone})</span>}</h4>
+                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                    {hoursExpanded ? '▲' : '▼'}
+                  </span>
                 </div>
-                <p>{currentDayInfo.startTime} – {currentDayInfo.endTime} {contactInfo?.timezone}</p>
+                
+                {!hoursExpanded ? (
+                  <div 
+                    onClick={() => setHoursExpanded(true)}
+                    style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', cursor: 'pointer' }}
+                  >
+                    <span style={{ fontWeight: '600', color: '#fff' }}>{todayName}</span>
+                    <span style={{ color: 'var(--text-muted)' }}>{currentDayInfo.startTime === 'Closed' ? 'Closed' : `${currentDayInfo.startTime} – ${currentDayInfo.endTime}`}</span>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '14px', marginTop: '8px' }}>
+                    {daysOfWeek.map(day => {
+                      const dayInfo = contactInfo?.dailyHours?.find(d => d.day === day) || { startTime: 'Closed', endTime: 'Closed' };
+                      const isToday = day === todayName;
+                      return (
+                        <div key={day} style={{ display: 'flex', justifyContent: 'space-between', fontWeight: isToday ? '600' : 'normal', color: isToday ? '#fff' : 'var(--text-muted)' }}>
+                          <span>{day}</span>
+                          <span>{dayInfo.startTime === 'Closed' ? 'Closed' : `${dayInfo.startTime} – ${dayInfo.endTime}`}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
 
