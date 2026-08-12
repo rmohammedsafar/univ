@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 import { Routes, Route } from 'react-router-dom';
 
 import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, INITIAL_NEWS, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage } from './services/firebase';
 
 export default function App() {
   const [isLightTheme, setIsLightTheme] = useState(false);
@@ -34,7 +34,11 @@ export default function App() {
     return saved && saved.length > 0 ? saved : INITIAL_NEWS;
   });
   const [contactInfo, setContactInfo] = useState(() => {
-    const saved = loadContactConfigFromStorage();
+    let saved = loadContactConfigFromStorage();
+    if (saved && !saved.dailyHours) {
+      saved.dailyHours = INITIAL_CONTACT_INFO.dailyHours;
+      saveContactConfigToStorage(saved);
+    }
     return saved || INITIAL_CONTACT_INFO;
   });
   const [heroConfig, setHeroConfig] = useState(() => {

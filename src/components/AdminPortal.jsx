@@ -1050,54 +1050,40 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 </div>
 
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                  <label className="form-label">Office Hours Config</label>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
-                    <div>
-                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Start Day</label>
-                      <select className="form-control" value={contactFormData.startDay || ''} onChange={e => setContactFormData({...contactFormData, startDay: e.target.value})}>
-                        <option value="Mon">Monday</option>
-                        <option value="Tue">Tuesday</option>
-                        <option value="Wed">Wednesday</option>
-                        <option value="Thu">Thursday</option>
-                        <option value="Fri">Friday</option>
-                        <option value="Sat">Saturday</option>
-                        <option value="Sun">Sunday</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>End Day</label>
-                      <select className="form-control" value={contactFormData.endDay || ''} onChange={e => setContactFormData({...contactFormData, endDay: e.target.value})}>
-                        <option value="Mon">Monday</option>
-                        <option value="Tue">Tuesday</option>
-                        <option value="Wed">Wednesday</option>
-                        <option value="Thu">Thursday</option>
-                        <option value="Fri">Friday</option>
-                        <option value="Sat">Saturday</option>
-                        <option value="Sun">Sunday</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Start Time</label>
-                      <select className="form-control" value={contactFormData.startTime || ''} onChange={e => setContactFormData({...contactFormData, startTime: e.target.value})}>
-                        {Array.from({length: 12}).map((_, i) => <option key={`am-${i+1}`} value={`${i+1}:00 AM`}>{`${i+1}:00 AM`}</option>)}
-                        {Array.from({length: 12}).map((_, i) => <option key={`pm-${i+1}`} value={`${i+1}:00 PM`}>{`${i+1}:00 PM`}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>End Time</label>
-                      <select className="form-control" value={contactFormData.endTime || ''} onChange={e => setContactFormData({...contactFormData, endTime: e.target.value})}>
-                        {Array.from({length: 12}).map((_, i) => <option key={`am-${i+1}`} value={`${i+1}:00 AM`}>{`${i+1}:00 AM`}</option>)}
-                        {Array.from({length: 12}).map((_, i) => <option key={`pm-${i+1}`} value={`${i+1}:00 PM`}>{`${i+1}:00 PM`}</option>)}
-                      </select>
-                    </div>
-                    <div>
+                  <label className="form-label">Office Hours Config (Daily)</label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '10px' }}>
+                    {contactFormData.dailyHours && contactFormData.dailyHours.map((dayHour, index) => (
+                      <div key={dayHour.day} style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr', gap: '10px', alignItems: 'center' }}>
+                        <strong style={{ color: 'var(--gold-light)' }}>{dayHour.day}</strong>
+                        <div>
+                          <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Start Time</label>
+                          <select className="form-control" value={dayHour.startTime} onChange={e => {
+                            const newHours = [...contactFormData.dailyHours];
+                            newHours[index].startTime = e.target.value;
+                            setContactFormData({...contactFormData, dailyHours: newHours});
+                          }}>
+                            {Array.from({length: 12}).map((_, i) => <option key={`am-${i+1}`} value={`${i+1}:00 AM`}>{`${i+1}:00 AM`}</option>)}
+                            {Array.from({length: 12}).map((_, i) => <option key={`pm-${i+1}`} value={`${i+1}:00 PM`}>{`${i+1}:00 PM`}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>End Time</label>
+                          <select className="form-control" value={dayHour.endTime} onChange={e => {
+                            const newHours = [...contactFormData.dailyHours];
+                            newHours[index].endTime = e.target.value;
+                            setContactFormData({...contactFormData, dailyHours: newHours});
+                          }}>
+                            {Array.from({length: 12}).map((_, i) => <option key={`am-${i+1}`} value={`${i+1}:00 AM`}>{`${i+1}:00 AM`}</option>)}
+                            {Array.from({length: 12}).map((_, i) => <option key={`pm-${i+1}`} value={`${i+1}:00 PM`}>{`${i+1}:00 PM`}</option>)}
+                          </select>
+                        </div>
+                      </div>
+                    ))}
+                    <div style={{ marginTop: '10px' }}>
                       <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Timezone</label>
-                      <input className="form-control" value={contactFormData.timezone || ''} onChange={e => setContactFormData({...contactFormData, timezone: e.target.value})} placeholder="e.g. EST" />
+                      <input className="form-control" value={contactFormData.timezone || ''} onChange={e => setContactFormData({...contactFormData, timezone: e.target.value})} placeholder="e.g. EST" style={{ maxWidth: '200px' }} />
                     </div>
                   </div>
-                  <small style={{ color: 'var(--text-muted)', marginTop: '8px', display: 'block' }}>
-                    Preview: {contactFormData.startDay} – {contactFormData.endDay}: {contactFormData.startTime} – {contactFormData.endTime} {contactFormData.timezone}
-                  </small>
                 </div>
 
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>

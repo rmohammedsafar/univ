@@ -6,6 +6,11 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
   const [inquiryName, setInquiryName] = useState('');
   const [inquiryEmail, setInquiryEmail] = useState('');
   const [isSending, setIsSending] = useState(false);
+  
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const [selectedDay, setSelectedDay] = useState(daysOfWeek[0]);
+  
+  const currentDayInfo = contactInfo?.dailyHours?.find(d => d.day === selectedDay) || { startTime: '8:00 AM', endTime: '6:00 PM' };
 
   const handleInquiry = async (e) => {
     e.preventDefault();
@@ -68,8 +73,17 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
             <div className="address-item">
               <div className="address-icon">🕒</div>
               <div className="address-text">
-                <h4>Office Hours</h4>
-                <p>{contactInfo?.startDay} – {contactInfo?.endDay}: {contactInfo?.startTime} – {contactInfo?.endTime} {contactInfo?.timezone}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <h4 style={{ margin: 0 }}>Office Hours</h4>
+                  <select 
+                    value={selectedDay} 
+                    onChange={e => setSelectedDay(e.target.value)}
+                    style={{ background: 'transparent', border: '1px solid var(--border-gold)', color: 'var(--gold-light)', borderRadius: '4px', padding: '2px 4px', fontSize: '12px' }}
+                  >
+                    {daysOfWeek.map(day => <option key={day} value={day} style={{ color: '#000' }}>{day}</option>)}
+                  </select>
+                </div>
+                <p>{currentDayInfo.startTime} – {currentDayInfo.endTime} {contactInfo?.timezone}</p>
               </div>
             </div>
 
