@@ -1,18 +1,18 @@
 import React from 'react';
 
-export default function Hero({ onExplorePrograms, onApplyNow }) {
+export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
   return (
     <section className="hero-section">
       <div className="hero-badge">
-        <span>🏛️ VERITAS • SAPIENTIA • VIRTUS</span>
+        <span>{heroConfig?.badge}</span>
       </div>
 
       <h1 className="hero-title">
-        WORLD-CLASS ACCREDITED DEGREES
+        {heroConfig?.title}
       </h1>
 
       <p className="hero-desc">
-        Join over 15,000 international students pursuing top-tier digital degrees from the USA. Designed specifically for theoretical, analytical, and digital mastery with zero physical laboratory requirements.
+        {heroConfig?.description}
       </p>
 
       <div className="hero-cta-group">
@@ -25,22 +25,12 @@ export default function Hero({ onExplorePrograms, onApplyNow }) {
       </div>
 
       <div className="hero-stats-row">
-        <div className="stat-card">
-          <div className="stat-num">100%</div>
-          <div className="stat-label">Online Distance Study</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-num">120+</div>
-          <div className="stat-label">Global Faculties</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-num">15,000+</div>
-          <div className="stat-label">Active Scholars</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-num">ORLANDO</div>
-          <div className="stat-label">Florida, USA Headquarters</div>
-        </div>
+        {heroConfig?.stats?.map((stat, idx) => (
+          <div className="stat-card" key={`hero-stat-${idx}`}>
+            <div className="stat-num">{stat.num}</div>
+            <div className="stat-label">{stat.label}</div>
+          </div>
+        ))}
       </div>
     </section>
   );

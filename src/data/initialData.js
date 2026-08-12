@@ -285,3 +285,15 @@ export const INITIAL_CONTACT_INFO = {
   timezone: "EST",
   watermark: "Degree certificates include cryptographically verifiable QR verification codes for instant employer authentication."
 };
+
+export const INITIAL_HERO_CONFIG = {
+  badge: "🏛️ VERITAS • SAPIENTIA • VIRTUS",
+  title: "WORLD-CLASS ACCREDITED DEGREES",
+  description: "Join over 15,000 international students pursuing top-tier digital degrees from the USA. Designed specifically for theoretical, analytical, and digital mastery with zero physical laboratory requirements.",
+  stats: [
+    { num: "100%", label: "Online Distance Study" },
+    { num: "120+", label: "Global Faculties" },
+    { num: "15,000+", label: "Active Scholars" },
+    { num: "ORLANDO", label: "Florida, USA Headquarters" }
+  ]
+};

@@ -12,8 +12,8 @@ import Footer from './components/Footer';
 
 import { Routes, Route } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, INITIAL_NEWS, INITIAL_CONTACT_INFO } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, loadContactConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, INITIAL_NEWS, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
 
 export default function App() {
   const [isLightTheme, setIsLightTheme] = useState(false);
@@ -36,6 +36,10 @@ export default function App() {
   const [contactInfo, setContactInfo] = useState(() => {
     const saved = loadContactConfigFromStorage();
     return saved || INITIAL_CONTACT_INFO;
+  });
+  const [heroConfig, setHeroConfig] = useState(() => {
+    const saved = loadHeroConfigFromStorage();
+    return saved || INITIAL_HERO_CONFIG;
   });
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
 
@@ -64,6 +68,7 @@ export default function App() {
         <Route path="/" element={
           <main>
             <Hero 
+              heroConfig={heroConfig}
               onExplorePrograms={() => {
                 const el = document.getElementById("programs");
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -104,6 +109,8 @@ export default function App() {
               onUpdateNews={setNewsArticles}
               contactInfo={contactInfo}
               onUpdateContact={setContactInfo}
+              heroConfig={heroConfig}
+              onUpdateHero={setHeroConfig}
             />
         } />
       </Routes>

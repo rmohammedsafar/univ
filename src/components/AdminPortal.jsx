@@ -4,7 +4,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews, contactInfo, onUpdateContact, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews, contactInfo, onUpdateContact, heroConfig, onUpdateHero, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
@@ -20,6 +20,17 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const handleSaveContact = () => {
     onUpdateContact(contactFormData);
     alert('Contact information updated successfully!');
+  };
+
+  const [heroFormData, setHeroFormData] = React.useState(heroConfig || {});
+  
+  React.useEffect(() => {
+    if (heroConfig) setHeroFormData(heroConfig);
+  }, [heroConfig]);
+
+  const handleSaveHero = () => {
+    onUpdateHero(heroFormData);
+    alert('Hero section updated successfully!');
   };
 
   const [editingNewsIndex, setEditingNewsIndex] = useState(null);
@@ -321,6 +332,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('inquiries')}
           >
             📧 General Inquiries
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'hero' ? 'active' : ''}`}
+            onClick={() => setActiveTab('hero')}
+          >
+            🖼️ Hero Config
           </button>
           <button 
             className={`filter-pill ${activeTab === 'tour' ? 'active' : ''}`}
@@ -643,6 +660,65 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 </table>
               </div>
             )}
+          </div>
+        )}
+
+        {/* TAB: HERO CONFIG */}
+        {activeTab === 'hero' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ color: 'var(--gold-light)' }}>Hero Section Configuration</h3>
+              <button className="btn btn-gold" onClick={handleSaveHero}>
+                💾 Save Changes
+              </button>
+            </div>
+
+            <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Top Badge Text</label>
+                  <input className="form-control" value={heroFormData.badge || ''} onChange={e => setHeroFormData({...heroFormData, badge: e.target.value})} />
+                </div>
+                
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Main Title</label>
+                  <input className="form-control" value={heroFormData.title || ''} onChange={e => setHeroFormData({...heroFormData, title: e.target.value})} />
+                </div>
+
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Description</label>
+                  <textarea className="form-control" value={heroFormData.description || ''} onChange={e => setHeroFormData({...heroFormData, description: e.target.value})} rows={3} />
+                </div>
+
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Four Key Statistics</label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
+                    {[0, 1, 2, 3].map(i => (
+                      <div key={`hero-stat-edit-${i}`} style={{ background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <div style={{ marginBottom: '10px' }}>
+                          <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Stat {i+1} Number</label>
+                          <input className="form-control" value={heroFormData.stats?.[i]?.num || ''} onChange={e => {
+                            const newStats = [...(heroFormData.stats || [])];
+                            if(!newStats[i]) newStats[i] = {num: '', label: ''};
+                            newStats[i].num = e.target.value;
+                            setHeroFormData({...heroFormData, stats: newStats});
+                          }} />
+                        </div>
+                        <div>
+                          <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Stat {i+1} Label</label>
+                          <input className="form-control" value={heroFormData.stats?.[i]?.label || ''} onChange={e => {
+                            const newStats = [...(heroFormData.stats || [])];
+                            if(!newStats[i]) newStats[i] = {num: '', label: ''};
+                            newStats[i].label = e.target.value;
+                            setHeroFormData({...heroFormData, stats: newStats});
+                          }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
