@@ -15,6 +15,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
   const [newProgTuition, setNewProgTuition] = useState('14400');
   const [newProgDuration, setNewProgDuration] = useState('1.5 Years (100% Online)');
   const [newProgDesc, setNewProgDesc] = useState('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
+  const [customDegree, setCustomDegree] = useState('');
+  const [customCategory, setCustomCategory] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -33,13 +35,25 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
       return;
     }
 
+    const finalDegree = newProgDegree === 'Other' ? customDegree.trim() : newProgDegree;
+    const finalCategory = newProgCategory === 'Other' ? customCategory.trim() : newProgCategory;
+
+    if (newProgDegree === 'Other' && !finalDegree) {
+      alert('Please enter a custom degree level.');
+      return;
+    }
+    if (newProgCategory === 'Other' && !finalCategory) {
+      alert('Please enter a custom category.');
+      return;
+    }
+
     const tuitionVal = parseInt(newProgTuition) || 14400;
     const newProg = {
       id: 'uef-prog-' + Math.floor(100 + Math.random() * 900),
       name: newProgTitle.trim(),
       title: newProgTitle.trim(),
-      degree: newProgDegree,
-      category: newProgCategory,
+      degree: finalDegree,
+      category: finalCategory,
       tuition: `$${tuitionVal.toLocaleString()} USD`,
       numericFee: tuitionVal,
       duration: newProgDuration,
@@ -248,7 +262,19 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
                         <option value="Bachelor of Science">Bachelor of Science (B.S.)</option>
                         <option value="Master of Business Administration">Master of Business Administration (MBA)</option>
                         <option value="Doctor of Philosophy">Doctor of Philosophy (Ph.D.)</option>
+                        <option value="Other">Other (Specify manually)</option>
                       </select>
+                      {newProgDegree === 'Other' && (
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          placeholder="e.g. Master of Arts (M.A.)" 
+                          value={customDegree}
+                          onChange={(e) => setCustomDegree(e.target.value)}
+                          required 
+                          style={{ padding: '10px 14px', fontSize: '14px', marginTop: '10px' }}
+                        />
+                      )}
                     </div>
 
                     <div className="form-group">
@@ -257,7 +283,19 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
                         <option value="technology">Computer & Data Tech</option>
                         <option value="business">Business & FinTech</option>
                         <option value="healthcare">Health Informatics</option>
+                        <option value="Other">Other (Specify manually)</option>
                       </select>
+                      {newProgCategory === 'Other' && (
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          placeholder="e.g. Engineering & Applied Sciences" 
+                          value={customCategory}
+                          onChange={(e) => setCustomCategory(e.target.value)}
+                          required 
+                          style={{ padding: '10px 14px', fontSize: '14px', marginTop: '10px' }}
+                        />
+                      )}
                     </div>
                   </div>
 
