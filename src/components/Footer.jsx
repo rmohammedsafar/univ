@@ -185,15 +185,6 @@ export default function Footer({ onOpenAdminLogin }) {
               <li><a href="#usaHeadquarters">1200 University Blvd, Suite 500</a></li>
               <li><a href="#usaHeadquarters">Orlando, FL 32816, USA</a></li>
               <li><a href="tel:+18005558331">+1 (800) 555-UEF1</a></li>
-              <li>
-                <a
-                  href="javascript:void(0)"
-                  onClick={onOpenAdminLogin}
-                  style={{ color: 'var(--gold-primary)', fontWeight: 'bold' }}
-                >
-                  🔑 Sign In / Register
-                </a>
-              </li>
             </ul>
           </div>
 
