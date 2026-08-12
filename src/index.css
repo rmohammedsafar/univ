@@ -1182,6 +1182,10 @@ h1, h2, h3, h4, .brand-font {
   font-family: var(--font-serif);
 }
 
+body.light-theme .kpi-val {
+  color: var(--text-main) !important;
+}
+
 .kpi-lbl {
   font-size: 12px;
   color: var(--text-muted);
@@ -1752,7 +1756,7 @@ body.light-theme .modal-title {
   background: #070405;
   border-top: 1px solid var(--border-gold);
   padding: 60px 40px 30px;
-  color: var(--text-muted);
+  color: #c7b8b2 !important;
 }
 
 .footer-grid {
@@ -1807,7 +1811,7 @@ body.light-theme .modal-title {
 }
 
 .footer-links a {
-  color: var(--text-muted);
+  color: #c7b8b2 !important;
   text-decoration: none;
   font-size: 14px;
   transition: var(--tr-fast);
@@ -2708,7 +2712,7 @@ body.light-theme .modal-title {
   background: #070405;
   border-top: 1px solid var(--border-gold);
   padding: 60px 40px 30px;
-  color: var(--text-muted);
+  color: #c7b8b2 !important;
 }
 
 .footer-grid {
@@ -2756,7 +2760,7 @@ body.light-theme .modal-title {
 }
 
 .footer-links a {
-  color: var(--text-muted);
+  color: #c7b8b2 !important;
   text-decoration: none;
   font-size: 14px;
   transition: var(--tr-fast);
