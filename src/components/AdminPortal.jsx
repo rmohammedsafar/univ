@@ -4,12 +4,58 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [inquiries, setInquiries] = useState([]);
+
+  const [editingSlideIndex, setEditingSlideIndex] = useState(null);
+  const [slideFormData, setSlideFormData] = useState(null);
+
+  const handleEditSlide = (index) => {
+    setEditingSlideIndex(index);
+    if (index === -1) {
+      setSlideFormData({
+        id: `slide-${Date.now()}`,
+        label: 'New Virtual Slide',
+        title: 'Virtual Slide Title',
+        desc: 'Description goes here.',
+        img: '',
+        imgAlt: 'Virtual Slide',
+        cta: { label: 'Explore', href: '#' },
+        stats: [
+          { label: 'Stat 1', val: '0', green: false },
+          { label: 'Stat 2', val: '0', green: false },
+          { label: 'Stat 3', val: '0', green: true },
+          { label: 'Stat 4', val: '0', green: true }
+        ]
+      });
+    } else {
+      setSlideFormData(JSON.parse(JSON.stringify(tourSlides[index])));
+    }
+  };
+
+  const handleSaveSlide = () => {
+    const updated = [...(tourSlides || [])];
+    if (editingSlideIndex === -1) {
+      updated.push(slideFormData);
+    } else {
+      updated[editingSlideIndex] = slideFormData;
+    }
+    onUpdateTour(updated);
+    setEditingSlideIndex(null);
+    setSlideFormData(null);
+  };
+
+  const handleDeleteSlide = (index) => {
+    if (window.confirm('Are you sure you want to delete this virtual tour slide?')) {
+      const updated = [...(tourSlides || [])];
+      updated.splice(index, 1);
+      onUpdateTour(updated);
+    }
+  };
 
   // New Program Form State
   const [newProgTitle, setNewProgTitle] = useState('');
@@ -183,6 +229,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
             onClick={() => setActiveTab('inquiries')}
           >
             📧 General Inquiries
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'tour' ? 'active' : ''}`}
+            onClick={() => setActiveTab('tour')}
+          >
+            🏛️ Virtual Tour
           </button>
         </div>
 
@@ -479,6 +531,123 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 4: VIRTUAL TOUR */}
+        {activeTab === 'tour' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ color: 'var(--gold-light)' }}>Virtual Tour Slides</h3>
+              <button className="btn btn-gold" onClick={() => handleEditSlide(-1)}>
+                ➕ Add New Slide
+              </button>
+            </div>
+
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
+                    <th>Slide ID</th>
+                    <th>Tab Label</th>
+                    <th>Slide Title</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(tourSlides || []).map((slide, idx) => (
+                    <tr key={slide.id}>
+                      <td>{slide.id}</td>
+                      <td>{slide.label}</td>
+                      <td>{slide.title}</td>
+                      <td>
+                        <button className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', marginRight: '8px' }} onClick={() => handleEditSlide(idx)}>Edit</button>
+                        <button className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', color: '#f87171', borderColor: '#ef4444' }} onClick={() => handleDeleteSlide(idx)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                  {(!tourSlides || tourSlides.length === 0) && (
+                    <tr>
+                      <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>No slides configured.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* SLIDE EDIT FORM MODAL */}
+            {editingSlideIndex !== null && slideFormData && (
+              <div style={{
+                position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+                background: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'
+              }}>
+                <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', width: '100%', maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto' }}>
+                  <h3 style={{ color: 'var(--gold-light)', marginBottom: '20px' }}>
+                    {editingSlideIndex === -1 ? 'Add New Virtual Tour Slide' : 'Edit Virtual Tour Slide'}
+                  </h3>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <div className="form-group">
+                      <label className="form-label">Tab Label (e.g. 🏛️ Library)</label>
+                      <input className="form-control" value={slideFormData.label} onChange={e => setSlideFormData({...slideFormData, label: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Slide Title</label>
+                      <input className="form-control" value={slideFormData.title} onChange={e => setSlideFormData({...slideFormData, title: e.target.value})} />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Slide Description</label>
+                      <textarea className="form-control" value={slideFormData.desc} onChange={e => setSlideFormData({...slideFormData, desc: e.target.value})} rows={3} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Image URL</label>
+                      <input className="form-control" value={slideFormData.img} onChange={e => setSlideFormData({...slideFormData, img: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Call-To-Action (Label | URL)</label>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <input className="form-control" value={slideFormData.cta.label} onChange={e => setSlideFormData({...slideFormData, cta: {...slideFormData.cta, label: e.target.value}})} placeholder="Label" />
+                        <input className="form-control" value={slideFormData.cta.href} onChange={e => setSlideFormData({...slideFormData, cta: {...slideFormData.cta, href: e.target.value}})} placeholder="#link" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4 style={{ color: 'var(--gold-light)', marginTop: '20px', marginBottom: '10px' }}>Key Metrics (4 Required)</h4>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                    {slideFormData.stats.map((stat, sIdx) => (
+                      <div key={sIdx} style={{ background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '8px' }}>
+                        <label className="form-label">Metric {sIdx + 1}</label>
+                        <input className="form-control" style={{ marginBottom: '8px' }} value={stat.label} onChange={e => {
+                          const newStats = [...slideFormData.stats];
+                          newStats[sIdx].label = e.target.value;
+                          setSlideFormData({...slideFormData, stats: newStats});
+                        }} placeholder="Label (e.g. Licensed E-Books)" />
+                        
+                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                          <input className="form-control" value={stat.val} onChange={e => {
+                            const newStats = [...slideFormData.stats];
+                            newStats[sIdx].val = e.target.value;
+                            setSlideFormData({...slideFormData, stats: newStats});
+                          }} placeholder="Value (e.g. 500,000+)" style={{ flex: 1 }} />
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-main)', fontSize: '13px' }}>
+                            <input type="checkbox" checked={stat.green} onChange={e => {
+                              const newStats = [...slideFormData.stats];
+                              newStats[sIdx].green = e.target.checked;
+                              setSlideFormData({...slideFormData, stats: newStats});
+                            }} /> Green
+                          </label>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
+                    <button className="btn btn-gold" onClick={handleSaveSlide}>Save Slide</button>
+                    <button className="btn btn-outline" onClick={() => setEditingSlideIndex(null)}>Cancel</button>
+                  </div>
+                </div>
               </div>
             )}
           </div>

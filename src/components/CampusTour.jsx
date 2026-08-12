@@ -1,71 +1,12 @@
 import React, { useState } from 'react';
 
-const ROOMS = [
-  {
-    id: 'library',
-    label: '🏛️ Digital Research Library',
-    title: '📚 Digital Research Library & E-Archives',
-    desc: 'Access over 500,000 academic e-books, peer-reviewed journals, doctoral dissertations, and digitized historical research databases 24 hours a day, 7 days a week.',
-    stats: [
-      { label: 'Licensed E-Books',    val: '500,000+' },
-      { label: 'Research Databases',  val: '120+' },
-      { label: 'Access Protocol',     val: '24/7 Unlimited SSO', green: true },
-      { label: 'Librarian Support',   val: 'Live Chat Active',   green: true },
-    ],
-    cta: { label: '🔬 Explore Academic Research Papers', href: '#researchPapersSection' },
-    img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80',
-    imgAlt: 'Digital Research Library',
-  },
-  {
-    id: 'lms',
-    label: '💻 LMS Virtual Auditorium',
-    title: '💻 LMS Virtual Lecture Auditorium',
-    desc: 'Our state-of-the-art Learning Management System streams HD recorded lectures, live virtual seminars, and asynchronous coursework accessible from any device globally.',
-    stats: [
-      { label: 'Recorded Lectures',  val: '8,000+' },
-      { label: 'Live Seminars/Year', val: '240+' },
-      { label: 'HD Stream Quality',  val: '1080p 60fps', green: true },
-      { label: 'LMS Platform',       val: 'Canvas / Moodle', green: true },
-    ],
-    cta: { label: '📚 Browse Degree Programs', href: '#programs' },
-    img: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
-    imgAlt: 'Virtual Lecture Hall',
-  },
-  {
-    id: 'portal',
-    label: '📊 Student Advisory Portal',
-    title: '📊 Student Advisory & Marks Portal',
-    desc: 'A personalised dashboard where enrolled students track grades, submit coursework, access financial statements, download transcripts, and communicate with faculty advisors.',
-    stats: [
-      { label: 'Active Students',    val: '15,000+' },
-      { label: 'Course Modules',     val: '340+' },
-      { label: 'GPA Tracking',       val: 'Real-Time', green: true },
-      { label: 'Advisor Response',   val: '< 24 Hours', green: true },
-    ],
-    cta: { label: '✍️ Apply & Upload Marksheets', href: '#applySection' },
-    img: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80',
-    imgAlt: 'Student Advisory Portal',
-  },
-  {
-    id: 'hq',
-    label: '📍 USA Headquarters Offices',
-    title: '📍 USA Administrative Headquarters',
-    desc: 'Our Orlando, Florida headquarters houses the Registrar Office, Admissions Department, and International Degree Verification Unit. All transcript authentication and official correspondence is processed here.',
-    stats: [
-      { label: 'HQ Location',       val: 'Orlando, FL 32816' },
-      { label: 'Staff Members',     val: '120+ Faculty' },
-      { label: 'Office Hours',      val: 'Mon–Fri 8AM–6PM EST', green: true },
-      { label: 'Toll-Free Line',    val: '+1 (800) 555-UEF1', green: true },
-    ],
-    cta: { label: '📍 View USA Headquarters', href: '#usaHeadquarters' },
-    img: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1200&q=80',
-    imgAlt: 'USA Headquarters Office Building',
-  },
-];
+export default function CampusTour({ tourSlides = [] }) {
+  const [activeTab, setActiveTab] = useState(tourSlides[0]?.id || 'library');
+  
+  // Use the active tab or fallback to the first available slide
+  const room = tourSlides.find(r => r.id === activeTab) || tourSlides[0];
 
-export default function CampusTour() {
-  const [activeTab, setActiveTab] = useState('library');
-  const room = ROOMS.find(r => r.id === activeTab);
+  if (!room) return null; // Safe fallback if no slides exist
 
   return (
     <section className="section-wrapper" id="campusTour">
@@ -79,7 +20,7 @@ export default function CampusTour() {
 
       {/* INTERACTIVE ROOM TABS */}
       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '24px', justifyContent: 'center' }}>
-        {ROOMS.map(r => (
+        {tourSlides.map(r => (
           <button
             key={r.id}
             className={`btn ${activeTab === r.id ? 'btn-gold' : 'btn-outline'}`}

@@ -12,14 +12,18 @@ import Footer from './components/Footer';
 
 import { Routes, Route } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS } from './data/initialData';
-import { loadCMSConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
 
 export default function App() {
   const [isLightTheme, setIsLightTheme] = useState(false);
   const [programs, setPrograms] = useState(() => {
     const saved = loadCMSConfigFromStorage();
     return saved && saved.length > 0 ? saved : INITIAL_DEGREE_PROGRAMS;
+  });
+  const [tourSlides, setTourSlides] = useState(() => {
+    const saved = loadTourConfigFromStorage();
+    return saved && saved.length > 0 ? saved : INITIAL_TOUR_SLIDES;
   });
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
 
@@ -63,7 +67,7 @@ export default function App() {
               onSelectProgramToApply={(progId) => setSelectedProgramToApply(progId)}
             />
 
-            <CampusTour />
+            <CampusTour tourSlides={tourSlides} />
 
             <ResearchPapers />
 
@@ -77,7 +81,12 @@ export default function App() {
         } />
         
         <Route path="/admin" element={
-          <AdminPage programs={programs} setPrograms={setPrograms} />
+            <AdminPage 
+              programs={programs} 
+              onUpdatePrograms={setPrograms} 
+              tourSlides={tourSlides}
+              onUpdateTour={setTourSlides}
+            />
         } />
       </Routes>
 

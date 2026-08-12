@@ -51,6 +51,36 @@ export const loadCMSConfigFromStorage = () => {
   return null;
 };
 
+const LOCAL_TOUR_KEY = 'uef_tour_config';
+
+export const saveTourConfigToStorage = (tourSlides) => {
+  try {
+    const configData = {
+      tourSlides,
+      isCustomized: true,
+      updatedAt: new Date().toISOString()
+    };
+    localStorage.setItem(LOCAL_TOUR_KEY, JSON.stringify(configData));
+  } catch (e) {
+    console.warn("LocalStorage save warning (Tour):", e);
+  }
+};
+
+export const loadTourConfigFromStorage = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_TOUR_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.tourSlides)) {
+        return parsed.tourSlides;
+      }
+    }
+  } catch (e) {
+    console.warn("LocalStorage load warning (Tour):", e);
+  }
+  return null;
+};
+
 const withTimeout = (promise, ms = 60000) => {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
