@@ -93,7 +93,7 @@ export default function CampusTour() {
 
       {/* ROOM DISPLAY */}
       <div style={{
-        background: 'rgba(20, 10, 14, 0.8)',
+        background: 'var(--bg-card)',
         border: '1px solid var(--border-gold)',
         borderRadius: '16px',
         overflow: 'hidden',
@@ -110,7 +110,7 @@ export default function CampusTour() {
               {room.desc}
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', background: 'rgba(0,0,0,0.4)', padding: '16px', borderRadius: '12px', marginBottom: '22px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', background: 'var(--bg-dark)', padding: '16px', borderRadius: '12px', marginBottom: '22px' }}>
               {room.stats.map(s => (
                 <div key={s.label}>
                   <span style={{ fontSize: '11px', color: 'var(--gold-primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>

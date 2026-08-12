@@ -1625,6 +1625,10 @@ h1, h2, h3, h4, .brand-font {
   color: #fff;
 }
 
+body.light-theme .modal-title {
+  color: #ffffff !important;
+}
+
 .modal-close {
   background: transparent;
   border: none;

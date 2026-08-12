@@ -218,7 +218,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
 
             {/* EMBEDDED DEGREE PROGRAM CREATION PORTAL FORM */}
             {showInlineAddPortal && (
-              <div style={{ background: 'rgba(20, 11, 14, 0.95)', border: '1.5px solid var(--gold-primary)', borderRadius: '14px', padding: '24px', marginBottom: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+              <div style={{ background: 'var(--bg-card)', border: '1.5px solid var(--gold-primary)', borderRadius: '14px', padding: '24px', marginBottom: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-gold)', paddingBottom: '12px' }}>
                   <h4 style={{ fontSize: '18px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>
                     ✨ Create & Publish New Degree Program
