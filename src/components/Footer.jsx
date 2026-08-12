@@ -136,8 +136,10 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
         </div>
       </section>
 
-      {/* ── FULL SITE FOOTER ─────────────────────────────────────────────── */}
-      <footer className="site-footer">
+      {/* STICKY ACCREDITATION BANNER */}
+      
+      {/* MAIN FOOTER */}
+      <footer className="site-footer" id="contactSection">
         <div className="footer-grid">
 
           {/* Brand Column */}
@@ -179,7 +181,7 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
 
           {/* USA Office */}
           <div className="footer-col">
-            <h4>USA Office &amp; Portal Access</h4>
+            <h4>USA Office</h4>
             <ul className="footer-links">
               <li><a href="#usaHeadquarters">1200 University Blvd, Suite 500</a></li>
               <li><a href="#usaHeadquarters">Orlando, FL 32816, USA</a></li>
