@@ -70,6 +70,19 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
       // Run email dispatch in the background so the user doesn't have to wait
       sendConfirmationEmail(appData).catch(e => console.error("Background email error:", e));
       setSubmittedApp(appData);
+      
+      // Reset all form fields
+      setFullName('');
+      setEmail('');
+      setCountry('');
+      setPhoneCode('+1');
+      setPhone('');
+      setPreviousSchool('');
+      setTargetProgram(selectedProgramId || '');
+      setHighestQual('');
+      setMarksheetFiles([]);
+      setIdFiles([]);
+
       alert('🎉 Application Submitted Successfully!');
     } catch (error) {
       console.error("Submission failed:", error);
