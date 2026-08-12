@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         html: `
           <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
             <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 20px; margin-bottom: 20px;">
-              <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px; border-radius: 50%;" />
+              <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px;" />
               <h1 style="color: #6b111c; margin: 10px 0 0 0; font-size: 20px;">UNIVERSITY OF EAST FLORIDA</h1>
             </div>
             <h2 style="color: #6b111c; text-align: center; font-size: 18px;">New Contact Request</h2>
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
           <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 20px; margin-bottom: 20px;">
-            <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;" />
+            <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px; margin-bottom: 10px;" />
             <h1 style="color: #6b111c; margin: 0; font-size: 22px;">UNIVERSITY OF EAST FLORIDA</h1>
             <p style="color: #d4af37; margin: 5px 0 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">100% Online Global Campus • Orlando, USA</p>
           </div>
