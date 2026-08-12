@@ -2502,6 +2502,11 @@ body.light-theme .modal-title {
   .nav-actions { gap: 6px; }
   .card-actions { flex-direction: column; }
   .card-actions .btn { width: 100%; }
+
+  .map-header { padding: 12px 10px; }
+  .map-header span:first-child { font-size: 11.5px !important; }
+  .map-header .usa-flag-badge { font-size: 9px !important; padding: 2px 5px !important; }
+
   .program-name { font-size: 18px; }
   .section-header { margin-bottom: 30px; }
   .section-tag { font-size: 11px; letter-spacing: 2px; }

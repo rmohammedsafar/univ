@@ -55,7 +55,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
           <li><a href="#campusTour"          className="nav-link">Campus Tour</a></li>
           <li><a href="#researchPapersSection" className="nav-link">Research</a></li>
           <li><a href="#globalNewsSection"   className="nav-link">News</a></li>
-          <li><a href="#contactSection"      className="nav-link">Contact Us</a></li>
+          <li><a href="#usaHeadquarters"     className="nav-link">Contact Us</a></li>
           <li><a href="#applySection"        className="nav-link">Enroll Now</a></li>
         </ul>
 
@@ -99,7 +99,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
               <li><a href="#campusTour" onClick={closeMobile}>Campus Tour</a></li>
               <li><a href="#researchPapersSection" onClick={closeMobile}>Research</a></li>
               <li><a href="#globalNewsSection" onClick={closeMobile}>News</a></li>
-              <li><a href="#contactSection" onClick={closeMobile}>Contact Us</a></li>
+              <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact Us</a></li>
               <li><a href="#applySection" onClick={closeMobile} className="mobile-apply-btn">Enroll Now</a></li>
               
               <li style={{ marginTop: '20px' }}>
