@@ -187,20 +187,23 @@ export const INITIAL_RESEARCH_PAPERS = [
     author: "Dr. Aris Thorne & UEF AI Research Group",
     journal: "Journal of Theoretical Computer Science (2026)",
     category: "ARTIFICIAL INTELLIGENCE",
-    abstract: "A rigorous mathematical formulation analyzing gradient flow stability and loss landscape geometry in transformer architectures under asynchronous remote computation constraints."
+    abstract: "A rigorous mathematical formulation analyzing gradient flow stability and loss landscape geometry in transformer architectures under asynchronous remote computation constraints.",
+    link: "https://arxiv.org/list/cs.AI/recent"
   },
   {
     title: "Decentralized Ledger Governance in International FinTech Systems",
     author: "Prof. Marcus Vance & Department of Economics",
     journal: "Review of Financial Economics & Tech (2026)",
     category: "FINANCIAL TECHNOLOGY",
-    abstract: "An analytical study examining cross-border liquidity mechanisms, smart contract formal verification, and macroeconomic stability in non-custodial digital asset networks."
+    abstract: "An analytical study examining cross-border liquidity mechanisms, smart contract formal verification, and macroeconomic stability in non-custodial digital asset networks.",
+    link: "https://scholar.google.com/scholar?q=Decentralized+Ledger+Governance"
   },
   {
     title: "Asynchronous Learning Protocols & Distance Pedagogy Frameworks",
     author: "Dean Eleanor Vance & UEF Senate",
     journal: "International Journal of Online Higher Education (2025)",
     category: "DISTANCE PEDAGOGY",
-    abstract: "A comprehensive empirical evaluation of student engagement, assessment integrity, and knowledge retention in theoretical 100% remote university degree programs."
+    abstract: "A comprehensive empirical evaluation of student engagement, assessment integrity, and knowledge retention in theoretical 100% remote university degree programs.",
+    link: "https://scholar.google.com/scholar?q=Asynchronous+Learning+Protocols"
   }
 ];

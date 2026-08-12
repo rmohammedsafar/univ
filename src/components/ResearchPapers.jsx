@@ -98,10 +98,10 @@ export default function ResearchPapers() {
               </button>
               <button 
                 className="btn btn-outline" 
-                onClick={() => alert(`🔗 Citation copied for: ${paper.title}`)}
+                onClick={() => window.open(paper.link, '_blank')}
                 style={{ padding: '8px 12px', fontSize: '12px' }}
               >
-                🔗 Cite Paper
+                🔗 Read / Cite Paper
               </button>
             </div>
           </div>
