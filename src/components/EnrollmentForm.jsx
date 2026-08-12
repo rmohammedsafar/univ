@@ -18,6 +18,7 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
   const [idActive, setIdActive] = useState(false);
   const [submittedApp, setSubmittedApp] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const marksheetRef = useRef();
   const idRef = useRef();
@@ -37,11 +38,24 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
     }
 
     setIsSubmitting(true);
+    setUploadProgress(0);
 
     try {
+      const totalFiles = marksheetFiles.length + idFiles.length;
+      const progressMap = new Map();
+
+      const handleProgress = (fileId, prog) => {
+        progressMap.set(fileId, prog);
+        if (totalFiles > 0) {
+          let sum = 0;
+          progressMap.forEach(v => sum += v);
+          setUploadProgress(Math.round(sum / totalFiles));
+        }
+      };
+
       // 1. Upload files to Firebase Storage concurrently
-      const marksheetUploads = marksheetFiles.map(file => uploadDocument(file, 'applications/marksheets'));
-      const idUploads = idFiles.map(file => uploadDocument(file, 'applications/ids'));
+      const marksheetUploads = marksheetFiles.map((file, idx) => uploadDocument(file, 'applications/marksheets', p => handleProgress(`m_${idx}`, p)));
+      const idUploads = idFiles.map((file, idx) => uploadDocument(file, 'applications/ids', p => handleProgress(`i_${idx}`, p)));
 
       const marksheetUrls = await Promise.all(marksheetUploads);
       const idUrls = await Promise.all(idUploads);
@@ -293,7 +307,7 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
           </div>
 
           <button type="submit" className="btn btn-gold" style={{ width: '100%', padding: '14px', fontSize: '15px' }} disabled={isSubmitting}>
-            {isSubmitting ? '⏳ Uploading Documents & Submitting...' : '🎓 Submit Official Application'}
+            {isSubmitting ? (uploadProgress > 0 && uploadProgress < 100 ? \`⏳ Uploading Documents... (\${uploadProgress}%)\` : '⏳ Finalizing Submission...') : '🎓 Submit Official Application'}
           </button>
         </form>
 

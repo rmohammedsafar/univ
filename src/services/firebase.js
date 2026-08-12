@@ -5,7 +5,7 @@
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDocs, orderBy, query } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC5aK_bNcjjfVrSTpMk21kdOQCHci9vM8w",
@@ -68,11 +68,24 @@ const withTimeout = (promise, ms = 60000) => {
   });
 };
 
-export const uploadDocument = async (file, folderPath) => {
+export const uploadDocument = async (file, folderPath, onProgress) => {
   if (!file) return null;
   const uniqueName = `${Date.now()}_${file.name}`;
   const storageRef = ref(storage, `${folderPath}/${uniqueName}`);
-  await withTimeout(uploadBytes(storageRef, file));
+  
+  const uploadTask = uploadBytesResumable(storageRef, file);
+  
+  if (onProgress) {
+    uploadTask.on('state_changed', snapshot => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      onProgress(progress);
+    });
+  }
+
+  await withTimeout(new Promise((resolve, reject) => {
+    uploadTask.on('state_changed', null, reject, resolve);
+  }));
+
   return await withTimeout(getDownloadURL(storageRef));
 };
 
