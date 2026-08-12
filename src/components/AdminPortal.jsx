@@ -92,7 +92,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
       'Full Name': app.fullName,
       'Email': app.email,
       'Degree Program': app.program,
-      'Status': app.status,
       'Submitted At': app.submittedAt,
       'Document URL': app.documentUrl
     }));
@@ -110,7 +109,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
     const doc = new jsPDF();
     doc.text("UEF Applications Roster", 14, 15);
     
-    const tableColumn = ["ID", "Full Name", "Email", "Degree Program", "Status"];
+    const tableColumn = ["ID", "Full Name", "Email", "Degree Program"];
     const tableRows = [];
 
     applications.forEach(app => {
@@ -118,8 +117,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
         app.id || 'N/A',
         app.fullName || 'N/A',
         app.email || 'N/A',
-        app.program || 'N/A',
-        app.status || 'Pending'
+        app.program || 'N/A'
       ];
       tableRows.push(rowData);
     });
@@ -209,8 +207,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
               <div className="admin-kpi-card">
                 <div className="kpi-icon">🎓</div>
                 <div>
-                  <div className="kpi-val">{applications.filter(a => a.status.includes('ADMITTED')).length}</div>
-                  <div className="kpi-lbl">Admitted Students</div>
+                  <div className="kpi-val">{applications.filter(a => a.idUploaded && a.idUploaded !== 'Pending Verification').length}</div>
+                  <div className="kpi-lbl">Verified IDs</div>
                 </div>
               </div>
             </div>
@@ -222,14 +220,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
                     <th>Student Name</th>
                     <th>Email & Country</th>
                     <th>Program</th>
-                    <th>Status</th>
                     <th>Documents</th>
                   </tr>
                 </thead>
                 <tbody>
                   {applications.length === 0 ? (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
+                      <td colSpan="4" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
                         No student applications recorded yet.
                       </td>
                     </tr>
@@ -239,7 +236,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
                         <td style={{ fontWeight: 'bold' }}>{app.fullName}</td>
                         <td>{app.email} ({app.country})</td>
                         <td>{app.programTitle}</td>
-                        <td><span className="online-tag" style={{ position: 'static' }}>{app.status}</span></td>
                         <td>
                           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                             {app.marksheetUrls?.map((url, i) => (
@@ -467,7 +463,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
                       <th>Date</th>
                       <th>Student Name</th>
                       <th>Email Address</th>
-                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -479,11 +474,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
                           <a href={`mailto:${inq.email}`} style={{ color: '#60a5fa', textDecoration: 'none' }}>
                             {inq.email}
                           </a>
-                        </td>
-                        <td>
-                          <span style={{ padding: '4px 8px', background: 'rgba(245, 158, 11, 0.1)', color: '#fcd34d', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold' }}>
-                            {inq.status || 'Received'}
-                          </span>
                         </td>
                       </tr>
                     ))}

@@ -72,7 +72,6 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
         programTitle: prog?.title || prog?.name || 'Selected Program',
         highestQual,
         gpaPercent: `${gpaPercent}%`,
-        status: score >= 75 ? 'ADMITTED (UNCONDITIONAL)' : 'ADMITTED (CONDITIONAL PREP)',
         submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
         marksheetCount: marksheetFiles.length || 0,
         marksheetUrls: marksheetUrls.filter(url => url !== null),

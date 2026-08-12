@@ -15,7 +15,6 @@ export default function Footer({ onOpenAdminLogin }) {
       await saveInquiryRecord({
         name: inquiryName,
         email: inquiryEmail,
-        status: 'Unread',
         submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
       });
       await sendInquiryEmail(inquiryName, inquiryEmail);

@@ -15,7 +15,6 @@ export const sendConfirmationEmail = async (applicationData) => {
         fullName: applicationData.fullName,
         studentEmail: applicationData.email,
         programTitle: applicationData.programTitle,
-        status: applicationData.status,
         highestQual: applicationData.highestQual
       })
     });
