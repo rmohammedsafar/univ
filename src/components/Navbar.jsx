@@ -60,6 +60,17 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
         {/* Nav Actions */}
         <div className="nav-actions">
+          <button 
+            className="mobile-menu-btn" 
+            onClick={() => setMobileMenuOpen(true)}
+            title="Open Menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
           <button
             className="theme-toggle-btn"
             onClick={toggleTheme}
@@ -84,6 +95,26 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
         </div>
       </header>
 
+      {/* ── MOBILE MENU OVERLAY ────────────────────────────────────────────── */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay">
+          <div className="mobile-menu-content">
+            <button className="mobile-menu-close" onClick={closeMobile} title="Close Menu">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <ul className="mobile-nav-links">
+              <li><a href="#programs" onClick={closeMobile}>Programs</a></li>
+              <li><a href="#campusTour" onClick={closeMobile}>Campus Tour</a></li>
+              <li><a href="#researchPapersSection" onClick={closeMobile}>Research</a></li>
+              <li><a href="#globalNewsSection" onClick={closeMobile}>News</a></li>
+              <li><a href="#applySection" onClick={closeMobile} className="mobile-apply-btn">Enroll Now</a></li>
+            </ul>
+          </div>
+        </div>
+      )}
     </>
   );
 }
