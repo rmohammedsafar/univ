@@ -112,3 +112,29 @@ export const getApplicationRecords = async () => {
     return [];
   }
 };
+
+export const saveInquiryRecord = async (inquiryData) => {
+  try {
+    const colRef = collection(db, 'student_inquiries');
+    const docRef = await withTimeout(addDoc(colRef, {
+      ...inquiryData,
+      createdAt: new Date().toISOString()
+    }));
+    return docRef.id;
+  } catch (e) {
+    console.error("Firestore inquiry save error:", e);
+    throw e;
+  }
+};
+
+export const getInquiryRecords = async () => {
+  try {
+    const colRef = collection(db, 'student_inquiries');
+    const q = query(colRef, orderBy('createdAt', 'desc'));
+    const snapshot = await withTimeout(getDocs(q));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (e) {
+    console.error("Firestore inquiry get error:", e);
+    return [];
+  }
+};

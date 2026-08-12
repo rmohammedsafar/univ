@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { saveCMSConfigToStorage, getApplicationRecords } from '../services/firebase';
+import { saveCMSConfigToStorage, getApplicationRecords, getInquiryRecords } from '../services/firebase';
 
 export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
   const [applications, setApplications] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
 
   // New Program Form State
   const [newProgTitle, setNewProgTitle] = useState('');
@@ -16,11 +17,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
   const [newProgDesc, setNewProgDesc] = useState('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
 
   useEffect(() => {
-    async function fetchApps() {
+    async function fetchData() {
       const apps = await getApplicationRecords();
       setApplications(apps);
+      const inqs = await getInquiryRecords();
+      setInquiries(inqs);
     }
-    fetchApps();
+    fetchData();
   }, []);
 
   const handleAddProgramSubmit = (e) => {
@@ -106,6 +109,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
             onClick={() => setActiveTab('courses')}
           >
             📚 Courses & Tuition CMS
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'inquiries' ? 'active' : ''}`}
+            onClick={() => setActiveTab('inquiries')}
+          >
+            📧 General Inquiries
           </button>
         </div>
 
@@ -333,6 +342,61 @@ export default function AdminPortal({ programs, onUpdatePrograms, onLogout }) {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+
+        {/* TAB 3: INQUIRIES */}
+        {activeTab === 'inquiries' && (
+          <div>
+            <div className="admin-kpi-grid" style={{ marginBottom: '24px' }}>
+              <div className="admin-kpi-card">
+                <div className="kpi-icon">📧</div>
+                <div>
+                  <div className="kpi-val">{inquiries.length}</div>
+                  <div className="kpi-lbl">Total Inquiries</div>
+                </div>
+              </div>
+            </div>
+
+            <h3 style={{ color: 'var(--gold-light)', marginBottom: '16px' }}>Student Inquiries</h3>
+            
+            {inquiries.length === 0 ? (
+              <div style={{ padding: '30px', textAlign: 'center', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(212,175,55,0.3)', borderRadius: '8px' }}>
+                <div style={{ fontSize: '30px', marginBottom: '10px' }}>📭</div>
+                <div style={{ color: '#c7b8b2' }}>No inquiries received yet.</div>
+              </div>
+            ) : (
+              <div className="admin-table-container">
+                <table className="admin-table">
+                  <thead>
+                    <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
+                      <th>Date</th>
+                      <th>Student Name</th>
+                      <th>Email Address</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {inquiries.map(inq => (
+                      <tr key={inq.id}>
+                        <td style={{ fontSize: '13px', color: '#888' }}>{inq.submittedAt}</td>
+                        <td style={{ fontWeight: 700, color: '#fff' }}>{inq.name}</td>
+                        <td>
+                          <a href={`mailto:${inq.email}`} style={{ color: '#60a5fa', textDecoration: 'none' }}>
+                            {inq.email}
+                          </a>
+                        </td>
+                        <td>
+                          <span style={{ padding: '4px 8px', background: 'rgba(245, 158, 11, 0.1)', color: '#fcd34d', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold' }}>
+                            {inq.status || 'Received'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
       </div>

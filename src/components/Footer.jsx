@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { sendInquiryEmail } from '../services/emailService';
+import { saveInquiryRecord } from '../services/firebase';
 
 export default function Footer({ onOpenAdminLogin }) {
   const [inquiryName, setInquiryName] = useState('');
@@ -11,6 +12,12 @@ export default function Footer({ onOpenAdminLogin }) {
     if (!inquiryName || !inquiryEmail) return;
     setIsSending(true);
     try {
+      await saveInquiryRecord({
+        name: inquiryName,
+        email: inquiryEmail,
+        status: 'Unread',
+        submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+      });
       await sendInquiryEmail(inquiryName, inquiryEmail);
       alert('✅ Your inquiry has been dispatched to the UEF Registrar Office! We will respond within 24 hours.');
       setInquiryName('');
