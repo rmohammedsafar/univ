@@ -9,8 +9,13 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
 
   const handleAdminLoginSubmit = (e) => {
     e.preventDefault();
-    if (!adminEmail) {
-      alert("Please enter your Registrar Admin email address.");
+    if (!adminEmail || !adminPass) {
+      alert("Please enter both your Admin email and password.");
+      return;
+    }
+
+    if (adminEmail !== 'r.mohammedsafar@gmail.com' || adminPass !== 'Admin@2026') {
+      alert("Incorrect email or password. Access denied.");
       return;
     }
 
