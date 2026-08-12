@@ -2364,6 +2364,7 @@ body.light-theme .modal-title {
 @media (max-width: 1260px) {
   .app-header { padding: 10px 16px; }
   .nav-links { display: none !important; }
+  .nav-actions .theme-toggle-btn { display: none !important; }
   .mobile-menu-btn { 
     display: inline-flex !important; 
     align-items: center; 

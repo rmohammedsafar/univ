@@ -99,6 +99,18 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
               <li><a href="#researchPapersSection" onClick={closeMobile}>Research</a></li>
               <li><a href="#globalNewsSection" onClick={closeMobile}>News</a></li>
               <li><a href="#applySection" onClick={closeMobile} className="mobile-apply-btn">Enroll Now</a></li>
+              
+              <li style={{ marginTop: '20px' }}>
+                <button
+                  className="theme-toggle-btn"
+                  onClick={toggleTheme}
+                  id="mobileThemeToggleBtn"
+                  title="Toggle Light / Dark Mode"
+                  style={{ padding: '8px 16px', fontSize: '14px', margin: '0 auto' }}
+                >
+                  {isLightTheme ? '🌙 Dark Mode' : '☀️ Light Mode'}
+                </button>
+              </li>
             </ul>
           </div>
         </div>
