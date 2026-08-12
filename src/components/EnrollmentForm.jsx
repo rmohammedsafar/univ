@@ -307,7 +307,7 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
           </div>
 
           <button type="submit" className="btn btn-gold" style={{ width: '100%', padding: '14px', fontSize: '15px' }} disabled={isSubmitting}>
-            {isSubmitting ? (uploadProgress > 0 && uploadProgress < 100 ? \`⏳ Uploading Documents... (\${uploadProgress}%)\` : '⏳ Finalizing Submission...') : '🎓 Submit Official Application'}
+            {isSubmitting ? (uploadProgress > 0 && uploadProgress < 100 ? `⏳ Uploading Documents... (${uploadProgress}%)` : '⏳ Finalizing Submission...') : '🎓 Submit Official Application'}
           </button>
         </form>
 
