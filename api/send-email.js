@@ -10,11 +10,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { trackingId, fullName, studentEmail, programTitle, status, highestQual } = req.body || {};
-
-  if (!studentEmail || !trackingId) {
-    return res.status(400).json({ error: 'Missing required parameters: studentEmail or trackingId' });
-  }
+  const { type, trackingId, fullName, studentEmail, programTitle, status, highestQual, inquiryName, inquiryEmail } = req.body || {};
 
   try {
     const transporter = nodemailer.createTransport({
@@ -24,6 +20,37 @@ export default async function handler(req, res) {
         pass: process.env.EMAIL_PASS || 'demo-app-password'
       }
     });
+
+    if (type === 'inquiry') {
+      if (!inquiryName || !inquiryEmail) {
+        return res.status(400).json({ error: 'Missing required parameters: inquiryName or inquiryEmail' });
+      }
+
+      const inquiryMailOptions = {
+        from: '"UEF Website" <r.mohammedsafar@gmail.com>',
+        to: 't06546666@gmail.com',
+        replyTo: inquiryEmail,
+        subject: `New Inquiry from ${inquiryName} [UEF]`,
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; max-width: 600px;">
+            <h2 style="color: #6b111c;">New Contact Request</h2>
+            <p><strong>Student Name:</strong> ${inquiryName}</p>
+            <p><strong>Email Address:</strong> ${inquiryEmail}</p>
+            <p style="margin-top: 20px; font-size: 13px; color: #555;">
+              This inquiry was submitted via the website's footer form. You can reply directly to this email to contact the student.
+            </p>
+          </div>
+        `
+      };
+      await transporter.sendMail(inquiryMailOptions);
+      return res.status(200).json({ success: true, message: `Inquiry sent to registrar.` });
+    }
+
+    if (!studentEmail || !trackingId) {
+      return res.status(400).json({ error: 'Missing required parameters: studentEmail or trackingId' });
+    }
+
+
 
     const mailOptions = {
       from: '"UEF Registrar Office" <r.mohammedsafar@gmail.com>',

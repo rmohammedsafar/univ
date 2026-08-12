@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
+import { sendInquiryEmail } from '../services/emailService';
 
 export default function Footer({ onOpenAdminLogin }) {
   const [inquiryName, setInquiryName] = useState('');
   const [inquiryEmail, setInquiryEmail] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
-  const handleInquiry = (e) => {
+  const handleInquiry = async (e) => {
     e.preventDefault();
-    alert('✅ Your inquiry has been dispatched to the UEF Registrar Office! We will respond within 24 hours.');
-    setInquiryName('');
-    setInquiryEmail('');
+    if (!inquiryName || !inquiryEmail) return;
+    setIsSending(true);
+    try {
+      await sendInquiryEmail(inquiryName, inquiryEmail);
+      alert('✅ Your inquiry has been dispatched to the UEF Registrar Office! We will respond within 24 hours.');
+      setInquiryName('');
+      setInquiryEmail('');
+    } catch (err) {
+      alert('⚠️ Error sending inquiry. Please try again.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -92,8 +103,8 @@ export default function Footer({ onOpenAdminLogin }) {
                   value={inquiryEmail} onChange={e => setInquiryEmail(e.target.value)}
                   style={{ flex: 1, minWidth: 140, padding: '8px 12px' }}
                 />
-                <button type="submit" className="btn btn-gold" style={{ padding: '8px 18px', fontSize: 13 }}>
-                  Send Inquiry
+                <button type="submit" className="btn btn-gold" style={{ padding: '8px 18px', fontSize: 13 }} disabled={isSending}>
+                  {isSending ? 'Sending...' : 'Send Inquiry'}
                 </button>
               </form>
             </div>

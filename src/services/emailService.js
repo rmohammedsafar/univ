@@ -34,3 +34,28 @@ export const sendConfirmationEmail = async (applicationData) => {
     return { success: true, simulated: true };
   }
 };
+
+export const sendInquiryEmail = async (inquiryName, inquiryEmail) => {
+  try {
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        type: 'inquiry',
+        inquiryName,
+        inquiryEmail
+      })
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw new Error('Failed to send inquiry.');
+    }
+  } catch (err) {
+    console.error("Inquiry email error:", err);
+    throw err;
+  }
+};
