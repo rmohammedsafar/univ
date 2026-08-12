@@ -33,7 +33,10 @@ export default async function handler(req, res) {
         subject: `New Inquiry from ${inquiryName} [UEF]`,
         html: `
           <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; max-width: 600px;">
-            <h2 style="color: #6b111c;">New Contact Request</h2>
+            <div style="text-align: center; margin-bottom: 20px;">
+              <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px; border-radius: 50%;" />
+            </div>
+            <h2 style="color: #6b111c; text-align: center;">New Contact Request</h2>
             <p><strong>Student Name:</strong> ${inquiryName}</p>
             <p><strong>Email Address:</strong> ${inquiryEmail}</p>
             <p style="margin-top: 20px; font-size: 13px; color: #555;">
@@ -60,6 +63,7 @@ export default async function handler(req, res) {
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #0d090a; color: #fcf8f2; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37;">
           <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 20px; margin-bottom: 20px;">
+            <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;" />
             <h1 style="color: #f7e096; margin: 0; font-size: 22px;">UNIVERSITY OF EAST FLORIDA</h1>
             <p style="color: #d4af37; margin: 5px 0 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">100% Online Global Campus • Orlando, USA</p>
           </div>
