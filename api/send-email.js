@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { type, trackingId, fullName, studentEmail, programTitle, status, highestQual, inquiryName, inquiryEmail } = req.body || {};
+  const { type, fullName, studentEmail, programTitle, status, highestQual, inquiryName, inquiryEmail } = req.body || {};
 
   try {
     const transporter = nodemailer.createTransport({
@@ -46,8 +46,8 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true, message: `Inquiry sent to registrar.` });
     }
 
-    if (!studentEmail || !trackingId) {
-      return res.status(400).json({ error: 'Missing required parameters: studentEmail or trackingId' });
+    if (!studentEmail) {
+      return res.status(400).json({ error: 'Missing required parameters: studentEmail' });
     }
 
 
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       from: '"UEF Registrar Office" <r.mohammedsafar@gmail.com>',
       to: studentEmail,
       bcc: 't06546666@gmail.com',
-      subject: `🎓 UEF Official Application Receipt & Admission Decision [${trackingId}]`,
+      subject: `🎓 UEF Official Application Receipt & Admission Decision`,
       html: `
         <div style="font-family: Arial, sans-serif; background-color: #0d090a; color: #fcf8f2; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37;">
           <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 20px; margin-bottom: 20px;">
@@ -72,10 +72,6 @@ export default async function handler(req, res) {
           </p>
 
           <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; padding: 18px; border-radius: 8px; margin: 20px 0;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-              <span style="color: #c7b8b2; font-size: 12px;">Tracking ID:</span>
-              <strong style="color: #f7e096; font-family: monospace;">${trackingId}</strong>
-            </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
               <span style="color: #c7b8b2; font-size: 12px;">Target Program:</span>
               <strong style="color: #fff;">${programTitle || 'Degree Program'}</strong>

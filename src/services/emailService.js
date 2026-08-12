@@ -12,7 +12,6 @@ export const sendConfirmationEmail = async (applicationData) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        trackingId: applicationData.trackingId,
         fullName: applicationData.fullName,
         studentEmail: applicationData.email,
         programTitle: applicationData.programTitle,
