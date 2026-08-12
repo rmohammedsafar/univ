@@ -76,9 +76,22 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
             onClick={toggleTheme}
             id="themeToggleBtn"
             title="Toggle Light / Dark Mode"
-            style={{ padding: '5px 10px', fontSize: '11.5px' }}
+            style={{ 
+              padding: '6px', 
+              fontSize: '16px',
+              width: '32px',
+              height: '32px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              background: 'transparent',
+              border: '1px solid var(--border-gold)',
+              cursor: 'pointer',
+              color: 'var(--gold-light)'
+            }}
           >
-            {isLightTheme ? '🌙 Dark Mode' : '☀️ Light Mode'}
+            {isLightTheme ? '🌙' : '☀️'}
           </button>
 
           <a
