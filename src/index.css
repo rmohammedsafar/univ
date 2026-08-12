@@ -183,7 +183,11 @@ body.light-theme .program-card .program-degree {
 }
 
 body.light-theme .card-header .program-name,
-body.light-theme .card-header h3,
+body.light-theme .card-header h3 {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
 body.light-theme .program-card .program-name,
 body.light-theme .program-card h3 {
   color: #0f172a !important;
@@ -2713,6 +2717,11 @@ body.light-theme .modal-title {
   border-top: 1px solid var(--border-gold);
   padding: 60px 40px 30px;
   color: #c7b8b2 !important;
+}
+
+body.light-theme .site-footer h3,
+body.light-theme .site-footer h4 {
+  color: #ffffff !important;
 }
 
 .footer-grid {
