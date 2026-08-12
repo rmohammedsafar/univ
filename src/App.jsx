@@ -12,8 +12,8 @@ import Footer from './components/Footer';
 
 import { Routes, Route } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, INITIAL_NEWS } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
 
 export default function App() {
   const [isLightTheme, setIsLightTheme] = useState(false);
@@ -28,6 +28,10 @@ export default function App() {
   const [researchPapers, setResearchPapers] = useState(() => {
     const saved = loadResearchConfigFromStorage();
     return saved && saved.length > 0 ? saved : INITIAL_RESEARCH_PAPERS;
+  });
+  const [newsArticles, setNewsArticles] = useState(() => {
+    const saved = loadNewsConfigFromStorage();
+    return saved && saved.length > 0 ? saved : INITIAL_NEWS;
   });
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
 
@@ -75,7 +79,7 @@ export default function App() {
 
             <ResearchPapers researchPapers={researchPapers} />
 
-            <UniversityBulletin />
+            <UniversityBulletin newsArticles={newsArticles} />
 
             <EnrollmentForm 
               programs={programs} 
@@ -92,6 +96,8 @@ export default function App() {
               onUpdateTour={setTourSlides}
               researchPapers={researchPapers}
               onUpdateResearch={setResearchPapers}
+              newsArticles={newsArticles}
+              onUpdateNews={setNewsArticles}
             />
         } />
       </Routes>

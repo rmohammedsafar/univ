@@ -4,12 +4,53 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [inquiries, setInquiries] = useState([]);
+
+  const [editingNewsIndex, setEditingNewsIndex] = useState(null);
+  const [newsFormData, setNewsFormData] = useState(null);
+
+  const handleEditNews = (index) => {
+    setEditingNewsIndex(index);
+    if (index === -1) {
+      setNewsFormData({
+        id: `news-${Date.now()}`,
+        title: 'New University Announcement',
+        category: 'UNIVERSITY ANNOUNCEMENT',
+        date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        publisher: 'Internal Press',
+        image: '',
+        snippet: 'Brief news snippet...',
+        link: '#'
+      });
+    } else {
+      setNewsFormData(JSON.parse(JSON.stringify(newsArticles[index])));
+    }
+  };
+
+  const handleSaveNews = () => {
+    const updated = [...(newsArticles || [])];
+    if (editingNewsIndex === -1) {
+      updated.push(newsFormData);
+    } else {
+      updated[editingNewsIndex] = newsFormData;
+    }
+    onUpdateNews(updated);
+    setEditingNewsIndex(null);
+    setNewsFormData(null);
+  };
+
+  const handleDeleteNews = (index) => {
+    if (window.confirm('Are you sure you want to delete this news article?')) {
+      const updated = [...(newsArticles || [])];
+      updated.splice(index, 1);
+      onUpdateNews(updated);
+    }
+  };
 
   const [editingResearchIndex, setEditingResearchIndex] = useState(null);
   const [researchFormData, setResearchFormData] = useState(null);
@@ -281,6 +322,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('research')}
           >
             🔬 Research Papers
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'news' ? 'active' : ''}`}
+            onClick={() => setActiveTab('news')}
+          >
+            📰 University Bulletin
           </button>
         </div>
 
@@ -781,6 +828,101 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
                     <button className="btn btn-gold" onClick={handleSaveResearch}>Save Paper</button>
                     <button className="btn btn-outline" onClick={() => setEditingResearchIndex(null)}>Cancel</button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 6: UNIVERSITY BULLETIN */}
+        {activeTab === 'news' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ color: 'var(--gold-light)' }}>University Bulletin News</h3>
+              <button className="btn btn-gold" onClick={() => handleEditNews(-1)}>
+                ➕ Add New Article
+              </button>
+            </div>
+
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
+                    <th>Article ID</th>
+                    <th>Category</th>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(newsArticles || []).map((article, idx) => (
+                    <tr key={article.id}>
+                      <td>{article.id}</td>
+                      <td>{article.category}</td>
+                      <td>{article.title}</td>
+                      <td>{article.date}</td>
+                      <td>
+                        <button className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', marginRight: '8px' }} onClick={() => handleEditNews(idx)}>Edit</button>
+                        <button className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', color: '#f87171', borderColor: '#ef4444' }} onClick={() => handleDeleteNews(idx)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                  {(!newsArticles || newsArticles.length === 0) && (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }}>No news articles configured.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* NEWS EDIT FORM MODAL */}
+            {editingNewsIndex !== null && newsFormData && (
+              <div style={{
+                position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+                background: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'
+              }}>
+                <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', width: '100%', maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto' }}>
+                  <h3 style={{ color: 'var(--gold-light)', marginBottom: '20px' }}>
+                    {editingNewsIndex === -1 ? 'Add New News Article' : 'Edit News Article'}
+                  </h3>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Article Title</label>
+                      <input className="form-control" value={newsFormData.title} onChange={e => setNewsFormData({...newsFormData, title: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Category Badge</label>
+                      <input className="form-control" value={newsFormData.category} onChange={e => setNewsFormData({...newsFormData, category: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Date (e.g. August 10, 2026)</label>
+                      <input className="form-control" value={newsFormData.date} onChange={e => setNewsFormData({...newsFormData, date: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Publisher</label>
+                      <input className="form-control" value={newsFormData.publisher} onChange={e => setNewsFormData({...newsFormData, publisher: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">External Link</label>
+                      <input className="form-control" value={newsFormData.link} onChange={e => setNewsFormData({...newsFormData, link: e.target.value})} />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Background Image URL</label>
+                      <input className="form-control" value={newsFormData.image} onChange={e => setNewsFormData({...newsFormData, image: e.target.value})} />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Snippet</label>
+                      <textarea className="form-control" value={newsFormData.snippet} onChange={e => setNewsFormData({...newsFormData, snippet: e.target.value})} rows={3} />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
+                    <button className="btn btn-gold" onClick={handleSaveNews}>Save Article</button>
+                    <button className="btn btn-outline" onClick={() => setEditingNewsIndex(null)}>Cancel</button>
                   </div>
                 </div>
               </div>

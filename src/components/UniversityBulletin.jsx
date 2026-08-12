@@ -1,7 +1,6 @@
 import React from 'react';
-import { INITIAL_NEWS } from '../data/initialData';
 
-export default function UniversityBulletin() {
+export default function UniversityBulletin({ newsArticles = [] }) {
   return (
     <section className="section-wrapper" id="globalNewsSection">
       <div className="section-header">
@@ -11,8 +10,8 @@ export default function UniversityBulletin() {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-        {INITIAL_NEWS.map(item => (
+      <div className="news-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+        {newsArticles.map(item => (
           <div key={item.id} className="news-card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <img 
               src={item.image} 

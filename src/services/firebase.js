@@ -111,6 +111,36 @@ export const loadResearchConfigFromStorage = () => {
   return null;
 };
 
+const LOCAL_NEWS_KEY = 'uef_news_config';
+
+export const saveNewsConfigToStorage = (newsArticles) => {
+  try {
+    const configData = {
+      newsArticles,
+      isCustomized: true,
+      updatedAt: new Date().toISOString()
+    };
+    localStorage.setItem(LOCAL_NEWS_KEY, JSON.stringify(configData));
+  } catch (e) {
+    console.warn("LocalStorage save warning (News):", e);
+  }
+};
+
+export const loadNewsConfigFromStorage = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_NEWS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.newsArticles)) {
+        return parsed.newsArticles;
+      }
+    }
+  } catch (e) {
+    console.warn("LocalStorage load warning (News):", e);
+  }
+  return null;
+};
+
 const withTimeout = (promise, ms = 60000) => {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
