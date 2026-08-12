@@ -20,7 +20,7 @@ export default function Hero({ onExplorePrograms, onApplyNow }) {
           📑 Explore 100% Online Programs
         </a>
         <a href="#applySection" className="btn btn-maroon" onClick={onApplyNow} style={{ padding: '14px 28px', fontSize: '15px' }}>
-          🎓 Upload Marksheets & Apply Now
+          🎓 Apply Now
         </a>
       </div>
 
