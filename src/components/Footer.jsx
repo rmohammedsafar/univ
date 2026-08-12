@@ -84,8 +84,8 @@ export default function Footer({ onOpenAdminLogin }) {
           {/* Right: Google Map + Quick Inquiry */}
           <div className="map-container-box">
             <div className="map-header">
-              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--gold-light)' }}>📍 Interactive Orlando, FL Campus Map</span>
-              <span className="usa-flag-badge">ORLANDO HQ</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: '#d4af37' }}>📍 Interactive Orlando, FL Campus Map</span>
+              <span className="usa-flag-badge" style={{ color: '#ffffff', borderColor: '#d4af37' }}>ORLANDO HQ</span>
             </div>
 
             <iframe
@@ -98,7 +98,7 @@ export default function Footer({ onOpenAdminLogin }) {
 
             {/* Quick Inquiry Form */}
             <div style={{ padding: '20px', background: 'rgba(13, 9, 10, 0.95)', borderTop: '1px solid var(--border-gold)' }}>
-              <h4 style={{ fontSize: 14, color: 'var(--gold-light)', marginBottom: 10 }}>Send Instant Inquiry to USA Registrar</h4>
+              <h4 style={{ fontSize: 14, color: '#d4af37', marginBottom: 10 }}>Send Instant Inquiry to USA Registrar</h4>
               <form onSubmit={handleInquiry} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                 <input
                   type="text" className="form-control" placeholder="Your Name" required
