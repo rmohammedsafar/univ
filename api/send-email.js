@@ -32,14 +32,15 @@ export default async function handler(req, res) {
         replyTo: inquiryEmail,
         subject: `New Inquiry from ${inquiryName} [UEF]`,
         html: `
-          <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; max-width: 600px;">
-            <div style="text-align: center; margin-bottom: 20px;">
+          <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+            <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 20px; margin-bottom: 20px;">
               <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px; border-radius: 50%;" />
+              <h1 style="color: #6b111c; margin: 10px 0 0 0; font-size: 20px;">UNIVERSITY OF EAST FLORIDA</h1>
             </div>
-            <h2 style="color: #6b111c; text-align: center;">New Contact Request</h2>
+            <h2 style="color: #6b111c; text-align: center; font-size: 18px;">New Contact Request</h2>
             <p><strong>Student Name:</strong> ${inquiryName}</p>
             <p><strong>Email Address:</strong> ${inquiryEmail}</p>
-            <p style="margin-top: 20px; font-size: 13px; color: #555;">
+            <p style="margin-top: 20px; font-size: 13px; color: #666; border-top: 1px solid #eee; padding-top: 15px;">
               This inquiry was submitted via the website's footer form. You can reply directly to this email to contact the student.
             </p>
           </div>
@@ -61,36 +62,36 @@ export default async function handler(req, res) {
       bcc: 't06546666@gmail.com',
       subject: `🎓 UEF Official Application Receipt & Admission Decision`,
       html: `
-        <div style="font-family: Arial, sans-serif; background-color: #0d090a; color: #fcf8f2; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37;">
+        <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
           <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 20px; margin-bottom: 20px;">
             <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;" />
-            <h1 style="color: #f7e096; margin: 0; font-size: 22px;">UNIVERSITY OF EAST FLORIDA</h1>
-            <p style="color: #d4af37; margin: 5px 0 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">100% Online Global Campus • Orlando, USA</p>
+            <h1 style="color: #6b111c; margin: 0; font-size: 22px;">UNIVERSITY OF EAST FLORIDA</h1>
+            <p style="color: #d4af37; margin: 5px 0 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">100% Online Global Campus • Orlando, USA</p>
           </div>
           
-          <h2 style="color: #34d399; font-size: 18px; margin-bottom: 15px;">🎉 Official Admission Decision Issued</h2>
+          <h2 style="color: #15803d; font-size: 18px; margin-bottom: 15px;">🎉 Official Admission Decision Issued</h2>
           
-          <p style="font-size: 14px; line-height: 1.6; color: #c7b8b2;">
+          <p style="font-size: 15px; line-height: 1.6; color: #444;">
             Dear <strong>${fullName || 'Student'}</strong>,<br><br>
             Thank you for applying to the University of East Florida. Your official application has been received and verified by the Registrar Office.
           </p>
 
-          <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; padding: 18px; border-radius: 8px; margin: 20px 0;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-              <span style="color: #c7b8b2; font-size: 12px;">Target Program:</span>
-              <strong style="color: #fff;">${programTitle || 'Degree Program'}</strong>
+          <div style="background: #faf8f5; border: 1px solid #d4af37; padding: 20px; border-radius: 8px; margin: 25px 0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+              <span style="color: #666; font-size: 13px;">Target Program:</span>
+              <strong style="color: #222;">${programTitle || 'Degree Program'}</strong>
             </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-              <span style="color: #c7b8b2; font-size: 12px;">Highest Qualification:</span>
-              <strong style="color: #fff;">${highestQual || 'Undergraduate'}</strong>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+              <span style="color: #666; font-size: 13px;">Highest Qualification:</span>
+              <strong style="color: #222;">${highestQual || 'Undergraduate'}</strong>
             </div>
-            <div style="display: flex; justify-content: space-between;">
-              <span style="color: #c7b8b2; font-size: 12px;">Admission Decision:</span>
-              <strong style="color: #34d399;">${status || 'ADMITTED (UNCONDITIONAL)'}</strong>
+            <div style="display: flex; justify-content: space-between; padding-top: 4px;">
+              <span style="color: #666; font-size: 13px; font-weight: bold;">Admission Decision:</span>
+              <strong style="color: #15803d; font-size: 14px;">${status || 'ADMITTED (UNCONDITIONAL)'}</strong>
             </div>
           </div>
 
-          <p style="font-size: 12px; color: #888; text-align: center; margin-top: 25px;">
+          <p style="font-size: 12px; color: #888; text-align: center; margin-top: 30px; border-top: 1px solid #eaeaea; padding-top: 20px;">
             University Registrar Office • 1200 University Blvd, Suite 500, Orlando, FL 32816, USA<br>
             Official Contact: r.mohammedsafar@gmail.com | Toll-Free: +1 (800) 555-UEF1
           </p>
