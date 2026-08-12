@@ -116,7 +116,7 @@ export default function CampusTour() {
                   <span style={{ fontSize: '11px', color: 'var(--gold-primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                     {s.label}
                   </span>
-                  <div style={{ fontSize: s.green ? '14px' : '18px', fontWeight: 'bold', color: s.green ? '#34d399' : '#fff', marginTop: '2px' }}>
+                  <div style={{ fontSize: s.green ? '14px' : '18px', fontWeight: 'bold', color: s.green ? 'var(--status-eligible)' : 'var(--text-main)', marginTop: '2px' }}>
                     {s.val}
                   </div>
                 </div>
