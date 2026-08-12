@@ -5,6 +5,19 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
+  const standardDisplayMap = {
+    'technology': 'Computer & Data Tech',
+    'business': 'Business & FinTech',
+    'healthcare': 'Health Informatics'
+  };
+
+  const dynamicCategories = ['all'];
+  programs.forEach(p => {
+    if (p.category && !dynamicCategories.includes(p.category)) {
+      dynamicCategories.push(p.category);
+    }
+  });
+
   const handleDownloadBrochure = (prog) => {
     const doc = new jsPDF();
     
@@ -105,13 +118,13 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
           />
         </div>
         <div className="filter-pills">
-          {['all', 'technology', 'business', 'healthcare'].map(cat => (
+          {dynamicCategories.map(cat => (
             <button
               key={cat}
               className={`filter-pill${categoryFilter === cat ? ' active' : ''}`}
               onClick={() => setCategoryFilter(cat)}
             >
-              {cat === 'all' ? 'All Programs' : cat === 'technology' ? 'Computer & Data Tech' : cat === 'business' ? 'Business & FinTech' : 'Health Informatics'}
+              {cat === 'all' ? 'All Programs' : standardDisplayMap[cat] || cat}
             </button>
           ))}
         </div>
