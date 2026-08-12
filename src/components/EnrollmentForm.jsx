@@ -80,10 +80,11 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
         idUrls: idUrls.filter(url => url !== null)
       };
 
-      await saveApplicationRecord(appData);
+      const docId = await saveApplicationRecord(appData);
+      const appDataWithId = { ...appData, trackingId: docId };
       // Run email dispatch in the background so the user doesn't have to wait
-      sendConfirmationEmail(appData).catch(e => console.error("Background email error:", e));
-      setSubmittedApp(appData);
+      sendConfirmationEmail(appDataWithId).catch(e => console.error("Background email error:", e));
+      setSubmittedApp(appDataWithId);
       
       // Reset all form fields
       setFullName('');
