@@ -85,6 +85,10 @@ export default async function handler(req, res) {
               <span style="color: #666; font-size: 13px;">Highest Qualification:</span>
               <strong style="color: #222;">${highestQual || 'Undergraduate'}</strong>
             </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+              <span style="color: #666; font-size: 13px;">Student Email:</span>
+              <strong style="color: #222;">${studentEmail}</strong>
+            </div>
             <div style="display: flex; justify-content: space-between; padding-top: 4px;">
               <span style="color: #666; font-size: 13px; font-weight: bold;">Admission Decision:</span>
               <strong style="color: #15803d; font-size: 14px;">${status || 'ADMITTED (UNCONDITIONAL)'}</strong>
