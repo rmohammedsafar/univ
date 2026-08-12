@@ -141,6 +141,36 @@ export const loadNewsConfigFromStorage = () => {
   return null;
 };
 
+const LOCAL_CONTACT_KEY = 'uef_contact_config';
+
+export const saveContactConfigToStorage = (contactInfo) => {
+  try {
+    const configData = {
+      contactInfo,
+      isCustomized: true,
+      updatedAt: new Date().toISOString()
+    };
+    localStorage.setItem(LOCAL_CONTACT_KEY, JSON.stringify(configData));
+  } catch (e) {
+    console.warn("LocalStorage save warning (Contact):", e);
+  }
+};
+
+export const loadContactConfigFromStorage = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_CONTACT_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.contactInfo) {
+        return parsed.contactInfo;
+      }
+    }
+  } catch (e) {
+    console.warn("LocalStorage load warning (Contact):", e);
+  }
+  return null;
+};
+
 const withTimeout = (promise, ms = 60000) => {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {

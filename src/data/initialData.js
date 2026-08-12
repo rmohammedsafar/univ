@@ -273,3 +273,15 @@ export const INITIAL_TOUR_SLIDES = [
     imgAlt: 'USA Headquarters Office Building',
   },
 ];
+
+export const INITIAL_CONTACT_INFO = {
+  address: "1200 University Blvd, Suite 500\nOrlando, Florida 32816, USA",
+  phone: "+1 (800) 555-UEF1",
+  email: "r.mohammedsafar@gmail.com",
+  startDay: "Mon",
+  endDay: "Fri",
+  startTime: "8:00 AM",
+  endTime: "6:00 PM",
+  timezone: "EST",
+  watermark: "Degree certificates include cryptographically verifiable QR verification codes for instant employer authentication."
+};

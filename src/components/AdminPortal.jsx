@@ -4,12 +4,23 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews, contactInfo, onUpdateContact, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [inquiries, setInquiries] = useState([]);
+
+  const [contactFormData, setContactFormData] = React.useState(contactInfo || {});
+  
+  React.useEffect(() => {
+    if (contactInfo) setContactFormData(contactInfo);
+  }, [contactInfo]);
+
+  const handleSaveContact = () => {
+    onUpdateContact(contactFormData);
+    alert('Contact information updated successfully!');
+  };
 
   const [editingNewsIndex, setEditingNewsIndex] = useState(null);
   const [newsFormData, setNewsFormData] = useState(null);
@@ -328,6 +339,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('news')}
           >
             📰 University Bulletin
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'contact' ? 'active' : ''}`}
+            onClick={() => setActiveTab('contact')}
+          >
+            📞 Contact Info
           </button>
         </div>
 
@@ -927,6 +944,92 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {/* TAB 7: CONTACT INFO */}
+        {activeTab === 'contact' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ color: 'var(--gold-light)' }}>Global Contact Information</h3>
+              <button className="btn btn-gold" onClick={handleSaveContact}>
+                💾 Save Changes
+              </button>
+            </div>
+
+            <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div className="form-group">
+                  <label className="form-label">Toll-Free USA Line</label>
+                  <input className="form-control" value={contactFormData.phone || ''} onChange={e => setContactFormData({...contactFormData, phone: e.target.value})} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Registrar Email</label>
+                  <input className="form-control" value={contactFormData.email || ''} onChange={e => setContactFormData({...contactFormData, email: e.target.value})} />
+                </div>
+                
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Physical Address</label>
+                  <textarea className="form-control" value={contactFormData.address || ''} onChange={e => setContactFormData({...contactFormData, address: e.target.value})} rows={3} />
+                </div>
+
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Office Hours Config</label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
+                    <div>
+                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Start Day</label>
+                      <select className="form-control" value={contactFormData.startDay || ''} onChange={e => setContactFormData({...contactFormData, startDay: e.target.value})}>
+                        <option value="Mon">Monday</option>
+                        <option value="Tue">Tuesday</option>
+                        <option value="Wed">Wednesday</option>
+                        <option value="Thu">Thursday</option>
+                        <option value="Fri">Friday</option>
+                        <option value="Sat">Saturday</option>
+                        <option value="Sun">Sunday</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>End Day</label>
+                      <select className="form-control" value={contactFormData.endDay || ''} onChange={e => setContactFormData({...contactFormData, endDay: e.target.value})}>
+                        <option value="Mon">Monday</option>
+                        <option value="Tue">Tuesday</option>
+                        <option value="Wed">Wednesday</option>
+                        <option value="Thu">Thursday</option>
+                        <option value="Fri">Friday</option>
+                        <option value="Sat">Saturday</option>
+                        <option value="Sun">Sunday</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Start Time</label>
+                      <select className="form-control" value={contactFormData.startTime || ''} onChange={e => setContactFormData({...contactFormData, startTime: e.target.value})}>
+                        {Array.from({length: 12}).map((_, i) => <option key={`am-${i+1}`} value={`${i+1}:00 AM`}>{`${i+1}:00 AM`}</option>)}
+                        {Array.from({length: 12}).map((_, i) => <option key={`pm-${i+1}`} value={`${i+1}:00 PM`}>{`${i+1}:00 PM`}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>End Time</label>
+                      <select className="form-control" value={contactFormData.endTime || ''} onChange={e => setContactFormData({...contactFormData, endTime: e.target.value})}>
+                        {Array.from({length: 12}).map((_, i) => <option key={`am-${i+1}`} value={`${i+1}:00 AM`}>{`${i+1}:00 AM`}</option>)}
+                        {Array.from({length: 12}).map((_, i) => <option key={`pm-${i+1}`} value={`${i+1}:00 PM`}>{`${i+1}:00 PM`}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Timezone</label>
+                      <input className="form-control" value={contactFormData.timezone || ''} onChange={e => setContactFormData({...contactFormData, timezone: e.target.value})} placeholder="e.g. EST" />
+                    </div>
+                  </div>
+                  <small style={{ color: 'var(--text-muted)', marginTop: '8px', display: 'block' }}>
+                    Preview: {contactFormData.startDay} – {contactFormData.endDay}: {contactFormData.startTime} – {contactFormData.endTime} {contactFormData.timezone}
+                  </small>
+                </div>
+
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Footer Watermark / Security Banner</label>
+                  <input className="form-control" value={contactFormData.watermark || ''} onChange={e => setContactFormData({...contactFormData, watermark: e.target.value})} />
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { sendInquiryEmail } from '../services/emailService';
 import { saveInquiryRecord } from '../services/firebase';
 
-export default function Footer({ onOpenAdminLogin }) {
+export default function Footer({ contactInfo, onOpenAdminLogin }) {
   const [inquiryName, setInquiryName] = useState('');
   const [inquiryEmail, setInquiryEmail] = useState('');
   const [isSending, setIsSending] = useState(false);
@@ -48,34 +48,34 @@ export default function Footer({ onOpenAdminLogin }) {
               <div className="address-icon">📍</div>
               <div className="address-text">
                 <h4>Physical Address</h4>
-                <p>1200 University Blvd, Suite 500<br />Orlando, Florida 32816, USA</p>
+                <p style={{ whiteSpace: 'pre-wrap' }}>{contactInfo?.address}</p>
               </div>
             </div>
             <div className="address-item">
               <div className="address-icon">📞</div>
               <div className="address-text">
                 <h4>Toll-Free USA Line</h4>
-                <p>+1 (800) 555-UEF1</p>
+                <p>{contactInfo?.phone}</p>
               </div>
             </div>
             <div className="address-item">
               <div className="address-icon">✉️</div>
               <div className="address-text">
                 <h4>Registrar Office</h4>
-                <p><a href="mailto:r.mohammedsafar@gmail.com" style={{ color: 'var(--gold-primary)' }}>r.mohammedsafar@gmail.com</a></p>
+                <p><a href={`mailto:${contactInfo?.email}`} style={{ color: 'var(--gold-primary)' }}>{contactInfo?.email}</a></p>
               </div>
             </div>
             <div className="address-item">
               <div className="address-icon">🕒</div>
               <div className="address-text">
                 <h4>Office Hours</h4>
-                <p>Mon – Fri: 8:00 AM – 6:00 PM EST</p>
+                <p>{contactInfo?.startDay} – {contactInfo?.endDay}: {contactInfo?.startTime} – {contactInfo?.endTime} {contactInfo?.timezone}</p>
               </div>
             </div>
 
             <div style={{ background: 'rgba(212,175,55,0.1)', padding: 14, borderRadius: 10, border: '1px solid var(--border-gold)', marginTop: 8 }}>
               <span style={{ fontSize: 12, color: 'var(--gold-light)', fontWeight: 'bold' }}>
-                🎓 Degree certificates include cryptographically verifiable QR verification codes for instant employer authentication.
+                🎓 {contactInfo?.watermark}
               </span>
             </div>
           </div>

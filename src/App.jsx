@@ -12,8 +12,8 @@ import Footer from './components/Footer';
 
 import { Routes, Route } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, INITIAL_NEWS } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, INITIAL_NEWS, INITIAL_CONTACT_INFO } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, loadContactConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
 
 export default function App() {
   const [isLightTheme, setIsLightTheme] = useState(false);
@@ -32,6 +32,10 @@ export default function App() {
   const [newsArticles, setNewsArticles] = useState(() => {
     const saved = loadNewsConfigFromStorage();
     return saved && saved.length > 0 ? saved : INITIAL_NEWS;
+  });
+  const [contactInfo, setContactInfo] = useState(() => {
+    const saved = loadContactConfigFromStorage();
+    return saved || INITIAL_CONTACT_INFO;
   });
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
 
@@ -98,12 +102,14 @@ export default function App() {
               onUpdateResearch={setResearchPapers}
               newsArticles={newsArticles}
               onUpdateNews={setNewsArticles}
+              contactInfo={contactInfo}
+              onUpdateContact={setContactInfo}
             />
         } />
       </Routes>
 
       {/* Footer & Accreditation */}
-      <Footer />
+      <Footer contactInfo={contactInfo} />
     </div>
   );
 }

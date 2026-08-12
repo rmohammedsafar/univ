@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import AdminPortal from './AdminPortal';
-import { saveCMSConfigToStorage, saveTourConfigToStorage, saveResearchConfigToStorage, saveNewsConfigToStorage } from '../services/firebase';
+import { saveCMSConfigToStorage, saveTourConfigToStorage, saveResearchConfigToStorage, saveNewsConfigToStorage, saveContactConfigToStorage } from '../services/firebase';
 
-export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews }) {
+export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews, contactInfo, onUpdateContact }) {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPass, setAdminPass] = useState('');
@@ -45,6 +45,11 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
         onUpdateNews={(updatedNews) => {
           onUpdateNews(updatedNews);
           saveNewsConfigToStorage(updatedNews);
+        }}
+        contactInfo={contactInfo}
+        onUpdateContact={(updatedContact) => {
+          onUpdateContact(updatedContact);
+          saveContactConfigToStorage(updatedContact);
         }}
         onLogout={handleAdminLogout}
       />
