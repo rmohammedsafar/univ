@@ -6,6 +6,9 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [country, setCountry] = useState('');
+  const [phoneCode, setPhoneCode] = useState('+1');
+  const [phone, setPhone] = useState('');
+  const [previousSchool, setPreviousSchool] = useState('');
   const [targetProgram, setTargetProgram] = useState(selectedProgramId || '');
   const [highestQual, setHighestQual] = useState('');
   const [gpaPercent, setGpaPercent] = useState('82');
@@ -48,7 +51,9 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
       const appData = {
         fullName,
         email,
+        phone: `${phoneCode} ${phone}`,
         country,
+        previousSchool,
         programId: prog?.id,
         programTitle: prog?.title || prog?.name || 'Selected Program',
         highestQual,
@@ -105,8 +110,34 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
           {/* Row 2 */}
           <div className="form-grid-2">
             <div className="form-group">
-              <label className="form-label">Phone Number with Country Code *</label>
-              <input type="text" className="form-control" placeholder="+1 (555) 019-2834" required />
+              <label className="form-label">Phone Number *</label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <select className="form-select" style={{ width: '130px', padding: '12px' }} value={phoneCode} onChange={e => setPhoneCode(e.target.value)}>
+                  <option value="+1">+1 (US/CA)</option>
+                  <option value="+44">+44 (UK)</option>
+                  <option value="+91">+91 (IN)</option>
+                  <option value="+61">+61 (AU)</option>
+                  <option value="+971">+971 (AE)</option>
+                  <option value="+966">+966 (SA)</option>
+                  <option value="+20">+20 (EG)</option>
+                  <option value="+234">+234 (NG)</option>
+                  <option value="+27">+27 (ZA)</option>
+                  <option value="+86">+86 (CN)</option>
+                  <option value="+81">+81 (JP)</option>
+                  <option value="+49">+49 (DE)</option>
+                  <option value="+33">+33 (FR)</option>
+                  <option value="+39">+39 (IT)</option>
+                  <option value="+34">+34 (ES)</option>
+                  <option value="+55">+55 (BR)</option>
+                  <option value="+52">+52 (MX)</option>
+                  <option value="+65">+65 (SG)</option>
+                  <option value="+60">+60 (MY)</option>
+                  <option value="+62">+62 (ID)</option>
+                  <option value="+63">+63 (PH)</option>
+                </select>
+                <input type="tel" className="form-control" placeholder="555-019-2834"
+                  value={phone} onChange={e => setPhone(e.target.value)} required />
+              </div>
             </div>
             <div className="form-group">
               <label className="form-label">Country of Residence *</label>
@@ -174,7 +205,8 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
           {/* Row 4 */}
           <div className="form-group">
             <label className="form-label">Previous High School / College / University Name *</label>
-            <input type="text" className="form-control" placeholder="e.g. St. Jude High School / State University" required />
+            <input type="text" className="form-control" placeholder="e.g. St. Jude High School / State University"
+              value={previousSchool} onChange={e => setPreviousSchool(e.target.value)} required />
           </div>
 
           {/* Row 5: SIDE-BY-SIDE STYLED DROP ZONES */}
