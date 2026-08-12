@@ -62,7 +62,8 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
       };
 
       await saveApplicationRecord(appData);
-      await sendConfirmationEmail(appData);
+      // Run email dispatch in the background so the user doesn't have to wait
+      sendConfirmationEmail(appData).catch(e => console.error("Background email error:", e));
       setSubmittedApp(appData);
       alert('🎉 Application Submitted Successfully!');
     } catch (error) {
