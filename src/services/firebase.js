@@ -77,14 +77,12 @@ export const uploadDocument = async (file, folderPath, onProgress) => {
   
   if (onProgress) {
     uploadTask.on('state_changed', snapshot => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
       onProgress(progress);
     });
   }
 
-  await withTimeout(new Promise((resolve, reject) => {
-    uploadTask.on('state_changed', null, reject, resolve);
-  }));
+  await withTimeout(uploadTask);
 
   return await withTimeout(getDownloadURL(storageRef));
 };
