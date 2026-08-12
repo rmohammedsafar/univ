@@ -156,7 +156,8 @@ export const INITIAL_NEWS = [
     date: "August 10, 2026",
     publisher: "Nature Medicine",
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-    snippet: "The Academic Senate of UEF has formally approved 12 specialized theoretical modules focused on Deep Neural Network Interpretability and Mathematical AI Ethics for 100% online distance scholars worldwide."
+    snippet: "The Academic Senate of UEF has formally approved 12 specialized theoretical modules focused on Deep Neural Network Interpretability and Mathematical AI Ethics for 100% online distance scholars worldwide.",
+    link: "https://arxiv.org/list/cs.AI/recent"
   },
   {
     id: 'news-2',
@@ -165,7 +166,8 @@ export const INITIAL_NEWS = [
     date: "July 28, 2026",
     publisher: "UNESCO Report",
     image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
-    snippet: "A landmark global study on remote higher education highlighted UEF's zero physical lab framework, robust digital verification protocols, and 100% theoretical online degree accessibility across 45 countries."
+    snippet: "A landmark global study on remote higher education highlighted UEF's zero physical lab framework, robust digital verification protocols, and 100% theoretical online degree accessibility across 45 countries.",
+    link: "https://www.unesco.org/en/education"
   },
   {
     id: 'news-3',
@@ -173,8 +175,9 @@ export const INITIAL_NEWS = [
     category: "ACADEMIC EXCELLENCE",
     date: "June 15, 2026",
     publisher: "MIT Technology Review",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
-    snippet: "UEF graduate scholars submitted groundbreaking theoretical papers in Quantitative FinTech, Distributed Data Systems, and Health Informatics during the annual 100% online global research conference."
+    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80",
+    snippet: "The annual UEF digital symposium saw record participation, with distance learners globally submitting peer-reviewed theoretical frameworks in Economics, Cryptography, and Global Health Systems.",
+    link: "https://scholar.google.com/"
   }
 ];
 

@@ -39,7 +39,7 @@ export default function UniversityBulletin() {
                 <span style={{ fontSize: '12px', color: 'var(--gold-primary)', fontWeight: 'bold' }}>Source: {item.publisher}</span>
                 <button 
                   className="btn btn-outline" 
-                  onClick={() => alert(`📰 Reading full article: '${item.title}'`)}
+                  onClick={() => window.open(item.link, '_blank')}
                   style={{ padding: '6px 12px', fontSize: '11px' }}
                 >
                   Read Full Press Release →
