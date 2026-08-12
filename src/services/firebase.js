@@ -81,6 +81,36 @@ export const loadTourConfigFromStorage = () => {
   return null;
 };
 
+const LOCAL_RESEARCH_KEY = 'uef_research_config';
+
+export const saveResearchConfigToStorage = (researchPapers) => {
+  try {
+    const configData = {
+      researchPapers,
+      isCustomized: true,
+      updatedAt: new Date().toISOString()
+    };
+    localStorage.setItem(LOCAL_RESEARCH_KEY, JSON.stringify(configData));
+  } catch (e) {
+    console.warn("LocalStorage save warning (Research):", e);
+  }
+};
+
+export const loadResearchConfigFromStorage = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_RESEARCH_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.researchPapers)) {
+        return parsed.researchPapers;
+      }
+    }
+  } catch (e) {
+    console.warn("LocalStorage load warning (Research):", e);
+  }
+  return null;
+};
+
 const withTimeout = (promise, ms = 60000) => {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {

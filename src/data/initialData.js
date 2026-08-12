@@ -183,6 +183,7 @@ export const INITIAL_NEWS = [
 
 export const INITIAL_RESEARCH_PAPERS = [
   {
+    id: 'research-1',
     title: "Theoretical Foundations of Deep Neural Network Interpretability",
     author: "Dr. Aris Thorne & UEF AI Research Group",
     journal: "Journal of Theoretical Computer Science (2026)",
@@ -191,6 +192,7 @@ export const INITIAL_RESEARCH_PAPERS = [
     link: "https://arxiv.org/list/cs.AI/recent"
   },
   {
+    id: 'research-2',
     title: "Decentralized Ledger Governance in International FinTech Systems",
     author: "Prof. Marcus Vance & Department of Economics",
     journal: "Review of Financial Economics & Tech (2026)",
@@ -199,6 +201,7 @@ export const INITIAL_RESEARCH_PAPERS = [
     link: "https://scholar.google.com/scholar?q=Decentralized+Ledger+Governance"
   },
   {
+    id: 'research-3',
     title: "Asynchronous Learning Protocols & Distance Pedagogy Frameworks",
     author: "Dean Eleanor Vance & UEF Senate",
     journal: "International Journal of Online Higher Education (2025)",

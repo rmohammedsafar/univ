@@ -4,12 +4,52 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [inquiries, setInquiries] = useState([]);
+
+  const [editingResearchIndex, setEditingResearchIndex] = useState(null);
+  const [researchFormData, setResearchFormData] = useState(null);
+
+  const handleEditResearch = (index) => {
+    setEditingResearchIndex(index);
+    if (index === -1) {
+      setResearchFormData({
+        id: `research-${Date.now()}`,
+        title: 'New Research Paper Title',
+        author: 'Author Name',
+        journal: 'Journal/Publication Name (Year)',
+        category: 'CATEGORY',
+        abstract: 'Abstract text...',
+        link: '#'
+      });
+    } else {
+      setResearchFormData(JSON.parse(JSON.stringify(researchPapers[index])));
+    }
+  };
+
+  const handleSaveResearch = () => {
+    const updated = [...(researchPapers || [])];
+    if (editingResearchIndex === -1) {
+      updated.push(researchFormData);
+    } else {
+      updated[editingResearchIndex] = researchFormData;
+    }
+    onUpdateResearch(updated);
+    setEditingResearchIndex(null);
+    setResearchFormData(null);
+  };
+
+  const handleDeleteResearch = (index) => {
+    if (window.confirm('Are you sure you want to delete this research paper?')) {
+      const updated = [...(researchPapers || [])];
+      updated.splice(index, 1);
+      onUpdateResearch(updated);
+    }
+  };
 
   const [editingSlideIndex, setEditingSlideIndex] = useState(null);
   const [slideFormData, setSlideFormData] = useState(null);
@@ -235,6 +275,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('tour')}
           >
             🏛️ Virtual Tour
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'research' ? 'active' : ''}`}
+            onClick={() => setActiveTab('research')}
+          >
+            🔬 Research Papers
           </button>
         </div>
 
@@ -646,6 +692,95 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
                     <button className="btn btn-gold" onClick={handleSaveSlide}>Save Slide</button>
                     <button className="btn btn-outline" onClick={() => setEditingSlideIndex(null)}>Cancel</button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 5: RESEARCH PAPERS */}
+        {activeTab === 'research' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ color: 'var(--gold-light)' }}>Academic Research Papers</h3>
+              <button className="btn btn-gold" onClick={() => handleEditResearch(-1)}>
+                ➕ Add New Paper
+              </button>
+            </div>
+
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
+                    <th>Paper ID</th>
+                    <th>Category</th>
+                    <th>Title</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(researchPapers || []).map((paper, idx) => (
+                    <tr key={paper.id}>
+                      <td>{paper.id}</td>
+                      <td>{paper.category}</td>
+                      <td>{paper.title}</td>
+                      <td>
+                        <button className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', marginRight: '8px' }} onClick={() => handleEditResearch(idx)}>Edit</button>
+                        <button className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', color: '#f87171', borderColor: '#ef4444' }} onClick={() => handleDeleteResearch(idx)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                  {(!researchPapers || researchPapers.length === 0) && (
+                    <tr>
+                      <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>No research papers configured.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* RESEARCH EDIT FORM MODAL */}
+            {editingResearchIndex !== null && researchFormData && (
+              <div style={{
+                position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+                background: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'
+              }}>
+                <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', width: '100%', maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto' }}>
+                  <h3 style={{ color: 'var(--gold-light)', marginBottom: '20px' }}>
+                    {editingResearchIndex === -1 ? 'Add New Research Paper' : 'Edit Research Paper'}
+                  </h3>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Paper Title</label>
+                      <input className="form-control" value={researchFormData.title} onChange={e => setResearchFormData({...researchFormData, title: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Author(s)</label>
+                      <input className="form-control" value={researchFormData.author} onChange={e => setResearchFormData({...researchFormData, author: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Journal & Year</label>
+                      <input className="form-control" value={researchFormData.journal} onChange={e => setResearchFormData({...researchFormData, journal: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Category (e.g. ARTIFICIAL INTELLIGENCE)</label>
+                      <input className="form-control" value={researchFormData.category} onChange={e => setResearchFormData({...researchFormData, category: e.target.value})} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">External Link (Google Scholar / Arxiv)</label>
+                      <input className="form-control" value={researchFormData.link} onChange={e => setResearchFormData({...researchFormData, link: e.target.value})} />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Abstract</label>
+                      <textarea className="form-control" value={researchFormData.abstract} onChange={e => setResearchFormData({...researchFormData, abstract: e.target.value})} rows={4} />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
+                    <button className="btn btn-gold" onClick={handleSaveResearch}>Save Paper</button>
+                    <button className="btn btn-outline" onClick={() => setEditingResearchIndex(null)}>Cancel</button>
                   </div>
                 </div>
               </div>

@@ -12,8 +12,8 @@ import Footer from './components/Footer';
 
 import { Routes, Route } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, saveCMSConfigToStorage } from './services/firebase';
 
 export default function App() {
   const [isLightTheme, setIsLightTheme] = useState(false);
@@ -24,6 +24,10 @@ export default function App() {
   const [tourSlides, setTourSlides] = useState(() => {
     const saved = loadTourConfigFromStorage();
     return saved && saved.length > 0 ? saved : INITIAL_TOUR_SLIDES;
+  });
+  const [researchPapers, setResearchPapers] = useState(() => {
+    const saved = loadResearchConfigFromStorage();
+    return saved && saved.length > 0 ? saved : INITIAL_RESEARCH_PAPERS;
   });
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
 
@@ -69,7 +73,7 @@ export default function App() {
 
             <CampusTour tourSlides={tourSlides} />
 
-            <ResearchPapers />
+            <ResearchPapers researchPapers={researchPapers} />
 
             <UniversityBulletin />
 
@@ -86,6 +90,8 @@ export default function App() {
               onUpdatePrograms={setPrograms} 
               tourSlides={tourSlides}
               onUpdateTour={setTourSlides}
+              researchPapers={researchPapers}
+              onUpdateResearch={setResearchPapers}
             />
         } />
       </Routes>

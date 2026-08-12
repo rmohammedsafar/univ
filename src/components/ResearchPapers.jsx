@@ -1,8 +1,7 @@
 import React from 'react';
 import { jsPDF } from 'jspdf';
-import { INITIAL_RESEARCH_PAPERS } from '../data/initialData';
 
-export default function ResearchPapers() {
+export default function ResearchPapers({ researchPapers = [] }) {
   const handleDownload = (paper, idx) => {
     const doc = new jsPDF();
     
@@ -68,7 +67,7 @@ export default function ResearchPapers() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
-        {INITIAL_RESEARCH_PAPERS.map((paper, idx) => (
+        {researchPapers.map((paper, idx) => (
           <div key={idx} className="program-card" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '12px' }}>
               <span className="usa-flag-badge" style={{ background: 'rgba(212,175,55,0.2)', color: 'var(--gold-light)', fontSize: '11px' }}>
