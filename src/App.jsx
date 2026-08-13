@@ -6,7 +6,6 @@ import ProgramCatalog from './components/ProgramCatalog';
 import CampusTour from './components/CampusTour';
 import ResearchPapers from './components/ResearchPapers';
 import UniversityBulletin from './components/UniversityBulletin';
-import EnrollmentForm from './components/EnrollmentForm';
 import RegistrationPage from './components/RegistrationPage';
 import AdminPage from './components/AdminPage';
 import Footer from './components/Footer';
@@ -105,11 +104,6 @@ export default function App() {
             <ResearchPapers researchPapers={researchPapers} />
 
             <UniversityBulletin newsArticles={newsArticles} />
-
-            <EnrollmentForm 
-              programs={programs} 
-              selectedProgramId={selectedProgramToApply}
-            />
           </main>
         } />
 
