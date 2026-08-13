@@ -1,7 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { INITIAL_DEGREE_PROGRAMS, INITIAL_CONTACT_INFO } from '../data/initialData';
+import { GLOBAL_COUNTRIES } from '../data/countryStateData';
+import { saveApplicationRecord } from '../services/firebase';
+import { sendConfirmationEmail } from '../services/emailService';
 
 export default function RegistrationPage() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneCode, setPhoneCode] = useState('+1');
+  const [phone, setPhone] = useState('');
+  const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
+  const [program, setProgram] = useState('');
+  const [elective, setElective] = useState('general');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const selectedCountryObj = GLOBAL_COUNTRIES.find(c => `${c.flag} ${c.name}` === country || c.name === country);
+  const availableStates = selectedCountryObj ? selectedCountryObj.states : [];
+
+  const handleCountryChange = (e) => {
+    const val = e.target.value;
+    setCountry(val);
+    setState('');
+    const matched = GLOBAL_COUNTRIES.find(c => `${c.flag} ${c.name}` === val || c.name === val);
+    if (matched && matched.phoneCode) {
+      setPhoneCode(matched.phoneCode);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!firstName || !lastName || !email) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    const fullName = `${firstName} ${lastName}`.trim();
+    const fullPhone = `${phoneCode} ${phone}`.trim();
+    const selectedProgObj = INITIAL_DEGREE_PROGRAMS.find(p => p.id === program || p.name === program || p.title === program);
+    const programTitle = selectedProgObj ? `${selectedProgObj.degree} in ${selectedProgObj.name || selectedProgObj.title}` : (program || 'Degree Program');
+
+    const appData = {
+      fullName,
+      email,
+      phone: fullPhone,
+      country,
+      state,
+      programTitle,
+      highestQual: elective === 'advanced' ? 'Advanced Honors' : 'General Undergraduate Track',
+      submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+    };
+
+    try {
+      await saveApplicationRecord(appData);
+      await sendConfirmationEmail(appData);
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error("Registration error:", err);
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div style={{ backgroundColor: 'var(--bg-dark)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
@@ -18,91 +82,185 @@ export default function RegistrationPage() {
       {/* Form Container */}
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px 20px' }}>
         <div style={{ background: 'var(--bg-card)', borderRadius: '20px', padding: '40px', width: '100%', maxWidth: '750px', color: 'var(--text-main)', border: '1px solid var(--gold-primary)', boxShadow: '0 0 30px var(--gold-glow)' }}>
-          <h2 style={{ margin: '0 0 25px', fontSize: '24px', color: 'var(--text-main)', fontWeight: '600', fontFamily: 'var(--font-body)' }}>
-            Registration <span style={{ color: 'var(--gold-primary)', fontFamily: 'Playfair Display, serif', fontStyle: 'italic', fontWeight: '600' }}>Form</span>
-          </h2>
           
-          <form style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} onSubmit={(e) => { e.preventDefault(); alert('Registration submitted!'); }}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>First Name <span style={{ color: '#ef4444' }}>*</span></label>
-              <input type="text" placeholder="Enter your first name" style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} required />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Last Name <span style={{ color: '#ef4444' }}>*</span></label>
-              <input type="text" placeholder="Enter your last name" style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} required />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gridColumn: '1 / -1' }}>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
-              <input type="email" style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} required />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gridColumn: '1 / -1' }}>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Mobile Number <span style={{ color: '#ef4444' }}>*</span></label>
-              <div style={{ display: 'flex', border: '1px solid var(--border-gold)', borderRadius: '6px', overflow: 'hidden' }}>
-                <select style={{ padding: '12px', border: 'none', background: 'transparent', borderRight: '1px solid var(--border-gold)', width: '90px', outline: 'none', color: 'var(--text-main)' }}>
-                  <option style={{ color: '#000' }}>🇺🇸 +1</option>
-                  <option style={{ color: '#000' }}>🇬🇧 +44</option>
-                  <option style={{ color: '#000' }}>🇮🇳 +91</option>
-                </select>
-                <input type="tel" style={{ padding: '12px', border: 'none', flex: 1, outline: 'none', background: 'transparent', color: 'var(--text-main)' }} required />
+          {isSubmitted ? (
+            <div className="golden-tick-container">
+              <div className="golden-tick-circle">
+                <svg className="golden-tick-svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#d4af37" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
               </div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Nationality <span style={{ color: '#ef4444' }}>*</span></label>
-              <select style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} required>
-                <option value="" style={{ color: '#000' }}>Select a option</option>
-                <option value="US" style={{ color: '#000' }}>United States</option>
-                <option value="IN" style={{ color: '#000' }}>India</option>
-                <option value="UK" style={{ color: '#000' }}>United Kingdom</option>
-                <option value="Other" style={{ color: '#000' }}>Other</option>
-              </select>
-            </div>
-            
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>State <span style={{ color: '#ef4444' }}>*</span></label>
-              <select style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} required>
-                <option value="" style={{ color: '#000' }}>Select a option</option>
-                <option value="FL" style={{ color: '#000' }}>Florida</option>
-                <option value="NY" style={{ color: '#000' }}>New York</option>
-                <option value="CA" style={{ color: '#000' }}>California</option>
-                <option value="Other" style={{ color: '#000' }}>Other</option>
-              </select>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Program <span style={{ color: '#ef4444' }}>*</span></label>
-              <select style={{ padding: '12px', border: '1px solid var(--gold-primary)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} required>
-                <option value="" style={{ color: '#000' }}>Select a option</option>
-                {INITIAL_DEGREE_PROGRAMS.map(p => (
-                  <option key={p.id} value={p.id} style={{ color: '#000' }}>{p.degree}</option>
-                ))}
-              </select>
-            </div>
-            
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Elective <span style={{ color: '#ef4444' }}>*</span></label>
-              <select style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} required>
-                <option value="" style={{ color: '#000' }}>Select a option</option>
-                <option value="general" style={{ color: '#000' }}>General Track</option>
-                <option value="advanced" style={{ color: '#000' }}>Advanced Honors</option>
-              </select>
-            </div>
-
-            <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px' }}>
-              <input type="checkbox" id="consent" required style={{ marginTop: '3px', cursor: 'pointer' }}/>
-              <label htmlFor="consent" style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.5', cursor: 'pointer' }}>
-                I consent to receive communications from the University and its representatives via Email, SMS, WhatsApp, Call, or any other electronic medium for updates and notifications. This consent overrides DND/NDNC preferences.
-              </label>
-            </div>
-            
-            <div style={{ gridColumn: '1 / -1', marginTop: '10px' }}>
-              <button type="submit" style={{ width: '100%', padding: '16px', background: 'var(--gold-primary)', color: '#000', border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer', boxShadow: '0 0 15px var(--gold-glow)' }}>
-                Submit Registration →
+              <h3 className="golden-tick-title">REGISTRATION SUBMITTED!</h3>
+              <p className="golden-tick-subtitle">
+                Thank you <strong>{firstName} {lastName}</strong>!<br />
+                Your official application has been received. A confirmation email has been dispatched to <strong>{email}</strong>.
+              </p>
+              <button 
+                className="enquiry-submit-btn" 
+                style={{ marginTop: 20, width: '100%', background: 'var(--gold-primary)', color: '#000', padding: '14px', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}
+                onClick={() => {
+                  setIsSubmitted(false);
+                  setFirstName('');
+                  setLastName('');
+                  setEmail('');
+                  setPhone('');
+                  setCountry('');
+                  setState('');
+                  setProgram('');
+                }}
+              >
+                Register Another Student →
               </button>
             </div>
-          </form>
+          ) : (
+            <>
+              <h2 style={{ margin: '0 0 25px', fontSize: '24px', color: 'var(--text-main)', fontWeight: '600', fontFamily: 'var(--font-body)' }}>
+                Registration <span style={{ color: 'var(--gold-primary)', fontFamily: 'Playfair Display, serif', fontStyle: 'italic', fontWeight: '600' }}>Form</span>
+              </h2>
+              
+              <form style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} onSubmit={handleSubmit}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>First Name <span style={{ color: '#ef4444' }}>*</span></label>
+                  <input 
+                    type="text" 
+                    placeholder="Enter your first name" 
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} 
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required 
+                  />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Last Name <span style={{ color: '#ef4444' }}>*</span></label>
+                  <input 
+                    type="text" 
+                    placeholder="Enter your last name" 
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} 
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required 
+                  />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gridColumn: '1 / -1' }}>
+                  <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
+                  <input 
+                    type="email" 
+                    placeholder="student@example.com"
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required 
+                  />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gridColumn: '1 / -1' }}>
+                  <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Mobile Number <span style={{ color: '#ef4444' }}>*</span></label>
+                  <div style={{ display: 'flex', border: '1px solid var(--border-gold)', borderRadius: '6px', overflow: 'hidden' }}>
+                    <select 
+                      style={{ padding: '12px 6px', border: 'none', background: 'transparent', borderRight: '1px solid var(--border-gold)', width: '130px', minWidth: '130px', outline: 'none', color: 'var(--text-main)', fontSize: '13px' }}
+                      value={phoneCode}
+                      onChange={(e) => setPhoneCode(e.target.value)}
+                    >
+                      {GLOBAL_COUNTRIES.map(c => (
+                        <option key={c.code} value={c.phoneCode} style={{ color: '#000' }}>
+                          {c.flag} {c.phoneCode} ({c.code})
+                        </option>
+                      ))}
+                    </select>
+                    <input 
+                      type="tel" 
+                      placeholder="Phone number"
+                      style={{ padding: '12px', border: 'none', flex: 1, outline: 'none', background: 'transparent', color: 'var(--text-main)' }} 
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      required 
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Country of Residence <span style={{ color: '#ef4444' }}>*</span></label>
+                  <select 
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    value={country}
+                    onChange={handleCountryChange}
+                    required
+                  >
+                    <option value="" style={{ color: '#000' }}>Select Country</option>
+                    {GLOBAL_COUNTRIES.map(c => (
+                      <option key={c.code} value={`${c.flag} ${c.name}`} style={{ color: '#000' }}>
+                        {c.flag} {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>State / Province <span style={{ color: '#ef4444' }}>*</span></label>
+                  <select 
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    disabled={!country}
+                    required
+                  >
+                    <option value="" style={{ color: '#000' }}>
+                      {country ? 'Select State / Province' : 'Select Country First'}
+                    </option>
+                    {availableStates.map(st => (
+                      <option key={st} value={st} style={{ color: '#000' }}>{st}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Degree Program <span style={{ color: '#ef4444' }}>*</span></label>
+                  <select 
+                    style={{ padding: '12px', border: '1px solid var(--gold-primary)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    value={program}
+                    onChange={(e) => setProgram(e.target.value)}
+                    required
+                  >
+                    <option value="" style={{ color: '#000' }}>Select Program</option>
+                    {INITIAL_DEGREE_PROGRAMS.map(p => (
+                      <option key={p.id} value={p.id} style={{ color: '#000' }}>{p.degree} in {p.name || p.title}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Elective Track <span style={{ color: '#ef4444' }}>*</span></label>
+                  <select 
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    value={elective}
+                    onChange={(e) => setElective(e.target.value)}
+                    required
+                  >
+                    <option value="general" style={{ color: '#000' }}>General Track</option>
+                    <option value="advanced" style={{ color: '#000' }}>Advanced Honors</option>
+                  </select>
+                </div>
+
+                <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px' }}>
+                  <input type="checkbox" id="consent" required style={{ marginTop: '3px', cursor: 'pointer' }}/>
+                  <label htmlFor="consent" style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.5', cursor: 'pointer' }}>
+                    I consent to receive communications from the University and its representatives via Email, SMS, WhatsApp, Call, or any other electronic medium for updates and notifications. This consent overrides DND/NDNC preferences.
+                  </label>
+                </div>
+                
+                <div style={{ gridColumn: '1 / -1', marginTop: '10px' }}>
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    style={{ width: '100%', padding: '16px', background: 'var(--gold-primary)', color: '#000', border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer', boxShadow: '0 0 15px var(--gold-glow)' }}
+                  >
+                    {isSubmitting ? 'Sending Confirmation Email...' : 'Submit Registration →'}
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
         </div>
       </div>
       
