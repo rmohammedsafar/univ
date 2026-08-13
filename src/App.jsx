@@ -3,10 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProgramCatalog from './components/ProgramCatalog';
-import CampusTour from './components/CampusTour';
-import ResearchPapers from './components/ResearchPapers';
-import UniversityBulletin from './components/UniversityBulletin';
 import RegistrationPage from './components/RegistrationPage';
+import GalleryPage from './components/GalleryPage';
 import AdminPage from './components/AdminPage';
 import Footer from './components/Footer';
 
@@ -84,27 +82,21 @@ export default function App() {
           <main>
             <Hero 
               heroConfig={heroConfig}
-              onExplorePrograms={() => {
-                const el = document.getElementById("programs");
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              onApplyNow={() => {
-                const el = document.getElementById("applySection");
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
+              stats={tourSlides.length} 
+              onApplyNow={() => window.open('/apply', '_blank')} 
+              onExplorePrograms={() => document.getElementById('programs').scrollIntoView({ behavior: 'smooth' })} 
             />
-
-            <ProgramCatalog 
-              programs={programs} 
-              onSelectProgramToApply={(progId) => setSelectedProgramToApply(progId)}
-            />
-
-            <CampusTour tourSlides={tourSlides} />
-
-            <ResearchPapers researchPapers={researchPapers} />
-
-            <UniversityBulletin newsArticles={newsArticles} />
+            
+            <ProgramCatalog programs={programs} />
           </main>
+        } />
+
+        <Route path="/gallery" element={
+          <GalleryPage 
+            tourSlides={tourSlides} 
+            researchPapers={researchPapers} 
+            newsArticles={newsArticles} 
+          />
         } />
 
         <Route path="/apply" element={<RegistrationPage />} />

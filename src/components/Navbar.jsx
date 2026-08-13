@@ -37,7 +37,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
         {/* Desktop Nav Links */}
         <ul className="nav-links">
           <li><a href="#programs"            className="nav-link">Program</a></li>
-          <li><a href="#campusTour"          className="nav-link">Gallery</a></li>
+          <li><a href="/gallery" target="_blank" rel="noopener noreferrer" className="nav-link">Gallery</a></li>
           <li><a href="#usaHeadquarters"     className="nav-link">Contact</a></li>
           <li><a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setEnquiryOpen(true); }}>Enquire</a></li>
           <li><a href="/apply" target="_blank" rel="noopener noreferrer" className="nav-link">Enroll Now</a></li>
@@ -80,7 +80,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
             </button>
             <ul className="mobile-nav-links">
               <li><a href="#programs" onClick={closeMobile}>Program</a></li>
-              <li><a href="#campusTour" onClick={closeMobile}>Gallery</a></li>
+              <li><a href="/gallery" target="_blank" rel="noopener noreferrer" onClick={closeMobile}>Gallery</a></li>
               <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); closeMobile(); setEnquiryOpen(true); }}>Enquire</a></li>
               <li><a href="/apply" target="_blank" rel="noopener noreferrer" onClick={closeMobile}>Enroll Now</a></li>
