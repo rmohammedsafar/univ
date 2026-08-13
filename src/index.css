@@ -250,9 +250,10 @@ body.light-theme .btn-maroon {
 
 body.light-theme .btn-gold {
   background: #d4af37 !important;
-  color: #000000 !important;
+  color: #ffffff !important;
   font-weight: 800 !important;
   border: 1px solid #b45309 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
 }
 
 body.light-theme .filter-pill {
@@ -715,14 +716,17 @@ body.light-theme .accreditation-banner p {
 
 .btn-gold {
   background: linear-gradient(135deg, #f7e096 0%, #d4af37 50%, #96761c 100%);
-  color: #1a080c;
+  color: #ffffff !important;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 .btn-gold:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
-  background: linear-gradient(135deg, #ffffff 0%, #e5be48 100%);
+  background: linear-gradient(135deg, #e5be48 0%, #b48c1a 100%);
+  color: #ffffff !important;
 }
 
 .btn-maroon {
