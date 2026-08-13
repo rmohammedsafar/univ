@@ -125,7 +125,7 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
 
             <iframe
               className="map-iframe"
-              src="https://maps.google.com/maps?q=1200%20University%20Blvd,%20Orlando,%20FL%2032816&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              src="https://maps.google.com/maps?q=28.602428,-81.200055+(University+of+East+Florida+HQ)&t=&z=15&ie=UTF8&iwloc=A&output=embed"
               allowFullScreen=""
               loading="lazy"
               title="University of East Florida - Orlando Campus Map"
