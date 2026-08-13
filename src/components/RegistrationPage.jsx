@@ -107,6 +107,31 @@ export default function RegistrationPage() {
               >
                 Register Another Student →
               </button>
+
+              <button 
+                type="button"
+                style={{ 
+                  marginTop: 12, 
+                  width: '100%', 
+                  background: 'transparent', 
+                  color: 'var(--gold-primary)', 
+                  padding: '14px', 
+                  borderRadius: '8px', 
+                  fontWeight: 'bold', 
+                  border: '1px solid var(--gold-primary)', 
+                  cursor: 'pointer',
+                  fontSize: '15px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px'
+                }}
+                onClick={() => {
+                  window.location.href = '/';
+                }}
+              >
+                🏠 Return to Main Home Page
+              </button>
             </div>
           ) : (
             <>
