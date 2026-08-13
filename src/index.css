@@ -963,28 +963,110 @@ body.light-theme .accreditation-banner p {
 
 .program-card {
   background: var(--glass-bg);
-  border: var(--glass-border);
-  border-radius: 14px;
+  border: 2px solid var(--border-gold);
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: var(--tr-smooth);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
 
-.program-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--gold-primary);
-  box-shadow: var(--shadow-maroon);
+/* ── CATEGORY ACCENT BORDERS & BACKGROUND IMAGE HEADERS ──────────────────── */
+/* Technology & AI Category Grid */
+.program-card.category-technology {
+  border: 2px solid rgba(2, 132, 199, 0.6) !important;
+}
+.program-card.category-technology:hover {
+  transform: translateY(-6px);
+  border-color: #38bdf8 !important;
+  box-shadow: 0 14px 35px rgba(2, 132, 199, 0.3) !important;
+}
+.program-card.category-technology .card-header {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(3, 105, 161, 0.92) 100%), url('/assets/home-bg-3.png') center/cover !important;
+  border-bottom: 2px solid #0284c7;
+}
+.program-card.category-technology .program-degree {
+  color: #38bdf8 !important;
+  background: rgba(14, 165, 233, 0.25);
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  display: inline-block;
+  font-weight: 700;
+  width: fit-content;
+}
+
+/* Business & Leadership Category Grid */
+.program-card.category-business {
+  border: 2px solid rgba(212, 175, 55, 0.65) !important;
+}
+.program-card.category-business:hover {
+  transform: translateY(-6px);
+  border-color: #f59e0b !important;
+  box-shadow: 0 14px 35px rgba(212, 175, 55, 0.35) !important;
+}
+.program-card.category-business .card-header {
+  background: linear-gradient(135deg, rgba(74, 11, 19, 0.92) 0%, rgba(120, 53, 15, 0.92) 100%), url('/assets/home-bg-3.png') center/cover !important;
+  border-bottom: 2px solid #d4af37;
+}
+.program-card.category-business .program-degree {
+  color: #fbbf24 !important;
+  background: rgba(212, 175, 55, 0.25);
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  display: inline-block;
+  font-weight: 700;
+  width: fit-content;
+}
+
+/* Healthcare & Science Category Grid */
+.program-card.category-healthcare {
+  border: 2px solid rgba(5, 150, 105, 0.65) !important;
+}
+.program-card.category-healthcare:hover {
+  transform: translateY(-6px);
+  border-color: #34d399 !important;
+  box-shadow: 0 14px 35px rgba(5, 150, 105, 0.3) !important;
+}
+.program-card.category-healthcare .card-header {
+  background: linear-gradient(135deg, rgba(6, 78, 59, 0.92) 0%, rgba(4, 120, 87, 0.92) 100%), url('/assets/home-bg-3.png') center/cover !important;
+  border-bottom: 2px solid #059669;
+}
+.program-card.category-healthcare .program-degree {
+  color: #34d399 !important;
+  background: rgba(16, 185, 129, 0.25);
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  display: inline-block;
+  font-weight: 700;
+  width: fit-content;
+}
+
+/* Arts, Humanities & General Category Grid */
+.program-card.category-arts,
+.program-card.category-default {
+  border: 2px solid rgba(212, 175, 55, 0.5) !important;
+}
+.program-card.category-arts:hover,
+.program-card.category-default:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-light) !important;
+  box-shadow: 0 14px 35px rgba(212, 175, 55, 0.3) !important;
+}
+.program-card.category-arts .card-header,
+.program-card.category-default .card-header {
+  background: linear-gradient(135deg, rgba(107, 17, 28, 0.92) 0%, rgba(59, 6, 13, 0.92) 100%), url('/assets/home-bg-3.png') center/cover !important;
+  border-bottom: 2px solid #d4af37;
 }
 
 .card-header {
-  background: linear-gradient(135deg, rgba(107, 17, 28, 0.85) 0%, rgba(59, 6, 13, 0.95) 100%);
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-gold);
+  padding: 18px 20px;
   position: relative;
-  min-height: 98px;
+  min-height: 105px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -994,13 +1076,13 @@ body.light-theme .accreditation-banner p {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: rgba(16, 185, 129, 0.2);
-  border: 1px solid rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.25);
+  border: 1px solid rgba(16, 185, 129, 0.6);
   color: #34d399;
   font-size: 10px;
   font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
   letter-spacing: 0.8px;
 }
 
