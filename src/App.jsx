@@ -80,7 +80,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={
-          <main>
+          <main className="home-page-main">
             <Hero 
               heroConfig={heroConfig}
               stats={tourSlides.length} 
