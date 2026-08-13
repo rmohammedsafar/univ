@@ -33,7 +33,7 @@ export default function CampusTour({ tourSlides = [] }) {
       </div>
 
       {/* ROOM DISPLAY */}
-      <div style={{
+      <div className="scroll-reveal" style={{
         background: 'var(--bg-card)',
         border: '1px solid var(--border-gold)',
         borderRadius: '16px',

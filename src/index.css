@@ -894,10 +894,17 @@ h1, h2, h3, h4, .brand-font {
   transition: var(--tr-fast);
 }
 
-.filter-pill.active, .filter-pill:hover {
-  background: var(--maroon-primary);
-  color: #fff;
-  border-color: var(--gold-primary);
+/* GLOBAL SCROLL REVEAL ANIMATION FOR ALL GRIDS */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(35px) scale(0.98);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .programs-grid {
@@ -2481,17 +2488,7 @@ body.light-theme .modal-title {
   .programs-grid { grid-template-columns: 1fr; }
   .program-card { margin-bottom: 10px; }
   
-  /* Scroll Reveal Animation */
-  .scroll-reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
-  }
-  .scroll-reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+
   
   /* Category Backgrounds (Light Mode) */
   body.light-theme .program-card.category-technology .card-body {

@@ -158,7 +158,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
           <div 
             key={prog.id} 
             className={`program-card category-${prog.category || 'default'} scroll-reveal`}
-            style={{ transitionDelay: `${Math.min(idx * 100, 800)}ms` }}
+            style={{ transitionDelay: `${(idx % 4) * 110}ms` }}
           >
             <div className="card-header">
               <div className="program-degree">{prog.degree || 'Degree Program'}</div>

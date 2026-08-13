@@ -64,6 +64,34 @@ export default function App() {
     }
   }, [isLightTheme]);
 
+  // Global Scroll Reveal Observer for Grid Cards
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    const observeElements = () => {
+      const elements = document.querySelectorAll('.scroll-reveal');
+      elements.forEach((el) => observer.observe(el));
+    };
+
+    observeElements();
+    const timer = setTimeout(observeElements, 250);
+
+    return () => {
+      clearTimeout(timer);
+      const elements = document.querySelectorAll('.scroll-reveal');
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, [location.pathname]);
+
   const toggleTheme = () => {
     setIsLightTheme(!isLightTheme);
   };

@@ -11,8 +11,8 @@ export default function UniversityBulletin({ newsArticles = [] }) {
       </div>
 
       <div className="news-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
-        {newsArticles.map(item => (
-          <div key={item.id} className="news-card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+        {newsArticles.map((item, idx) => (
+          <div key={item.id} className="news-card scroll-reveal" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', transitionDelay: `${(idx % 3) * 110}ms` }}>
             <img 
               src={item.image} 
               alt={item.title} 

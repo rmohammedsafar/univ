@@ -30,8 +30,8 @@ export default function GalleryPage({ researchPapers, newsArticles }) {
         <section style={{ marginBottom: '100px' }}>
           <h2 style={{ fontSize: '32px', color: '#0f172a', borderBottom: '1px solid #d4af37', paddingBottom: '15px', marginBottom: '40px', fontFamily: 'var(--font-serif)' }}>University Events</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
-            {MOCK_EVENTS.map(event => (
-              <div key={event.id} style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '30px', transition: 'transform 0.3s, boxShadow 0.3s', cursor: 'pointer', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 15px 40px rgba(212, 175, 55, 0.15)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)'; }}>
+            {MOCK_EVENTS.map((event, idx) => (
+              <div key={event.id} className="scroll-reveal" style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '30px', transition: 'all 0.4s ease', cursor: 'pointer', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', transitionDelay: `${(idx % 3) * 110}ms` }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = '0 15px 40px rgba(212, 175, 55, 0.15)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)'; }}>
                 <h3 style={{ color: '#b45309', margin: '0 0 15px', fontSize: '22px', fontFamily: 'var(--font-serif)' }}>{event.title}</h3>
                 <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 20px', fontWeight: 'bold' }}>📅 {event.date}</p>
                 <p style={{ color: '#334155', lineHeight: '1.7', margin: '0', fontSize: '15px' }}>{event.desc}</p>
