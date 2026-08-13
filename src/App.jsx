@@ -11,12 +11,15 @@ import RegistrationPage from './components/RegistrationPage';
 import AdminPage from './components/AdminPage';
 import Footer from './components/Footer';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, INITIAL_NEWS, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG } from './data/initialData';
 import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage } from './services/firebase';
 
 export default function App() {
+  const location = useLocation();
+  const isApplyPage = location.pathname === '/apply';
+
   const [isLightTheme, setIsLightTheme] = useState(true);
   const [programs, setPrograms] = useState(() => {
     const saved = loadCMSConfigFromStorage();
@@ -70,10 +73,12 @@ export default function App() {
   return (
     <div className="app-main-wrapper">
       {/* Navigation Header */}
-      <Navbar 
-        isLightTheme={isLightTheme} 
-        toggleTheme={toggleTheme}
-      />
+      {!isApplyPage && (
+        <Navbar 
+          isLightTheme={isLightTheme} 
+          toggleTheme={toggleTheme}
+        />
+      )}
 
       <Routes>
         <Route path="/" element={
@@ -129,7 +134,7 @@ export default function App() {
       </Routes>
 
       {/* Footer & Accreditation */}
-      <Footer contactInfo={contactInfo} />
+      {!isApplyPage && <Footer contactInfo={contactInfo} />}
     </div>
   );
 }
