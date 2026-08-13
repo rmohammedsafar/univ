@@ -15,7 +15,10 @@ export const sendConfirmationEmail = async (applicationData) => {
         fullName: applicationData.fullName,
         studentEmail: applicationData.email,
         programTitle: applicationData.programTitle,
-        highestQual: applicationData.highestQual
+        highestQual: applicationData.highestQual,
+        country: applicationData.country,
+        state: applicationData.state,
+        phone: applicationData.phone
       })
     });
 

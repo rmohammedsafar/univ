@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { type, fullName, studentEmail, programTitle, highestQual, inquiryName, inquiryEmail } = req.body || {};
+  const { type, fullName, studentEmail, programTitle, highestQual, country, state, phone, inquiryName, inquiryEmail } = req.body || {};
 
   try {
     const transporter = nodemailer.createTransport({
@@ -116,6 +116,11 @@ export default async function handler(req, res) {
               <td style="padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: #666;">Highest Qualification:</td>
               <td style="padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 14px; font-weight: bold; color: #111; word-break: break-word;">${highestQual || 'Undergraduate'}</td>
             </tr>
+            ${country ? `
+            <tr>
+              <td style="padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: #666;">Country / State:</td>
+              <td style="padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 14px; font-weight: bold; color: #111; word-break: break-word;">${country}${state ? ` (${state})` : ''}</td>
+            </tr>` : ''}
             <tr>
               <td style="padding: 10px 14px; font-size: 13px; color: #666;">Student Email:</td>
               <td style="padding: 10px 14px; font-size: 14px; font-weight: bold; color: #111; word-break: break-all; word-wrap: break-word; overflow-wrap: anywhere;">${studentEmail}</td>

@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { saveApplicationRecord, uploadDocument } from '../services/firebase';
 import { sendConfirmationEmail } from '../services/emailService';
+import { GLOBAL_COUNTRIES } from '../data/countryStateData';
 
 export default function EnrollmentForm({ programs, selectedProgramId }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
   const [phoneCode, setPhoneCode] = useState('+1');
   const [phone, setPhone] = useState('');
   const [previousSchool, setPreviousSchool] = useState('');
@@ -19,6 +21,19 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
   const [submittedApp, setSubmittedApp] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  const selectedCountryObj = GLOBAL_COUNTRIES.find(c => `${c.flag} ${c.name}` === country || c.name === country);
+  const availableStates = selectedCountryObj ? selectedCountryObj.states : [];
+
+  const handleCountryChange = (e) => {
+    const val = e.target.value;
+    setCountry(val);
+    setState('');
+    const matched = GLOBAL_COUNTRIES.find(c => `${c.flag} ${c.name}` === val || c.name === val);
+    if (matched && matched.phoneCode) {
+      setPhoneCode(matched.phoneCode);
+    }
+  };
 
   const marksheetRef = useRef();
   const idRef = useRef();
@@ -67,6 +82,7 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
         email,
         phone: `${phoneCode} ${phone}`,
         country,
+        state,
         previousSchool,
         programId: prog?.id,
         programTitle: prog?.title || prog?.name || 'Selected Program',
@@ -167,36 +183,30 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
             </div>
             <div className="form-group">
               <label className="form-label">Country of Residence *</label>
-              <select className="form-select" value={country} onChange={e => setCountry(e.target.value)} required>
-                <option value="" disabled hidden>-- Select Your Country of Residence --</option>
-                <option>🇺🇸 United States</option>
-                <option>🇬🇧 United Kingdom</option>
-                <option>🇨🇦 Canada</option>
-                <option>🇦🇺 Australia</option>
-                <option>🇮🇳 India</option>
-                <option>🇨🇳 China</option>
-                <option>🇯🇵 Japan</option>
-                <option>🇰🇷 South Korea</option>
-                <option>🇩🇪 Germany</option>
-                <option>🇫🇷 France</option>
-                <option>🇮🇹 Italy</option>
-                <option>🇪🇸 Spain</option>
-                <option>🇧🇷 Brazil</option>
-                <option>🇲🇽 Mexico</option>
-                <option>🇿🇦 South Africa</option>
-                <option>🇳🇬 Nigeria</option>
-                <option>🇪🇬 Egypt</option>
-                <option>🇸🇦 Saudi Arabia</option>
-                <option>🇦🇪 United Arab Emirates</option>
-                <option>🇸🇬 Singapore</option>
-                <option>🇲🇾 Malaysia</option>
-                <option>🇮🇩 Indonesia</option>
-                <option>🇵🇭 Philippines</option>
-                <option>🇳🇿 New Zealand</option>
-                <option>🇮🇪 Ireland</option>
-                <option>🇳🇱 Netherlands</option>
-                <option>🇸🇪 Sweden</option>
-                <option>🇨🇭 Switzerland</option>
+              <select className="form-select" value={country} onChange={handleCountryChange} required>
+                <option value="" disabled hidden>-- Select Country of Residence --</option>
+                {GLOBAL_COUNTRIES.map(c => (
+                  <option key={c.code} value={`${c.flag} ${c.name}`}>
+                    {c.flag} {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">State / Province *</label>
+              <select 
+                className="form-select" 
+                value={state} 
+                onChange={e => setState(e.target.value)} 
+                required
+                disabled={!country}
+              >
+                <option value="" disabled hidden>
+                  {country ? '-- Select State / Province --' : '-- Select Country First --'}
+                </option>
+                {availableStates.map(st => (
+                  <option key={st} value={st}>{st}</option>
+                ))}
               </select>
             </div>
           </div>
