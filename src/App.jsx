@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProgramCatalog from './components/ProgramCatalog';
+import CampusTour from './components/CampusTour';
 import RegistrationPage from './components/RegistrationPage';
 import GalleryPage from './components/GalleryPage';
 import AdminPage from './components/AdminPage';
@@ -15,7 +16,7 @@ import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfig
 
 export default function App() {
   const location = useLocation();
-  const isApplyPage = location.pathname === '/apply';
+  const isStandalonePage = location.pathname === '/apply' || location.pathname === '/gallery';
 
   const [isLightTheme, setIsLightTheme] = useState(true);
   const [programs, setPrograms] = useState(() => {
@@ -70,7 +71,7 @@ export default function App() {
   return (
     <div className="app-main-wrapper">
       {/* Navigation Header */}
-      {!isApplyPage && (
+      {!isStandalonePage && (
         <Navbar 
           isLightTheme={isLightTheme} 
           toggleTheme={toggleTheme}
@@ -88,6 +89,7 @@ export default function App() {
             />
             
             <ProgramCatalog programs={programs} />
+            <CampusTour tourSlides={tourSlides} />
           </main>
         } />
 
@@ -120,7 +122,7 @@ export default function App() {
       </Routes>
 
       {/* Footer & Accreditation */}
-      {!isApplyPage && <Footer contactInfo={contactInfo} />}
+      {!isStandalonePage && <Footer contactInfo={contactInfo} />}
     </div>
   );
 }
