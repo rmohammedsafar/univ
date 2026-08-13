@@ -13,7 +13,7 @@ export default function GalleryPage({ researchPapers, newsArticles }) {
   return (
     <div style={{ backgroundColor: 'var(--bg-dark)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 40px', alignItems: 'center', borderBottom: '1px solid var(--border-gold)', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 24px', alignItems: 'center', border: '1px solid var(--border-gold)', backgroundColor: 'rgba(255, 255, 255, 0.08)', borderRadius: '50px', width: '96%', maxWidth: '1400px', margin: '16px auto', backdropFilter: 'blur(10px)', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           <img src="/assets/logo.jpg" alt="Logo" style={{ height: '40px', borderRadius: '50%' }} onError={(e) => { e.target.style.display='none' }}/>
           <span style={{ color: 'var(--text-main)', fontSize: '22px', fontWeight: 'bold', letterSpacing: '1px', fontFamily: 'var(--font-serif)' }}>UNIVERSITY OF EAST FLORIDA</span>
