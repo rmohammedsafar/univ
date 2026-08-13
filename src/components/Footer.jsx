@@ -89,7 +89,7 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
                     onClick={() => setHoursExpanded(true)}
                     style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', cursor: 'pointer' }}
                   >
-                    <span style={{ fontWeight: '600', color: '#fff' }}>{todayName}</span>
+                    <span style={{ fontWeight: '600', color: 'var(--text-main)' }}>{todayName}</span>
                     <span style={{ color: 'var(--text-muted)' }}>{currentDayInfo.startTime === 'Closed' ? 'Closed' : `${currentDayInfo.startTime} – ${currentDayInfo.endTime}`}</span>
                   </div>
                 ) : (
@@ -98,7 +98,7 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
                       const dayInfo = contactInfo?.dailyHours?.find(d => d.day === day) || { startTime: 'Closed', endTime: 'Closed' };
                       const isToday = day === todayName;
                       return (
-                        <div key={day} style={{ display: 'flex', justifyContent: 'space-between', fontWeight: isToday ? '600' : 'normal', color: isToday ? '#fff' : 'var(--text-muted)' }}>
+                        <div key={day} style={{ display: 'flex', justifyContent: 'space-between', fontWeight: isToday ? '600' : 'normal', color: isToday ? 'var(--text-main)' : 'var(--text-muted)' }}>
                           <span>{day}</span>
                           <span>{dayInfo.startTime === 'Closed' ? 'Closed' : `${dayInfo.startTime} – ${dayInfo.endTime}`}</span>
                         </div>
