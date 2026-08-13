@@ -88,10 +88,6 @@ export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
         {heroConfig?.title}
       </h1>
 
-      <p className="hero-desc">
-        {heroConfig?.description}
-      </p>
-
       <div className="hero-cta-group">
         <a href="#programs" className="btn btn-gold" onClick={onExplorePrograms} style={{ padding: '14px 28px', fontSize: '15px' }}>
           📑 Explore 100% Online Programs
