@@ -7,7 +7,13 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
   return (
     <>
-
+      {/* ── ANIMATED LIVE WORLD CLOCKS MARQUEE TICKER ─────────────────────── */}
+      <div className="time-marquee-ticker">
+        <div className="time-marquee-track">
+          <MarqueeClocks />
+          <MarqueeClocks />
+        </div>
+      </div>
 
       {/* ── STICKY MAIN NAV HEADER ─────────────────────────────────────────── */}
       <header className="app-header">
