@@ -16,7 +16,7 @@ import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, 
 import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage } from './services/firebase';
 
 export default function App() {
-  const [isLightTheme, setIsLightTheme] = useState(false);
+  const [isLightTheme, setIsLightTheme] = useState(true);
   const [programs, setPrograms] = useState(() => {
     const saved = loadCMSConfigFromStorage();
     return saved && saved.length > 0 ? saved : INITIAL_DEGREE_PROGRAMS;
