@@ -80,8 +80,8 @@ export default function RegistrationPage() {
       </header>
 
       {/* Form Container */}
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px 20px' }}>
-        <div style={{ background: 'var(--bg-card)', borderRadius: '20px', padding: '40px', width: '100%', maxWidth: '750px', color: 'var(--text-main)', border: '1px solid var(--gold-primary)', boxShadow: '0 0 30px var(--gold-glow)' }}>
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px 16px', boxSizing: 'border-box', width: '100%' }}>
+        <div style={{ background: 'var(--bg-card)', borderRadius: '20px', padding: '36px 30px', width: '100%', maxWidth: '720px', color: 'var(--text-main)', border: '1px solid var(--gold-primary)', boxShadow: '0 0 30px var(--gold-glow)', boxSizing: 'border-box' }}>
           
           {isSubmitted ? (
             <div className="golden-tick-container">
@@ -118,47 +118,47 @@ export default function RegistrationPage() {
                 Registration <span style={{ color: 'var(--gold-primary)', fontFamily: 'Playfair Display, serif', fontStyle: 'italic', fontWeight: '600' }}>Form</span>
               </h2>
               
-              <form style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} onSubmit={handleSubmit}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <form style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', width: '100%', boxSizing: 'border-box' }} onSubmit={handleSubmit}>
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>First Name <span style={{ color: '#ef4444' }}>*</span></label>
                   <input 
                     type="text" 
                     placeholder="Enter your first name" 
-                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} 
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box' }} 
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     required 
                   />
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Last Name <span style={{ color: '#ef4444' }}>*</span></label>
                   <input 
                     type="text" 
                     placeholder="Enter your last name" 
-                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} 
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box' }} 
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     required 
                   />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gridColumn: '1 / -1' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
                   <input 
                     type="email" 
                     placeholder="student@example.com"
-                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)' }} 
+                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box' }} 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required 
                   />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gridColumn: '1 / -1' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Mobile Number <span style={{ color: '#ef4444' }}>*</span></label>
-                  <div style={{ display: 'flex', border: '1px solid var(--border-gold)', borderRadius: '6px', overflow: 'hidden' }}>
+                  <div style={{ display: 'flex', border: '1px solid var(--border-gold)', borderRadius: '6px', overflow: 'hidden', width: '100%', boxSizing: 'border-box' }}>
                     <select 
-                      style={{ padding: '12px 6px', border: 'none', background: 'transparent', borderRight: '1px solid var(--border-gold)', width: '130px', minWidth: '130px', outline: 'none', color: 'var(--text-main)', fontSize: '13px' }}
+                      style={{ padding: '12px 6px', border: 'none', background: 'transparent', borderRight: '1px solid var(--border-gold)', width: '120px', minWidth: '120px', flexShrink: 0, outline: 'none', color: 'var(--text-main)', fontSize: '13px', boxSizing: 'border-box' }}
                       value={phoneCode}
                       onChange={(e) => setPhoneCode(e.target.value)}
                     >
@@ -171,7 +171,7 @@ export default function RegistrationPage() {
                     <input 
                       type="tel" 
                       placeholder="Phone number"
-                      style={{ padding: '12px', border: 'none', flex: 1, outline: 'none', background: 'transparent', color: 'var(--text-main)' }} 
+                      style={{ padding: '12px', border: 'none', flex: 1, minWidth: 0, width: '100%', outline: 'none', background: 'transparent', color: 'var(--text-main)', boxSizing: 'border-box' }} 
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       required 
@@ -179,10 +179,10 @@ export default function RegistrationPage() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Country of Residence <span style={{ color: '#ef4444' }}>*</span></label>
                   <select 
-                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    style={{ padding: '12px 30px 12px 12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
                     value={country}
                     onChange={handleCountryChange}
                     required
@@ -196,10 +196,10 @@ export default function RegistrationPage() {
                   </select>
                 </div>
                 
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>State / Province <span style={{ color: '#ef4444' }}>*</span></label>
                   <select 
-                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    style={{ padding: '12px 30px 12px 12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                     disabled={!country}
@@ -214,10 +214,10 @@ export default function RegistrationPage() {
                   </select>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Degree Program <span style={{ color: '#ef4444' }}>*</span></label>
                   <select 
-                    style={{ padding: '12px', border: '1px solid var(--gold-primary)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    style={{ padding: '12px 30px 12px 12px', border: '1px solid var(--gold-primary)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
                     value={program}
                     onChange={(e) => setProgram(e.target.value)}
                     required
@@ -229,10 +229,10 @@ export default function RegistrationPage() {
                   </select>
                 </div>
                 
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Elective Track <span style={{ color: '#ef4444' }}>*</span></label>
                   <select 
-                    style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    style={{ padding: '12px 30px 12px 12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
                     value={elective}
                     onChange={(e) => setElective(e.target.value)}
                     required
@@ -242,18 +242,18 @@ export default function RegistrationPage() {
                   </select>
                 </div>
 
-                <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px' }}>
+                <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px', minWidth: 0, boxSizing: 'border-box' }}>
                   <input type="checkbox" id="consent" required style={{ marginTop: '3px', cursor: 'pointer' }}/>
                   <label htmlFor="consent" style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.5', cursor: 'pointer' }}>
                     I consent to receive communications from the University and its representatives via Email, SMS, WhatsApp, Call, or any other electronic medium for updates and notifications. This consent overrides DND/NDNC preferences.
                   </label>
                 </div>
                 
-                <div style={{ gridColumn: '1 / -1', marginTop: '10px' }}>
+                <div style={{ gridColumn: '1 / -1', marginTop: '10px', minWidth: 0, boxSizing: 'border-box' }}>
                   <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    style={{ width: '100%', padding: '16px', background: 'var(--gold-primary)', color: '#000', border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer', boxShadow: '0 0 15px var(--gold-glow)' }}
+                    style={{ width: '100%', padding: '16px', background: 'var(--gold-primary)', color: '#000', border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer', boxShadow: '0 0 15px var(--gold-glow)', boxSizing: 'border-box' }}
                   >
                     {isSubmitting ? 'Sending Confirmation Email...' : 'Submit Registration →'}
                   </button>
