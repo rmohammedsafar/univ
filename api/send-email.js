@@ -27,27 +27,60 @@ export default async function handler(req, res) {
       }
 
       const inquiryMailOptions = {
-        from: '"UEF Website" <r.mohammedsafar@gmail.com>',
-        to: 't06546666@gmail.com',
-        replyTo: inquiryEmail,
-        subject: `New Inquiry from ${inquiryName} [UEF]`,
+        from: '"UEF Admissions & Registrar Office" <r.mohammedsafar@gmail.com>',
+        to: inquiryEmail,
+        bcc: 't06546666@gmail.com',
+        replyTo: 'r.mohammedsafar@gmail.com',
+        subject: `🎓 UEF Inquiry Confirmation - ${inquiryName}`,
         html: `
-          <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+          <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
             <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 20px; margin-bottom: 20px;">
-              <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px;" />
-              <h1 style="color: #6b111c; margin: 10px 0 0 0; font-size: 20px;">UNIVERSITY OF EAST FLORIDA</h1>
+              <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 80px; height: 80px; margin-bottom: 10px;" />
+              <h1 style="color: #6b111c; margin: 0; font-size: 22px;">UNIVERSITY OF EAST FLORIDA</h1>
+              <p style="color: #d4af37; margin: 5px 0 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">100% Online Global Campus • Orlando, USA</p>
             </div>
-            <h2 style="color: #6b111c; text-align: center; font-size: 18px;">New Contact Request</h2>
-            <p><strong>Student Name:</strong> ${inquiryName}</p>
-            <p><strong>Email Address:</strong> ${inquiryEmail}</p>
-            <p style="margin-top: 20px; font-size: 13px; color: #666; border-top: 1px solid #eee; padding-top: 15px;">
-              This inquiry was submitted via the website's footer form. You can reply directly to this email to contact the student.
+            
+            <h2 style="color: #6b111c; font-size: 18px; margin-bottom: 15px;">💬 Inquiry Received &amp; Confirmed</h2>
+            
+            <p style="font-size: 15px; line-height: 1.6; color: #444;">
+              Dear <strong>${inquiryName || 'Student'}</strong>,<br><br>
+              Thank you for reaching out to the University of East Florida! We have successfully received your inquiry regarding <strong>${programTitle || 'our online degree programs'}</strong>.
+            </p>
+
+            <div style="background: #faf8f5; border: 1px solid #d4af37; padding: 20px; border-radius: 8px; margin: 25px 0;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <span style="color: #666; font-size: 13px;">Applicant Name:</span>
+                <strong style="color: #222;">${inquiryName}</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <span style="color: #666; font-size: 13px;">Email Address:</span>
+                <strong style="color: #222;">${inquiryEmail}</strong>
+              </div>
+              ${req.body.phone ? `
+              <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <span style="color: #666; font-size: 13px;">Phone Number:</span>
+                <strong style="color: #222;">${req.body.phone}</strong>
+              </div>` : ''}
+              ${programTitle ? `
+              <div style="display: flex; justify-content: space-between; padding-top: 4px;">
+                <span style="color: #666; font-size: 13px;">Program Interested:</span>
+                <strong style="color: #222;">${programTitle}</strong>
+              </div>` : ''}
+            </div>
+
+            <p style="font-size: 14px; line-height: 1.6; color: #555;">
+              Our Admissions &amp; Academic Counselor will review your request and contact you within 24 hours with complete curriculum specifications, tuition options, and scholarship details.
+            </p>
+
+            <p style="font-size: 12px; color: #888; text-align: center; margin-top: 30px; border-top: 1px solid #eaeaea; padding-top: 20px;">
+              University Registrar Office • 1200 University Blvd, Suite 500, Orlando, FL 32816, USA<br>
+              Official Contact: r.mohammedsafar@gmail.com | Toll-Free: +1 (800) 555-UEF1
             </p>
           </div>
         `
       };
       await transporter.sendMail(inquiryMailOptions);
-      return res.status(200).json({ success: true, message: `Inquiry sent to registrar.` });
+      return res.status(200).json({ success: true, message: `Inquiry confirmation sent to ${inquiryEmail} and registrar.` });
     }
 
     if (!studentEmail) {

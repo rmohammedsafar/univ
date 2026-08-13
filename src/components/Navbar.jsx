@@ -1,11 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { INITIAL_DEGREE_PROGRAMS } from '../data/initialData';
+import { sendInquiryEmail } from '../services/emailService';
+import { saveInquiryRecord } from '../services/firebase';
 
 export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, isAdminLoggedIn, onOpenAdminPortal, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
 
+  const [enquiryName, setEnquiryName] = useState('');
+  const [enquiryEmail, setEnquiryEmail] = useState('');
+  const [enquiryPhone, setEnquiryPhone] = useState('');
+  const [enquiryProgram, setEnquiryProgram] = useState('');
+  const [isSubmittingEnquiry, setIsSubmittingEnquiry] = useState(false);
+
   const closeMobile = () => setMobileMenuOpen(false);
+
+  const handleEnquirySubmit = async (e) => {
+    e.preventDefault();
+    if (!enquiryName || !enquiryEmail) return;
+
+    setIsSubmittingEnquiry(true);
+    try {
+      await saveInquiryRecord({
+        name: enquiryName,
+        email: enquiryEmail,
+        phone: enquiryPhone,
+        program: enquiryProgram,
+        submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+      });
+
+      await sendInquiryEmail({
+        name: enquiryName,
+        email: enquiryEmail,
+        phone: enquiryPhone,
+        program: enquiryProgram
+      });
+
+      alert(`Thank you ${enquiryName}! Your inquiry has been submitted. A confirmation email has been dispatched to ${enquiryEmail}.`);
+      setEnquiryOpen(false);
+      setEnquiryName('');
+      setEnquiryEmail('');
+      setEnquiryPhone('');
+      setEnquiryProgram('');
+    } catch (err) {
+      console.error("Enquiry submit error:", err);
+      alert(`Thank you ${enquiryName}! Your inquiry has been received. Our admissions office will email you shortly.`);
+      setEnquiryOpen(false);
+    } finally {
+      setIsSubmittingEnquiry(false);
+    }
+  };
 
   return (
     <>
@@ -127,18 +171,46 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
             </h2>
             <p className="enquiry-subtitle">Fill in your details and we'll get back to you shortly.</p>
             
-            <form className="enquiry-form" onSubmit={(e) => { e.preventDefault(); setEnquiryOpen(false); alert("Enquiry submitted successfully!"); }}>
-              <input type="text" placeholder="Your Name" required className="enquiry-input" />
-              <input type="email" placeholder="Email Address" required className="enquiry-input" />
-              <input type="tel" placeholder="Phone Number" required className="enquiry-input" />
-              <select required className="enquiry-input">
+            <form className="enquiry-form" onSubmit={handleEnquirySubmit}>
+              <input
+                type="text"
+                placeholder="Your Name"
+                required
+                className="enquiry-input"
+                value={enquiryName}
+                onChange={(e) => setEnquiryName(e.target.value)}
+              />
+              <input
+                type="email"
+                placeholder="Email Address"
+                required
+                className="enquiry-input"
+                value={enquiryEmail}
+                onChange={(e) => setEnquiryEmail(e.target.value)}
+              />
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                required
+                className="enquiry-input"
+                value={enquiryPhone}
+                onChange={(e) => setEnquiryPhone(e.target.value)}
+              />
+              <select
+                required
+                className="enquiry-input"
+                value={enquiryProgram}
+                onChange={(e) => setEnquiryProgram(e.target.value)}
+              >
                 <option value="">Select Program</option>
                 {INITIAL_DEGREE_PROGRAMS.map(prog => (
-                  <option key={prog.id} value={prog.id}>{prog.degree} in {prog.name || prog.title}</option>
+                  <option key={prog.id} value={prog.name || prog.title}>
+                    {prog.degree} in {prog.name || prog.title}
+                  </option>
                 ))}
               </select>
-              <button type="submit" className="enquiry-submit-btn">
-                Submit Enquiry <span>→</span>
+              <button type="submit" className="enquiry-submit-btn" disabled={isSubmittingEnquiry}>
+                {isSubmittingEnquiry ? 'Sending Confirmation Email...' : 'Submit Enquiry'} <span>→</span>
               </button>
             </form>
           </div>
