@@ -78,8 +78,8 @@ body.light-theme h6 {
 
 body.light-theme .app-header {
   background: rgba(255, 255, 255, 0.98);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
 }
 
 body.light-theme .brand-title-group h1 {
@@ -522,24 +522,27 @@ h1, h2, h3, h4, .brand-font {
   100% { transform: translateX(-50%); }
 }
 
-/* MAIN NAVBAR HEADER â€” FULL WIDTH 100% EDGE-TO-EDGE */
+/* CYLINDER NAVBAR HEADER */
 .app-header {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 999;
   background: rgba(13, 9, 10, 0.94);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 50px;
   padding: 10px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
+  width: 92%;
+  max-width: 1200px;
   box-sizing: border-box;
   transition: var(--tr-smooth);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .brand-container {
@@ -703,7 +706,7 @@ h1, h2, h3, h4, .brand-font {
 /* HERO SECTION */
 .hero-section {
   position: relative;
-  padding: 80px 40px 100px;
+  padding: 130px 40px 100px;
   text-align: center;
   background: radial-gradient(circle at 50% 30%, rgba(107, 17, 28, 0.4) 0%, rgba(13, 9, 10, 0.8) 70%);
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
@@ -2435,9 +2438,9 @@ body.light-theme .modal-title {
 @media (max-width: 768px) {
   .usa-top-banner { padding: 8px 12px; font-size: 11px; flex-direction: column; justify-content: center; text-align: center; }
   .banner-left, .banner-right { flex-wrap: wrap; justify-content: center; gap: 6px; }
-  .app-header { padding: 10px 14px; gap: 8px; }
+  .app-header { padding: 10px 14px; gap: 8px; border-radius: 30px; width: 95%; top: 10px; }
 
-  .hero-section { padding: 40px 14px 60px; }
+  .hero-section { padding: 110px 14px 60px; }
   .hero-title { font-size: clamp(26px, 5.5vw, 42px); }
   .hero-subtitle { font-size: 14px; }
   .hero-cta-group { flex-direction: column; gap: 12px; }
