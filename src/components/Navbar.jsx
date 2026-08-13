@@ -51,11 +51,9 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
         {/* Desktop Nav Links */}
         <ul className="nav-links">
-          <li><a href="#programs"            className="nav-link">Programs</a></li>
-          <li><a href="#campusTour"          className="nav-link">Campus Tour</a></li>
-          <li><a href="#researchPapersSection" className="nav-link">Research</a></li>
-          <li><a href="#globalNewsSection"   className="nav-link">News</a></li>
-          <li><a href="#usaHeadquarters"     className="nav-link">Contact Us</a></li>
+          <li><a href="#programs"            className="nav-link">Program</a></li>
+          <li><a href="#campusTour"          className="nav-link">Gallery</a></li>
+          <li><a href="#usaHeadquarters"     className="nav-link">Contact</a></li>
           <li><a href="#applySection"        className="nav-link">Enroll Now</a></li>
         </ul>
 
@@ -95,22 +93,30 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
               </svg>
             </button>
             <ul className="mobile-nav-links">
-              <li><a href="#programs" onClick={closeMobile}>Programs</a></li>
-              <li><a href="#campusTour" onClick={closeMobile}>Campus Tour</a></li>
-              <li><a href="#researchPapersSection" onClick={closeMobile}>Research</a></li>
-              <li><a href="#globalNewsSection" onClick={closeMobile}>News</a></li>
-              <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact Us</a></li>
-              <li><a href="#applySection" onClick={closeMobile} className="mobile-apply-btn">Enroll Now</a></li>
+              <li><a href="#programs" onClick={closeMobile}>Program</a></li>
+              <li><a href="#campusTour" onClick={closeMobile}>Gallery</a></li>
+              <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact</a></li>
+              <li><a href="#applySection" onClick={closeMobile}>Enroll Now</a></li>
               
-              <li style={{ marginTop: '20px' }}>
+              <li style={{ marginTop: '16px', borderTop: '1px solid rgba(212,175,55,0.2)', paddingTop: '16px' }}>
                 <button
-                  className="theme-toggle-btn"
-                  onClick={toggleTheme}
-                  id="mobileThemeToggleBtn"
-                  title="Toggle Light / Dark Mode"
-                  style={{ padding: '8px 16px', fontSize: '14px', margin: '0 auto' }}
+                  onClick={() => {
+                    toggleTheme();
+                    closeMobile();
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    background: isLightTheme ? '#e2e8f0' : 'rgba(212, 175, 55, 0.15)',
+                    color: isLightTheme ? '#0f172a' : 'var(--gold-light)',
+                    border: `1px solid ${isLightTheme ? '#cbd5e1' : 'var(--border-gold)'}`,
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
                 >
-                  {isLightTheme ? '🌙 Dark Mode' : '☀️ Light Mode'}
+                  {isLightTheme ? '🌙 Switch to Dark Mode' : '☀️ Switch to Light Mode'}
                 </button>
               </li>
             </ul>
