@@ -40,7 +40,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
           <li><a href="#campusTour"          className="nav-link">Gallery</a></li>
           <li><a href="#usaHeadquarters"     className="nav-link">Contact</a></li>
           <li><a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setEnquiryOpen(true); }}>Enquire</a></li>
-          <li><a href="#applySection"        className="nav-link">Enroll Now</a></li>
+          <li><a href="/apply" target="_blank" rel="noopener noreferrer" className="nav-link">Enroll Now</a></li>
         </ul>
 
         {/* Nav Actions */}
@@ -83,7 +83,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
               <li><a href="#campusTour" onClick={closeMobile}>Gallery</a></li>
               <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); closeMobile(); setEnquiryOpen(true); }}>Enquire</a></li>
-              <li><a href="#applySection" onClick={closeMobile}>Enroll Now</a></li>
+              <li><a href="/apply" target="_blank" rel="noopener noreferrer" onClick={closeMobile}>Enroll Now</a></li>
               
               <li style={{ marginTop: '16px', borderTop: '1px solid rgba(212,175,55,0.2)', paddingTop: '16px' }}>
                 <button

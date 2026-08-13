@@ -96,7 +96,7 @@ export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
         <a href="#programs" className="btn btn-gold" onClick={onExplorePrograms} style={{ padding: '14px 28px', fontSize: '15px' }}>
           📑 Explore 100% Online Programs
         </a>
-        <a href="#applySection" className="btn btn-maroon" onClick={onApplyNow} style={{ padding: '14px 28px', fontSize: '15px' }}>
+        <a href="/apply" target="_blank" rel="noopener noreferrer" className="btn btn-maroon" style={{ padding: '14px 28px', fontSize: '15px' }}>
           🎓 Apply Now
         </a>
       </div>
