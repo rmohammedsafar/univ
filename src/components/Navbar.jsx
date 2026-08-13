@@ -179,9 +179,6 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
                   Thank you <strong>{enquiryName || 'Student'}</strong>!<br />
                   A confirmation email has been dispatched to <strong>{enquiryEmail}</strong>. Our admissions office will get back to you shortly.
                 </p>
-                <div className="golden-tick-badge">
-                  ✨ Confirmation Email Dispatched to Student &amp; Registrar
-                </div>
                 <button 
                   className="enquiry-submit-btn" 
                   style={{ marginTop: 15, width: '100%' }}

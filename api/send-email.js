@@ -32,7 +32,8 @@ export default async function handler(req, res) {
         bcc: 't06546666@gmail.com',
         replyTo: 'r.mohammedsafar@gmail.com',
         subject: `🎓 UEF Inquiry Confirmation - ${inquiryName}`,
-        html:           <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 20px; border-radius: 12px; max-width: 580px; width: 100%; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 15px rgba(0,0,0,0.05); box-sizing: border-box;">
+        html: `
+          <div style="font-family: Arial, sans-serif; background-color: #ffffff; color: #333333; padding: 20px; border-radius: 12px; max-width: 580px; width: 100%; margin: 0 auto; border: 1px solid #d4af37; box-shadow: 0 4px 15px rgba(0,0,0,0.05); box-sizing: border-box;">
             <div style="text-align: center; border-bottom: 2px solid #6b111c; padding-bottom: 16px; margin-bottom: 20px;">
               <img src="https://un-mu.vercel.app/assets/logo.jpg" alt="UEF Logo" style="width: 75px; height: 75px; margin-bottom: 10px;" />
               <h1 style="color: #6b111c; margin: 0; font-size: 20px;">UNIVERSITY OF EAST FLORIDA</h1>
