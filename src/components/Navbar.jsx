@@ -7,30 +7,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
   return (
     <>
-      {/* ── TOP USA CONTACT BANNER ───────────────────────────────────────── */}
-      <div className="usa-top-banner">
-        <div className="banner-left">
-          <span className="usa-flag-badge">📍 USA HEADQUARTERS</span>
-          <span>DEAC &amp; SACSCOC Candidate Member</span>
-          <span style={{ color: 'var(--gold-primary)' }}>•</span>
-          <span>100% Online Remote Study (No Physical Labs Required)</span>
-        </div>
-        <div className="banner-right">
-          <ClockWidget timezone="America/New_York" label="USA (Orlando/EST)" />
-          <ClockWidget timezone="Europe/London" label="UK (GMT)" />
-          <a href="tel:+18005558331" style={{ color: 'var(--gold-light)', textDecoration: 'none', fontWeight: 600 }}>
-            📞 Toll-Free: +1 (800) 555-UEF1
-          </a>
-        </div>
-      </div>
 
-      {/* ── ANIMATED LIVE WORLD CLOCKS MARQUEE TICKER ─────────────────────── */}
-      <div className="time-marquee-ticker">
-        <div className="time-marquee-track">
-          <MarqueeClocks />
-          <MarqueeClocks />
-        </div>
-      </div>
 
       {/* ── STICKY MAIN NAV HEADER ─────────────────────────────────────────── */}
       <header className="app-header">
