@@ -8,6 +8,7 @@ import RegistrationPage from './components/RegistrationPage';
 import GalleryPage from './components/GalleryPage';
 import AdminPage from './components/AdminPage';
 import Footer from './components/Footer';
+import LoadingScreen from './components/LoadingScreen';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
@@ -17,6 +18,24 @@ import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfig
 export default function App() {
   const location = useLocation();
   const isStandalonePage = location.pathname === '/apply' || location.pathname === '/gallery';
+
+  const [showLoading, setShowLoading] = useState(true);
+  const [isFadingLoading, setIsFadingLoading] = useState(false);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => {
+      setIsFadingLoading(true);
+    }, 1100);
+
+    const removeTimer = setTimeout(() => {
+      setShowLoading(false);
+    }, 1700);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(removeTimer);
+    };
+  }, []);
 
   const [isLightTheme, setIsLightTheme] = useState(true);
   const [programs, setPrograms] = useState(() => {
@@ -100,6 +119,8 @@ export default function App() {
 
   return (
     <div className="app-main-wrapper">
+      {showLoading && <LoadingScreen isFading={isFadingLoading} />}
+
       {/* Navigation Header */}
       {!isStandalonePage && (
         <Navbar 
