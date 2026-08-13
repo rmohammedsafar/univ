@@ -156,7 +156,7 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
 
       {/* ── ACCREDITATION DISCLAIMER BANNER ─────────────────────────────── */}
       <section className="section-wrapper" id="accreditation" style={{ paddingTop: 0 }}>
-        <div style={{ background: 'rgba(107, 17, 28, 0.3)', border: '1px solid var(--border-gold)', borderRadius: 16, padding: 30, textAlign: 'center' }}>
+        <div className="accreditation-banner">
           <h3 style={{ fontSize: 20, color: 'var(--gold-light)', marginBottom: 10, fontFamily: 'var(--font-serif)' }}>
             🏅 Global Accreditation &amp; Quality Assurance
           </h3>

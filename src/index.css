@@ -465,11 +465,43 @@ h1, h2, h3, h4, .brand-font {
   align-items: center;
   gap: 6px;
   background: rgba(212, 175, 55, 0.15);
-  padding: 3px 10px;
+  padding: 4px 14px;
   border-radius: 20px;
   border: 1px solid var(--border-gold);
   color: var(--gold-light);
   font-weight: 600;
+}
+
+body.light-theme .usa-flag-badge {
+  background: rgba(212, 175, 55, 0.15) !important;
+  color: #78350f !important;
+  border: 1px solid #d4af37 !important;
+  font-weight: 700 !important;
+}
+
+/* ACCREDITATION BANNER */
+.accreditation-banner {
+  background: radial-gradient(circle at 50% 0%, rgba(107, 17, 28, 0.4) 0%, rgba(18, 9, 12, 0.85) 100%);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+body.light-theme .accreditation-banner {
+  background: #ffffff !important;
+  border: 1px solid rgba(212, 175, 55, 0.45) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-theme .accreditation-banner h3 {
+  color: #78350f !important;
+  font-weight: 800 !important;
+}
+
+body.light-theme .accreditation-banner p {
+  color: #475569 !important;
 }
 
 /* STYLISH ANIMATED LIVE TIME MARQUEE TICKER */
