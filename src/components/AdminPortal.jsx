@@ -373,21 +373,21 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 <div className="kpi-icon">📋</div>
                 <div>
                   <div className="kpi-val">{applications.length}</div>
-                  <div className="kpi-lbl">Total Applications</div>
+                  <div className="kpi-lbl">Total Student Applications</div>
                 </div>
               </div>
               <div className="admin-kpi-card">
-                <div className="kpi-icon">📁</div>
+                <div className="kpi-icon">💬</div>
                 <div>
-                  <div className="kpi-val">{applications.length}</div>
-                  <div className="kpi-lbl">Uploaded Marksheets</div>
+                  <div className="kpi-val">{inquiries ? inquiries.length : 0}</div>
+                  <div className="kpi-lbl">General Inquiries</div>
                 </div>
               </div>
               <div className="admin-kpi-card">
                 <div className="kpi-icon">🎓</div>
                 <div>
-                  <div className="kpi-val">{applications.filter(a => a.idUploaded && a.idUploaded !== 'Pending Verification').length}</div>
-                  <div className="kpi-lbl">Verified IDs</div>
+                  <div className="kpi-val">{programs ? programs.length : 0}</div>
+                  <div className="kpi-lbl">Active Programs</div>
                 </div>
               </div>
             </div>
@@ -397,41 +397,27 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 <thead>
                   <tr>
                     <th>Student Name</th>
-                    <th>Email & Country</th>
-                    <th>Program</th>
-                    <th>Documents</th>
+                    <th>Email &amp; Location</th>
+                    <th>Phone Number</th>
+                    <th>Target Program</th>
+                    <th>Submitted Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {applications.length === 0 ? (
                     <tr>
-                      <td colSpan="4" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
-                        No student applications recorded yet.
+                      <td colSpan="5" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
+                        No student application leads recorded yet.
                       </td>
                     </tr>
                   ) : (
                     applications.map(app => (
                       <tr key={app.id}>
                         <td style={{ fontWeight: 'bold' }}>{app.fullName}</td>
-                        <td>{app.email} ({app.country})</td>
-                        <td>{app.programTitle}</td>
-                        <td>
-                          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                            {app.marksheetUrls?.map((url, i) => (
-                              <a key={i} href={url} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', textDecoration: 'none' }}>
-                                📄 Marksheet {i + 1}
-                              </a>
-                            ))}
-                            {app.idUrls?.map((url, i) => (
-                              <a key={i} href={url} target="_blank" rel="noreferrer" className="btn btn-outline" style={{ padding: '4px 8px', fontSize: '11px', textDecoration: 'none', borderColor: '#63b3ed', color: '#63b3ed' }}>
-                                🪪 Gov ID {i + 1}
-                              </a>
-                            ))}
-                            {(!app.marksheetUrls?.length && !app.idUrls?.length) && (
-                              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>No Docs Uploaded</span>
-                            )}
-                          </div>
-                        </td>
+                        <td>{app.email} {app.country ? `(${app.country}${app.state ? `, ${app.state}` : ''})` : ''}</td>
+                        <td>{app.phone || 'N/A'}</td>
+                        <td><span style={{ color: 'var(--gold-primary)', fontWeight: '600' }}>{app.programTitle || app.program}</span></td>
+                        <td style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{app.submittedAt || 'Recent'}</td>
                       </tr>
                     ))
                   )}
