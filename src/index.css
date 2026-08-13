@@ -3043,8 +3043,14 @@ body.light-theme .home-page-main {
 }
 
 .home-page-main .hero-section {
-  background: transparent !important;
+  background-image: linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.85)), url('/assets/hero-bg.png') !important;
+  background-size: cover !important;
+  background-position: center !important;
   border-bottom: none;
+}
+
+body.light-theme .home-page-main .hero-section {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.7)), url('/assets/hero-bg.png') !important;
 }
 
 .home-page-main .section-wrapper,
