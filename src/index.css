@@ -3046,11 +3046,15 @@ body.light-theme .home-page-main {
   background-image: linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.85)), url('/assets/hero-bg.png') !important;
   background-size: cover !important;
   background-position: center !important;
+  background-repeat: no-repeat !important;
+  width: 100%;
   border-bottom: none;
 }
 
 body.light-theme .home-page-main .hero-section {
   background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.7)), url('/assets/hero-bg.png') !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
 }
 
 .home-page-main .section-wrapper,
