@@ -1,4 +1,81 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+function AnimatedStat({ value }) {
+  const [displayValue, setDisplayValue] = useState(value);
+
+  useEffect(() => {
+    if (!value) return;
+    
+    const isNumeric = /\d/.test(value);
+    let animationFrameId;
+    let intervalId;
+    
+    if (isNumeric) {
+      const numericString = value.replace(/[^\d.-]/g, '');
+      const number = parseFloat(numericString);
+      
+      if (isNaN(number)) {
+        setDisplayValue(value);
+        return;
+      }
+
+      const hasCommas = value.includes(',');
+      const prefixMatch = value.match(/^[^\d.-]+/);
+      const prefix = prefixMatch ? prefixMatch[0] : '';
+      const suffixMatch = value.match(/[^\d.,]+$/);
+      const suffix = suffixMatch ? suffixMatch[0] : '';
+      
+      const duration = 2000;
+      const startTime = performance.now();
+      
+      const animate = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const currentNumber = Math.floor(easeProgress * number);
+        
+        let formattedNumber = currentNumber.toString();
+        if (hasCommas) {
+          formattedNumber = currentNumber.toLocaleString('en-US');
+        }
+        
+        setDisplayValue(`${prefix}${formattedNumber}${suffix}`);
+        
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
+          setDisplayValue(value);
+        }
+      };
+      
+      animationFrameId = requestAnimationFrame(animate);
+    } else {
+      let currentText = '';
+      const totalChars = value.length;
+      const duration = 2000;
+      const timePerChar = duration / totalChars;
+      
+      let index = 0;
+      intervalId = setInterval(() => {
+        currentText += value[index];
+        setDisplayValue(currentText);
+        index++;
+        if (index >= totalChars) {
+          clearInterval(intervalId);
+          setDisplayValue(value);
+        }
+      }, timePerChar);
+    }
+    
+    return () => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [value]);
+
+  return <>{displayValue}</>;
+}
 
 export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
   return (
@@ -27,7 +104,7 @@ export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
       <div className="hero-stats-row">
         {heroConfig?.stats?.map((stat, idx) => (
           <div className="stat-card" key={`hero-stat-${idx}`}>
-            <div className="stat-num">{stat.num}</div>
+            <div className="stat-num"><AnimatedStat value={stat.num} /></div>
             <div className="stat-label">{stat.label}</div>
           </div>
         ))}
