@@ -154,28 +154,12 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
             <div className="form-group">
               <label className="form-label">Phone Number *</label>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <select className="form-select" style={{ width: '130px', padding: '12px' }} value={phoneCode} onChange={e => setPhoneCode(e.target.value)}>
-                  <option value="+1">+1 (US/CA)</option>
-                  <option value="+44">+44 (UK)</option>
-                  <option value="+91">+91 (IN)</option>
-                  <option value="+61">+61 (AU)</option>
-                  <option value="+971">+971 (AE)</option>
-                  <option value="+966">+966 (SA)</option>
-                  <option value="+20">+20 (EG)</option>
-                  <option value="+234">+234 (NG)</option>
-                  <option value="+27">+27 (ZA)</option>
-                  <option value="+86">+86 (CN)</option>
-                  <option value="+81">+81 (JP)</option>
-                  <option value="+49">+49 (DE)</option>
-                  <option value="+33">+33 (FR)</option>
-                  <option value="+39">+39 (IT)</option>
-                  <option value="+34">+34 (ES)</option>
-                  <option value="+55">+55 (BR)</option>
-                  <option value="+52">+52 (MX)</option>
-                  <option value="+65">+65 (SG)</option>
-                  <option value="+60">+60 (MY)</option>
-                  <option value="+62">+62 (ID)</option>
-                  <option value="+63">+63 (PH)</option>
+                <select className="form-select" style={{ width: '135px', minWidth: '135px', padding: '12px 6px' }} value={phoneCode} onChange={e => setPhoneCode(e.target.value)}>
+                  {GLOBAL_COUNTRIES.map(c => (
+                    <option key={c.code} value={c.phoneCode}>
+                      {c.flag} {c.phoneCode} ({c.code})
+                    </option>
+                  ))}
                 </select>
                 <input type="tel" className="form-control" placeholder="555-019-2834"
                   value={phone} onChange={e => setPhone(e.target.value)} required />

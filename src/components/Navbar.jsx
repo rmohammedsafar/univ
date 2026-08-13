@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { INITIAL_DEGREE_PROGRAMS } from '../data/initialData';
 import { sendInquiryEmail } from '../services/emailService';
 import { saveInquiryRecord } from '../services/firebase';
+import { GLOBAL_COUNTRIES } from '../data/countryStateData';
 
 export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, isAdminLoggedIn, onOpenAdminPortal, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -9,6 +10,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
   const [enquiryName, setEnquiryName] = useState('');
   const [enquiryEmail, setEnquiryEmail] = useState('');
+  const [enquiryPhoneCode, setEnquiryPhoneCode] = useState('+1');
   const [enquiryPhone, setEnquiryPhone] = useState('');
   const [enquiryProgram, setEnquiryProgram] = useState('');
   const [isSubmittingEnquiry, setIsSubmittingEnquiry] = useState(false);
@@ -20,12 +22,13 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
     e.preventDefault();
     if (!enquiryName || !enquiryEmail) return;
 
+    const fullPhone = `${enquiryPhoneCode} ${enquiryPhone}`.trim();
     setIsSubmittingEnquiry(true);
     try {
       await saveInquiryRecord({
         name: enquiryName,
         email: enquiryEmail,
-        phone: enquiryPhone,
+        phone: fullPhone,
         program: enquiryProgram,
         submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
       });
@@ -33,7 +36,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
       await sendInquiryEmail({
         name: enquiryName,
         email: enquiryEmail,
-        phone: enquiryPhone,
+        phone: fullPhone,
         program: enquiryProgram
       });
 
@@ -218,14 +221,29 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
                     value={enquiryEmail}
                     onChange={(e) => setEnquiryEmail(e.target.value)}
                   />
-                  <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    required
-                    className="enquiry-input"
-                    value={enquiryPhone}
-                    onChange={(e) => setEnquiryPhone(e.target.value)}
-                  />
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <select
+                      className="enquiry-input"
+                      style={{ width: '120px', minWidth: '120px', padding: '10px 6px', fontSize: '13px' }}
+                      value={enquiryPhoneCode}
+                      onChange={(e) => setEnquiryPhoneCode(e.target.value)}
+                    >
+                      {GLOBAL_COUNTRIES.map(c => (
+                        <option key={c.code} value={c.phoneCode}>
+                          {c.flag} {c.phoneCode} ({c.code})
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="tel"
+                      placeholder="Phone Number"
+                      required
+                      className="enquiry-input"
+                      style={{ flex: 1 }}
+                      value={enquiryPhone}
+                      onChange={(e) => setEnquiryPhone(e.target.value)}
+                    />
+                  </div>
                   <select
                     required
                     className="enquiry-input"

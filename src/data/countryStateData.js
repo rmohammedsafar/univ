@@ -88,6 +88,96 @@ export const GLOBAL_COUNTRIES = [
     ]
   },
   {
+    code: "PK",
+    name: "Pakistan",
+    flag: "🇵🇰",
+    phoneCode: "+92",
+    states: [
+      "Punjab", "Sindh", "Khyber Pakhtunkhwa", "Balochistan", "Islamabad Capital Territory", "Gilgit-Baltistan", "Azad Kashmir"
+    ]
+  },
+  {
+    code: "BD",
+    name: "Bangladesh",
+    flag: "🇧🇩",
+    phoneCode: "+880",
+    states: [
+      "Dhaka", "Chittagong", "Rajshahi", "Khulna", "Barisal", "Sylhet", "Rangpur", "Mymensingh"
+    ]
+  },
+  {
+    code: "LK",
+    name: "Sri Lanka",
+    flag: "🇱🇰",
+    phoneCode: "+94",
+    states: [
+      "Western Province", "Central Province", "Southern Province", "North Western Province", "Northern Province", "Eastern Province", "Sabaragamuwa", "Uva", "North Central Province"
+    ]
+  },
+  {
+    code: "NP",
+    name: "Nepal",
+    flag: "🇳🇵",
+    phoneCode: "+977",
+    states: [
+      "Bagmati (Kathmandu)", "Koshi", "Madhesh", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim"
+    ]
+  },
+  {
+    code: "QA",
+    name: "Qatar",
+    flag: "🇶🇦",
+    phoneCode: "+974",
+    states: [
+      "Doha", "Al Rayyan", "Al Wakrah", "Al Khor", "Umm Salal"
+    ]
+  },
+  {
+    code: "KW",
+    name: "Kuwait",
+    flag: "🇰🇼",
+    phoneCode: "+965",
+    states: [
+      "Al Asimah (Kuwait City)", "Hawalli", "Farwaniya", "Ahmadi", "Jahra", "Mubarak Al-Kabeer"
+    ]
+  },
+  {
+    code: "OM",
+    name: "Oman",
+    flag: "🇴🇲",
+    phoneCode: "+968",
+    states: [
+      "Muscat", "Dhofar", "Musandam", "Al Batinah", "Al Dakhiliyah", "Al Sharqiyah"
+    ]
+  },
+  {
+    code: "BH",
+    name: "Bahrain",
+    flag: "🇧🇭",
+    phoneCode: "+973",
+    states: [
+      "Capital Governorate (Manama)", "Muharraq", "Northern Governorate", "Southern Governorate"
+    ]
+  },
+  {
+    code: "KE",
+    name: "Kenya",
+    flag: "🇰🇪",
+    phoneCode: "+254",
+    states: [
+      "Nairobi", "Mombasa", "Kisumu", "Nakuru", "Uasin Gishu (Eldoret)", "Kiambu"
+    ]
+  },
+  {
+    code: "GH",
+    name: "Ghana",
+    flag: "🇬🇭",
+    phoneCode: "+233",
+    states: [
+      "Greater Accra", "Ashanti (Kumasi)", "Western Region", "Eastern Region", "Central Region", "Northern Region"
+    ]
+  },
+  {
     code: "BR",
     name: "Brazil",
     flag: "🇧🇷",
@@ -256,6 +346,141 @@ export const GLOBAL_COUNTRIES = [
     phoneCode: "+86",
     states: [
       "Beijing", "Shanghai", "Guangdong", "Zhejiang", "Jiangsu", "Sichuan", "Shandong", "Hubei"
+    ]
+  },
+  {
+    code: "TR",
+    name: "Turkey",
+    flag: "🇹🇷",
+    phoneCode: "+90",
+    states: [
+      "Istanbul", "Ankara", "Izmir", "Bursa", "Antalya", "Adana"
+    ]
+  },
+  {
+    code: "VN",
+    name: "Vietnam",
+    flag: "🇻🇳",
+    phoneCode: "+84",
+    states: [
+      "Ho Chi Minh City", "Hanoi", "Da Nang", "Hai Phong", "Can Tho"
+    ]
+  },
+  {
+    code: "TH",
+    name: "Thailand",
+    flag: "🇹🇭",
+    phoneCode: "+66",
+    states: [
+      "Bangkok", "Chiang Mai", "Chonburi (Pattaya)", "Phuket", "Nonthaburi"
+    ]
+  },
+  {
+    code: "AR",
+    name: "Argentina",
+    flag: "🇦🇷",
+    phoneCode: "+54",
+    states: [
+      "Buenos Aires", "Córdoba", "Santa Fe", "Mendoza", "Tucumán"
+    ]
+  },
+  {
+    code: "CO",
+    name: "Colombia",
+    flag: "🇨🇴",
+    phoneCode: "+57",
+    states: [
+      "Bogotá", "Antioquia (Medellín)", "Valle del Cauca (Cali)", "Atlantico (Barranquilla)"
+    ]
+  },
+  {
+    code: "CL",
+    name: "Chile",
+    flag: "🇨🇱",
+    phoneCode: "+56",
+    states: [
+      "Santiago Metropolitan", "Valparaíso", "Biobío", "Antofagasta"
+    ]
+  },
+  {
+    code: "PL",
+    name: "Poland",
+    flag: "🇵🇱",
+    phoneCode: "+48",
+    states: [
+      "Masovian (Warsaw)", "Lesser Poland (Kraków)", "Lower Silesia (Wrocław)", "Silesia"
+    ]
+  },
+  {
+    code: "UA",
+    name: "Ukraine",
+    flag: "🇺🇦",
+    phoneCode: "+380",
+    states: [
+      "Kyiv", "Lviv", "Odesa", "Kharkiv", "Dnipro"
+    ]
+  },
+  {
+    code: "PT",
+    name: "Portugal",
+    flag: "🇵🇹",
+    phoneCode: "+351",
+    states: [
+      "Lisbon", "Porto", "Braga", "Setúbal", "Faro (Algarve)"
+    ]
+  },
+  {
+    code: "GR",
+    name: "Greece",
+    flag: "🇬🇷",
+    phoneCode: "+30",
+    states: [
+      "Attica (Athens)", "Central Macedonia (Thessaloniki)", "Crete", "Peloponnese"
+    ]
+  },
+  {
+    code: "AT",
+    name: "Austria",
+    flag: "🇦🇹",
+    phoneCode: "+43",
+    states: [
+      "Vienna", "Lower Austria", "Upper Austria", "Styria", "Tyrol", "Salzburg"
+    ]
+  },
+  {
+    code: "BE",
+    name: "Belgium",
+    flag: "🇧🇪",
+    phoneCode: "+32",
+    states: [
+      "Brussels", "Flanders (Antwerp)", "Wallonia"
+    ]
+  },
+  {
+    code: "NO",
+    name: "Norway",
+    flag: "🇳🇴",
+    phoneCode: "+47",
+    states: [
+      "Oslo", "Viken", "Vestland (Bergen)", "Trøndelag"
+    ]
+  },
+  {
+    code: "DK",
+    name: "Denmark",
+    flag: "🇩🇰",
+    phoneCode: "+45",
+    states: [
+      "Capital Region (Copenhagen)", "Central Denmark (Aarhus)", "Southern Denmark"
+    ]
+  },
+  {
+    code: "FI",
+    name: "Finland",
+    flag: "🇫🇮",
+    phoneCode: "+358",
+    states: [
+      "Uusimaa (Helsinki)", "Pirkanmaa (Tampere)", "Southwest Finland (Turku)"
     ]
   }
 ];
