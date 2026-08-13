@@ -1687,28 +1687,39 @@ body.light-theme .kpi-val {
 }
 
 .address-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: rgba(107, 17, 28, 0.6);
-  border: 1px solid var(--border-gold);
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(107, 17, 28, 0.85) 0%, rgba(59, 6, 13, 0.95) 100%);
+  border: 1.5px solid var(--border-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  color: var(--gold-primary);
+  color: var(--gold-light);
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.address-text h4 {
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 4px;
+.address-item:hover .address-icon {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.3);
 }
 
-.address-text p {
-  font-size: 14px;
-  color: var(--text-muted);
+body.light-theme .address-icon {
+  background: linear-gradient(135deg, #fffcf5 0%, #fef3c7 100%) !important;
+  border: 1.5px solid #d4af37 !important;
+  color: #78350f !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2) !important;
+}
+
+body.light-theme .address-text h4 {
+  color: #0f172a !important;
+  font-weight: 800 !important;
+}
+
+body.light-theme .address-text p {
+  color: #334155 !important;
 }
 
 .map-container-box {

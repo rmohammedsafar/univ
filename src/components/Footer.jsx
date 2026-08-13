@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { sendInquiryEmail } from '../services/emailService';
 import { saveInquiryRecord } from '../services/firebase';
+import { MapPin, Phone, Mail, Clock, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function Footer({ contactInfo, onOpenAdminLogin }) {
   const [inquiryName, setInquiryName] = useState('');
@@ -50,36 +51,36 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
           {/* Left: Address Info */}
           <div className="address-box">
             <div className="address-item">
-              <div className="address-icon">📍</div>
+              <div className="address-icon"><MapPin size={22} /></div>
               <div className="address-text">
                 <h4>Physical Address</h4>
                 <p style={{ whiteSpace: 'pre-wrap' }}>{contactInfo?.address}</p>
               </div>
             </div>
             <div className="address-item">
-              <div className="address-icon">📞</div>
+              <div className="address-icon"><Phone size={22} /></div>
               <div className="address-text">
                 <h4>Toll-Free USA Line</h4>
                 <p>{contactInfo?.phone}</p>
               </div>
             </div>
             <div className="address-item">
-              <div className="address-icon">✉️</div>
+              <div className="address-icon"><Mail size={22} /></div>
               <div className="address-text">
                 <h4>Registrar Office</h4>
                 <p><a href={`mailto:${contactInfo?.email}`} style={{ color: 'var(--gold-primary)' }}>{contactInfo?.email}</a></p>
               </div>
             </div>
             <div className="address-item" style={{ alignItems: 'flex-start' }}>
-              <div className="address-icon" style={{ marginTop: '4px' }}>🕒</div>
+              <div className="address-icon" style={{ marginTop: '4px' }}><Clock size={22} /></div>
               <div className="address-text" style={{ width: '100%', maxWidth: '280px' }}>
                 <div 
                   onClick={() => setHoursExpanded(!hoursExpanded)}
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', marginBottom: '6px' }}
                 >
                   <h4 style={{ margin: 0 }}>Office Hours {contactInfo?.timezone && <span style={{fontSize: 12, fontWeight: 'normal', color: 'var(--text-muted)'}}>({contactInfo.timezone})</span>}</h4>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                    {hoursExpanded ? '▲' : '▼'}
+                  <span style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center' }}>
+                    {hoursExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                   </span>
                 </div>
                 
