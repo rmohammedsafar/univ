@@ -80,3 +80,16 @@ export const sendInquiryEmail = async (param1, param2) => {
     return { success: true, simulated: true };
   }
 };
+
+/* ── NON-BLOCKING ASYNCHRONOUS FIRE-AND-FORGET EMAIL DISPATCH ──────── */
+export const sendInquiryEmailAsync = (inquiryData) => {
+  setTimeout(() => {
+    sendInquiryEmail(inquiryData).catch(err => console.error("Background inquiry email dispatch notice:", err));
+  }, 0);
+};
+
+export const sendConfirmationEmailAsync = (applicationData) => {
+  setTimeout(() => {
+    sendConfirmationEmail(applicationData).catch(err => console.error("Background confirmation email dispatch notice:", err));
+  }, 0);
+};

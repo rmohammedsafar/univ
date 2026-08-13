@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { INITIAL_DEGREE_PROGRAMS, INITIAL_CONTACT_INFO } from '../data/initialData';
 import { GLOBAL_COUNTRIES } from '../data/countryStateData';
 import { saveApplicationRecord } from '../services/firebase';
-import { sendConfirmationEmail } from '../services/emailService';
+import { sendConfirmationEmailAsync } from '../services/emailService';
 
 export default function RegistrationPage() {
   const [firstName, setFirstName] = useState('');
@@ -53,15 +53,13 @@ export default function RegistrationPage() {
       submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
     };
 
-    // Instant UI feedback (zero delay)
+    // Instant UI feedback to student on click (0ms delay)
     setIsSubmitted(true);
     setIsSubmitting(false);
 
-    // Parallel non-blocking background dispatch
-    Promise.all([
-      saveApplicationRecord(appData),
-      sendConfirmationEmail(appData)
-    ]).catch(err => console.error("Background registration dispatch error:", err));
+    // Asynchronous background fire-and-forget email dispatch
+    sendConfirmationEmailAsync(appData);
+    saveApplicationRecord(appData).catch(err => console.error("Background registration record error:", err));
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { INITIAL_DEGREE_PROGRAMS } from '../data/initialData';
-import { sendInquiryEmail } from '../services/emailService';
+import { sendInquiryEmailAsync } from '../services/emailService';
 import { saveInquiryRecord } from '../services/firebase';
 import { GLOBAL_COUNTRIES } from '../data/countryStateData';
 
@@ -24,26 +24,25 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
     const fullPhone = `${enquiryPhoneCode} ${enquiryPhone}`.trim();
     
-    // Instant Golden Tick feedback to student (zero delay)
+    // Instant UI Golden Tick feedback to user on click (0ms delay)
     setEnquirySubmitted(true);
     setIsSubmittingEnquiry(false);
 
-    // Parallel non-blocking background dispatch
-    Promise.all([
-      saveInquiryRecord({
-        name: enquiryName,
-        email: enquiryEmail,
-        phone: fullPhone,
-        program: enquiryProgram,
-        submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-      }),
-      sendInquiryEmail({
-        name: enquiryName,
-        email: enquiryEmail,
-        phone: fullPhone,
-        program: enquiryProgram
-      })
-    ]).catch(err => console.error("Background inquiry dispatch error:", err));
+    // Asynchronous background fire-and-forget email dispatch
+    sendInquiryEmailAsync({
+      name: enquiryName,
+      email: enquiryEmail,
+      phone: fullPhone,
+      program: enquiryProgram
+    });
+
+    saveInquiryRecord({
+      name: enquiryName,
+      email: enquiryEmail,
+      phone: fullPhone,
+      program: enquiryProgram,
+      submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+    }).catch(err => console.error("Background inquiry record error:", err));
   };
 
   return (
