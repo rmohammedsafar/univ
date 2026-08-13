@@ -18,35 +18,32 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
   const closeMobile = () => setMobileMenuOpen(false);
 
-  const handleEnquirySubmit = async (e) => {
+  const handleEnquirySubmit = (e) => {
     e.preventDefault();
     if (!enquiryName || !enquiryEmail) return;
 
     const fullPhone = `${enquiryPhoneCode} ${enquiryPhone}`.trim();
-    setIsSubmittingEnquiry(true);
-    try {
-      await saveInquiryRecord({
+    
+    // Instant Golden Tick feedback to student (zero delay)
+    setEnquirySubmitted(true);
+    setIsSubmittingEnquiry(false);
+
+    // Parallel non-blocking background dispatch
+    Promise.all([
+      saveInquiryRecord({
         name: enquiryName,
         email: enquiryEmail,
         phone: fullPhone,
         program: enquiryProgram,
         submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-      });
-
-      await sendInquiryEmail({
+      }),
+      sendInquiryEmail({
         name: enquiryName,
         email: enquiryEmail,
         phone: fullPhone,
         program: enquiryProgram
-      });
-
-      setEnquirySubmitted(true);
-    } catch (err) {
-      console.error("Enquiry submit error:", err);
-      setEnquirySubmitted(true);
-    } finally {
-      setIsSubmittingEnquiry(false);
-    }
+      })
+    ]).catch(err => console.error("Background inquiry dispatch error:", err));
   };
 
   return (

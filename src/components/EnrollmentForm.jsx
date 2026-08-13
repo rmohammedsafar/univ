@@ -95,10 +95,14 @@ export default function EnrollmentForm({ programs, selectedProgramId }) {
         idUrls: idUrls.filter(url => url !== null)
       };
 
-      await saveApplicationRecord(appData);
-      // Run email dispatch in the background so the user doesn't have to wait
-      sendConfirmationEmail(appData).catch(e => console.error("Background email error:", e));
+      // Instant UI transition to success view
       setSubmittedApp(appData);
+      
+      // Parallel background save to Firebase & Nodemailer email dispatch
+      Promise.all([
+        saveApplicationRecord(appData),
+        sendConfirmationEmail(appData)
+      ]).catch(e => console.error("Background application dispatch error:", e));
       
       // Reset all form fields
       setFullName('');

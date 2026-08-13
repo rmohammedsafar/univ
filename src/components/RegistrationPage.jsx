@@ -30,14 +30,13 @@ export default function RegistrationPage() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!firstName || !lastName || !email) {
       alert('Please fill in all required fields.');
       return;
     }
 
-    setIsSubmitting(true);
     const fullName = `${firstName} ${lastName}`.trim();
     const fullPhone = `${phoneCode} ${phone}`.trim();
     const selectedProgObj = INITIAL_DEGREE_PROGRAMS.find(p => p.id === program || p.name === program || p.title === program);
@@ -54,16 +53,15 @@ export default function RegistrationPage() {
       submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
     };
 
-    try {
-      await saveApplicationRecord(appData);
-      await sendConfirmationEmail(appData);
-      setIsSubmitted(true);
-    } catch (err) {
-      console.error("Registration error:", err);
-      setIsSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Instant UI feedback (zero delay)
+    setIsSubmitted(true);
+    setIsSubmitting(false);
+
+    // Parallel non-blocking background dispatch
+    Promise.all([
+      saveApplicationRecord(appData),
+      sendConfirmationEmail(appData)
+    ]).catch(err => console.error("Background registration dispatch error:", err));
   };
 
   return (
