@@ -213,10 +213,11 @@ body.light-theme .program-card .program-desc {
 }
 
 body.light-theme .card-body-specs,
-body.light-theme .spec-box {
+body.light-theme .spec-box,
+body.light-theme .program-specs {
   background: #f8fafc !important;
   border: 1px solid #cbd5e1 !important;
-  border-radius: 12px !important;
+  border-radius: 10px !important;
 }
 
 body.light-theme .spec-label {
@@ -901,86 +902,98 @@ h1, h2, h3, h4, .brand-font {
 
 .programs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 20px;
+  align-items: stretch;
 }
 
 .program-card {
   background: var(--glass-bg);
   border: var(--glass-border);
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
   transition: var(--tr-smooth);
   position: relative;
 }
 
 .program-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
   border-color: var(--gold-primary);
   box-shadow: var(--shadow-maroon);
 }
 
 .card-header {
-  background: linear-gradient(135deg, rgba(107, 17, 28, 0.8) 0%, rgba(59, 6, 13, 0.9) 100%);
-  padding: 24px;
+  background: linear-gradient(135deg, rgba(107, 17, 28, 0.85) 0%, rgba(59, 6, 13, 0.95) 100%);
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border-gold);
   position: relative;
+  min-height: 98px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .online-tag {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   background: rgba(16, 185, 129, 0.2);
   border: 1px solid rgba(16, 185, 129, 0.5);
   color: #34d399;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: 4px;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
 }
 
 .program-degree {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--gold-light);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 6px;
+  letter-spacing: 1.2px;
+  margin-bottom: 4px;
   font-weight: 600;
 }
 
 .program-name {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 800;
   color: #fff;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .card-body {
-  padding: 24px;
+  padding: 18px 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .program-desc {
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.45;
   color: var(--text-muted);
-  margin-bottom: 20px;
-  flex: 1;
+  margin-bottom: 16px;
+  min-height: 56px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .program-specs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px 12px;
+  margin-bottom: 16px;
   background: rgba(0, 0, 0, 0.3);
-  padding: 12px 16px;
-  border-radius: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -990,26 +1003,34 @@ h1, h2, h3, h4, .brand-font {
 }
 
 .spec-label {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .spec-val {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--gold-light);
 }
 
 .card-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  margin-top: auto;
 }
 
 .card-actions .btn {
   flex: 1;
-  font-size: 13px;
-  padding: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 12px;
+  border-radius: 8px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* MARKSHEET UPLOAD & APPLICATION PORTAL */
