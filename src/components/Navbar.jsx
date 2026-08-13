@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { INITIAL_DEGREE_PROGRAMS } from '../data/initialData';
 
 export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, isAdminLoggedIn, onOpenAdminPortal, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
 
   const closeMobile = () => setMobileMenuOpen(false);
 
@@ -37,6 +39,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
           <li><a href="#programs"            className="nav-link">Program</a></li>
           <li><a href="#campusTour"          className="nav-link">Gallery</a></li>
           <li><a href="#usaHeadquarters"     className="nav-link">Contact</a></li>
+          <li><a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setEnquiryOpen(true); }}>Enquire</a></li>
           <li><a href="#applySection"        className="nav-link">Enroll Now</a></li>
         </ul>
 
@@ -79,6 +82,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
               <li><a href="#programs" onClick={closeMobile}>Program</a></li>
               <li><a href="#campusTour" onClick={closeMobile}>Gallery</a></li>
               <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); closeMobile(); setEnquiryOpen(true); }}>Enquire</a></li>
               <li><a href="#applySection" onClick={closeMobile}>Enroll Now</a></li>
               
               <li style={{ marginTop: '16px', borderTop: '1px solid rgba(212,175,55,0.2)', paddingTop: '16px' }}>
@@ -103,6 +107,40 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
                 </button>
               </li>
             </ul>
+          </div>
+        </div>
+      )}
+
+      {/* ── ENQUIRY MODAL ────────────────────────────────────────────── */}
+      {enquiryOpen && (
+        <div className="enquiry-modal-overlay">
+          <div className="enquiry-modal-content">
+            <button className="enquiry-close-btn" onClick={() => setEnquiryOpen(false)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            
+            <h2 className="enquiry-title">
+              Enquire <span className="enquiry-now-cursive">Now</span>
+            </h2>
+            <p className="enquiry-subtitle">Fill in your details and we'll get back to you shortly.</p>
+            
+            <form className="enquiry-form" onSubmit={(e) => { e.preventDefault(); setEnquiryOpen(false); alert("Enquiry submitted successfully!"); }}>
+              <input type="text" placeholder="Your Name" required className="enquiry-input" />
+              <input type="email" placeholder="Email Address" required className="enquiry-input" />
+              <input type="tel" placeholder="Phone Number" required className="enquiry-input" />
+              <select required className="enquiry-input">
+                <option value="">Select Program</option>
+                {INITIAL_DEGREE_PROGRAMS.map(prog => (
+                  <option key={prog.id} value={prog.id}>{prog.degree} in {prog.name || prog.title}</option>
+                ))}
+              </select>
+              <button type="submit" className="enquiry-submit-btn">
+                Submit Enquiry <span>→</span>
+              </button>
+            </form>
           </div>
         </div>
       )}

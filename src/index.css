@@ -2902,6 +2902,117 @@ body.light-theme .site-footer h4 {
   .map-iframe { height: 250px; }
 }
 
+/* ── ENQUIRY MODAL ────────────────────────────────────────────── */
+.enquiry-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.enquiry-modal-content {
+  background: #000000;
+  border: 1px solid #00e5ff;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+  width: 100%;
+  max-width: 450px;
+  padding: 40px 30px;
+  position: relative;
+  text-align: center;
+  color: #fff;
+}
+
+.enquiry-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.enquiry-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.enquiry-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  font-family: var(--font-body);
+}
+
+.enquiry-now-cursive {
+  color: #00e5ff;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.enquiry-subtitle {
+  color: #9ca3af;
+  font-size: 14px;
+  margin: 0 0 30px;
+}
+
+.enquiry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.enquiry-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #0f172a;
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.enquiry-input::placeholder {
+  color: #94a3b8;
+}
+
+.enquiry-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: #00e5ff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.enquiry-submit-btn:hover {
+  background: #00f2ff;
+  transform: translateY(-2px);
+}
+
 /* ==========================================================================
    CAMPUS TOUR GRID
    ========================================================================== */
