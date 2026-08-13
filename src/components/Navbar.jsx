@@ -12,6 +12,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
   const [enquiryPhone, setEnquiryPhone] = useState('');
   const [enquiryProgram, setEnquiryProgram] = useState('');
   const [isSubmittingEnquiry, setIsSubmittingEnquiry] = useState(false);
+  const [enquirySubmitted, setEnquirySubmitted] = useState(false);
 
   const closeMobile = () => setMobileMenuOpen(false);
 
@@ -36,16 +37,10 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
         program: enquiryProgram
       });
 
-      alert(`Thank you ${enquiryName}! Your inquiry has been submitted. A confirmation email has been dispatched to ${enquiryEmail}.`);
-      setEnquiryOpen(false);
-      setEnquiryName('');
-      setEnquiryEmail('');
-      setEnquiryPhone('');
-      setEnquiryProgram('');
+      setEnquirySubmitted(true);
     } catch (err) {
       console.error("Enquiry submit error:", err);
-      alert(`Thank you ${enquiryName}! Your inquiry has been received. Our admissions office will email you shortly.`);
-      setEnquiryOpen(false);
+      setEnquirySubmitted(true);
     } finally {
       setIsSubmittingEnquiry(false);
     }
@@ -159,60 +154,100 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
       {enquiryOpen && (
         <div className="enquiry-modal-overlay">
           <div className="enquiry-modal-content">
-            <button className="enquiry-close-btn" onClick={() => setEnquiryOpen(false)}>
+            <button 
+              className="enquiry-close-btn" 
+              onClick={() => {
+                setEnquiryOpen(false);
+                setEnquirySubmitted(false);
+              }}
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
             
-            <h2 className="enquiry-title">
-              Enquire <span className="enquiry-now-cursive">Now</span>
-            </h2>
-            <p className="enquiry-subtitle">Fill in your details and we'll get back to you shortly.</p>
-            
-            <form className="enquiry-form" onSubmit={handleEnquirySubmit}>
-              <input
-                type="text"
-                placeholder="Your Name"
-                required
-                className="enquiry-input"
-                value={enquiryName}
-                onChange={(e) => setEnquiryName(e.target.value)}
-              />
-              <input
-                type="email"
-                placeholder="Email Address"
-                required
-                className="enquiry-input"
-                value={enquiryEmail}
-                onChange={(e) => setEnquiryEmail(e.target.value)}
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                required
-                className="enquiry-input"
-                value={enquiryPhone}
-                onChange={(e) => setEnquiryPhone(e.target.value)}
-              />
-              <select
-                required
-                className="enquiry-input"
-                value={enquiryProgram}
-                onChange={(e) => setEnquiryProgram(e.target.value)}
-              >
-                <option value="">Select Program</option>
-                {INITIAL_DEGREE_PROGRAMS.map(prog => (
-                  <option key={prog.id} value={prog.name || prog.title}>
-                    {prog.degree} in {prog.name || prog.title}
-                  </option>
-                ))}
-              </select>
-              <button type="submit" className="enquiry-submit-btn" disabled={isSubmittingEnquiry}>
-                {isSubmittingEnquiry ? 'Sending Confirmation Email...' : 'Submit Enquiry'} <span>→</span>
-              </button>
-            </form>
+            {enquirySubmitted ? (
+              <div className="golden-tick-container">
+                <div className="golden-tick-circle">
+                  <svg className="golden-tick-svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#d4af37" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <h3 className="golden-tick-title">INQUIRY SUBMITTED!</h3>
+                <p className="golden-tick-subtitle">
+                  Thank you <strong>{enquiryName || 'Student'}</strong>!<br />
+                  A confirmation email has been dispatched to <strong>{enquiryEmail}</strong>. Our admissions office will get back to you shortly.
+                </p>
+                <div className="golden-tick-badge">
+                  ✨ Confirmation Email Dispatched to Student &amp; Registrar
+                </div>
+                <button 
+                  className="enquiry-submit-btn" 
+                  style={{ marginTop: 15, width: '100%' }}
+                  onClick={() => {
+                    setEnquiryOpen(false);
+                    setEnquirySubmitted(false);
+                    setEnquiryName('');
+                    setEnquiryEmail('');
+                    setEnquiryPhone('');
+                    setEnquiryProgram('');
+                  }}
+                >
+                  Done &amp; Close Window
+                </button>
+              </div>
+            ) : (
+              <>
+                <h2 className="enquiry-title">
+                  Enquire <span className="enquiry-now-cursive">Now</span>
+                </h2>
+                <p className="enquiry-subtitle">Fill in your details and we'll get back to you shortly.</p>
+                
+                <form className="enquiry-form" onSubmit={handleEnquirySubmit}>
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    required
+                    className="enquiry-input"
+                    value={enquiryName}
+                    onChange={(e) => setEnquiryName(e.target.value)}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email Address"
+                    required
+                    className="enquiry-input"
+                    value={enquiryEmail}
+                    onChange={(e) => setEnquiryEmail(e.target.value)}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Phone Number"
+                    required
+                    className="enquiry-input"
+                    value={enquiryPhone}
+                    onChange={(e) => setEnquiryPhone(e.target.value)}
+                  />
+                  <select
+                    required
+                    className="enquiry-input"
+                    value={enquiryProgram}
+                    onChange={(e) => setEnquiryProgram(e.target.value)}
+                  >
+                    <option value="">Select Program</option>
+                    {INITIAL_DEGREE_PROGRAMS.map(prog => (
+                      <option key={prog.id} value={prog.name || prog.title}>
+                        {prog.degree} in {prog.name || prog.title}
+                      </option>
+                    ))}
+                  </select>
+                  <button type="submit" className="enquiry-submit-btn" disabled={isSubmittingEnquiry}>
+                    {isSubmittingEnquiry ? 'Sending Confirmation Email...' : 'Submit Enquiry'} <span>→</span>
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       )}

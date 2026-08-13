@@ -3798,3 +3798,78 @@ body.light-theme .home-page-main section {
     transform: translateY(-4px);
   }
 }
+
+/* ── GOLDEN TICK SUBMITTED ANIMATION ──────────────────────────── */
+.golden-tick-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px 10px;
+  animation: goldenTickScale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.golden-tick-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #ffffff 0%, #fef3c7 60%, #fde68a 100%);
+  border: 3px solid #d4af37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.45), inset 0 0 15px rgba(255, 255, 255, 0.8);
+  animation: goldenCirclePulse 2.5s infinite ease-in-out;
+}
+
+.golden-tick-svg {
+  filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.5));
+}
+
+.golden-tick-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 800;
+  color: #78350f;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.golden-tick-subtitle {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 18px;
+  max-width: 340px;
+}
+
+.golden-tick-badge {
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid #d4af37;
+  color: #78350f;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+@keyframes goldenTickScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes goldenCirclePulse {
+  0% { transform: scale(1); box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); }
+  50% { transform: scale(1.06); box-shadow: 0 0 45px rgba(212, 175, 55, 0.6); }
+  100% { transform: scale(1); box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); }
+}
