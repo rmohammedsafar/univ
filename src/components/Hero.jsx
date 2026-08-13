@@ -89,7 +89,7 @@ export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
       </h1>
 
       <div className="hero-cta-group">
-        <a href="#programs" className="btn btn-gold" onClick={onExplorePrograms} style={{ padding: '14px 28px', fontSize: '15px' }}>
+        <a href="#programs" className="btn btn-gold" onClick={onExplorePrograms} style={{ padding: '14px 28px', fontSize: '15px', color: '#ffffff', fontWeight: 'bold', textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>
           📑 Explore Online Programs
         </a>
         <a href="/apply" target="_blank" rel="noopener noreferrer" className="btn btn-maroon" style={{ padding: '14px 28px', fontSize: '15px' }}>
