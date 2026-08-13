@@ -3,21 +3,21 @@ import { INITIAL_DEGREE_PROGRAMS, INITIAL_CONTACT_INFO } from '../data/initialDa
 
 export default function RegistrationPage() {
   return (
-    <div style={{ backgroundColor: '#000', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 40px', alignItems: 'center', borderBottom: '1px solid #222' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '15px 40px', alignItems: 'center', borderBottom: '1px solid #e2e8f0', backgroundColor: '#ffffff' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           <img src="/assets/logo.jpg" alt="Logo" style={{ height: '40px', borderRadius: '50%' }} onError={(e) => { e.target.style.display='none' }}/>
-          <span style={{ color: '#fff', fontSize: '22px', fontWeight: 'bold', letterSpacing: '1px', fontFamily: 'var(--font-serif)' }}>UNIVERSITY OF EAST FLORIDA</span>
+          <span style={{ color: '#0f172a', fontSize: '22px', fontWeight: 'bold', letterSpacing: '1px', fontFamily: 'var(--font-serif)' }}>UNIVERSITY OF EAST FLORIDA</span>
         </div>
-        <div style={{ color: '#fff', fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ color: '#475569', fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
           📞 {INITIAL_CONTACT_INFO.phone}
         </div>
       </header>
 
       {/* Form Container */}
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px 20px' }}>
-        <div style={{ background: '#fff', borderRadius: '8px', padding: '40px', width: '100%', maxWidth: '750px', color: '#333' }}>
+        <div style={{ background: '#fff', borderRadius: '12px', padding: '40px', width: '100%', maxWidth: '750px', color: '#333', boxShadow: '0 10px 40px rgba(0,0,0,0.06)' }}>
           <h2 style={{ margin: '0 0 25px', fontSize: '18px', color: '#333', fontWeight: 'normal' }}>Registration Form</h2>
           
           <form style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} onSubmit={(e) => { e.preventDefault(); alert('Registration submitted!'); }}>
@@ -105,7 +105,7 @@ export default function RegistrationPage() {
       </div>
       
       {/* Footer text */}
-      <div style={{ textAlign: 'center', padding: '20px', color: '#94a3b8', fontSize: '12px', fontFamily: 'var(--font-body)' }}>
+      <div style={{ textAlign: 'center', padding: '20px', color: '#64748b', fontSize: '13px', fontFamily: 'var(--font-body)' }}>
         © University of East Florida. All Rights Reserved.
       </div>
     </div>
