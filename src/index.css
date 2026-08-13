@@ -2457,6 +2457,32 @@ body.light-theme .modal-title {
 
   .programs-grid { grid-template-columns: 1fr; }
   .program-card { margin-bottom: 10px; }
+  
+  /* Scroll Reveal Animation */
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Category Backgrounds (Light Mode) */
+  body.light-theme .program-card.category-technology .card-body {
+    background: rgba(224, 242, 254, 0.6) !important; /* Pale Blue */
+  }
+  body.light-theme .program-card.category-business .card-body {
+    background: rgba(254, 243, 199, 0.6) !important; /* Pale Amber/Gold */
+  }
+  body.light-theme .program-card.category-healthcare .card-body {
+    background: rgba(220, 252, 231, 0.6) !important; /* Pale Green */
+  }
+  body.light-theme .program-card.category-default .card-body {
+    background: rgba(243, 244, 246, 0.6) !important; /* Pale Gray */
+  }
 
   .application-portal-box { padding: 18px 14px; border-radius: 14px; }
   .form-control, .form-select { font-size: 16px; min-height: 46px; }

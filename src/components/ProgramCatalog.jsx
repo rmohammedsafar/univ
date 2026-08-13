@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { jsPDF } from 'jspdf';
 
 export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    const elements = document.querySelectorAll('.scroll-reveal');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => elements.forEach((el) => observer.unobserve(el));
+  }, [programs, categoryFilter, searchQuery]);
 
   const standardDisplayMap = {
     'technology': 'Computer & Data Tech',
@@ -136,8 +154,12 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
           <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '40px', background: 'rgba(0,0,0,0.3)', borderRadius: '16px', border: '1px solid var(--border-gold)' }}>
             <p style={{ color: 'var(--gold-light)', fontSize: '16px' }}>No programs found matching "{searchQuery}".</p>
           </div>
-        ) : filteredPrograms.map(prog => (
-          <div key={prog.id} className="program-card">
+        ) : filteredPrograms.map((prog, idx) => (
+          <div 
+            key={prog.id} 
+            className={`program-card category-${prog.category || 'default'} scroll-reveal`}
+            style={{ transitionDelay: `${Math.min(idx * 100, 800)}ms` }}
+          >
             <div className="card-header">
               <div className="program-degree">{prog.degree || 'Degree Program'}</div>
               <div className="program-name">{prog.title || prog.name}</div>
