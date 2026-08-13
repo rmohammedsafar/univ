@@ -39,7 +39,6 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
       {/* ── USA HEADQUARTERS SECTION ──────────────────────────────────────── */}
       <section className="section-wrapper" id="usaHeadquarters">
         <div className="section-header">
-          <span className="section-tag">Global Physical Presence</span>
           <h2 className="section-title">USA HEADQUARTERS &amp; CONTACT</h2>
           <p className="section-desc">
             While our degrees are 100% online, we maintain a physical USA administrative headquarters for official correspondence, transcript authentication, and global employer verification.

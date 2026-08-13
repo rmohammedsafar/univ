@@ -59,7 +59,6 @@ export default function ResearchPapers({ researchPapers = [] }) {
   return (
     <section className="section-wrapper" id="researchPapersSection">
       <div className="section-header">
-        <span className="section-tag">Scholarship & White Papers</span>
         <h2 className="section-title">ACADEMIC RESEARCH</h2>
         <p className="section-desc">
           Browse peer-reviewed white papers, graduate dissertations, and theoretical monographs published by University of East Florida faculty and research scholars.

@@ -11,7 +11,6 @@ export default function CampusTour({ tourSlides = [] }) {
   return (
     <section className="section-wrapper" id="campusTour">
       <div className="section-header">
-        <span className="section-tag">100% Digital Environment</span>
         <h2 className="section-title">VIRTUAL CAMPUS TOUR</h2>
         <p className="section-desc">
           Experience our state-of-the-art virtual university infrastructure. Explore the Digital Research Library, Virtual Lecture Halls, Student Portal, and USA Administration Offices.
