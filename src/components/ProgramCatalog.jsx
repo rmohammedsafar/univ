@@ -185,12 +185,9 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
                 </div>
               </div>
               <div className="card-actions">
-                <button className="btn btn-maroon" onClick={() => handleDownloadBrochure(prog)}>
+                <button className="btn btn-maroon" style={{ width: '100%' }} onClick={() => handleDownloadBrochure(prog)}>
                   📄 PDF Brochure
                 </button>
-                <a href="#applySection" className="btn btn-gold" onClick={() => onSelectProgramToApply(prog.id)}>
-                  ✍️ Apply &amp; Upload
-                </a>
               </div>
             </div>
           </div>
