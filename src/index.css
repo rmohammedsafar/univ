@@ -3043,7 +3043,7 @@ body.light-theme .home-page-main {
 }
 
 .home-page-main .hero-section {
-  background-image: linear-gradient(rgba(10, 10, 10, 0.45), rgba(10, 10, 10, 0.65)), url('/assets/hero-bg.png') !important;
+  background-image: linear-gradient(rgba(10, 10, 10, 0.45), rgba(10, 10, 10, 0.65)), url('/assets/hero-bg-2.png') !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
@@ -3052,7 +3052,7 @@ body.light-theme .home-page-main {
 }
 
 body.light-theme .home-page-main .hero-section {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.5)), url('/assets/hero-bg.png') !important;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.5)), url('/assets/hero-bg-2.png') !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
 }
