@@ -537,8 +537,8 @@ h1, h2, h3, h4, .brand-font {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  width: 92%;
-  max-width: 1200px;
+  width: 96%;
+  max-width: 1400px;
   box-sizing: border-box;
   transition: var(--tr-smooth);
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -2437,7 +2437,7 @@ body.light-theme .modal-title {
 @media (max-width: 768px) {
   .usa-top-banner { padding: 8px 12px; font-size: 11px; flex-direction: column; justify-content: center; text-align: center; }
   .banner-left, .banner-right { flex-wrap: wrap; justify-content: center; gap: 6px; }
-  .app-header { padding: 10px 14px; gap: 8px; border-radius: 30px; width: 95%; margin: 10px auto; top: 10px; }
+  .app-header { padding: 10px 14px; gap: 8px; border-radius: 30px; width: 98%; margin: 10px auto; top: 10px; }
 
   .hero-section { padding: 40px 14px 60px; }
   .hero-title { font-size: clamp(26px, 5.5vw, 42px); }
