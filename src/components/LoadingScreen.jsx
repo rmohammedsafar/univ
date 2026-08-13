@@ -18,15 +18,9 @@ export default function LoadingScreen({ isFading }) {
           />
         </div>
 
-        {/* University Name & Loading Text */}
+        {/* University Name */}
         <div className="loading-text-group">
           <h2 className="loading-univ-title">UNIVERSITY OF EAST FLORIDA</h2>
-          <div className="loading-subtext">
-            <span>Loading Official Portal</span>
-            <span className="loading-dots">
-              <span>.</span><span>.</span><span>.</span>
-            </span>
-          </div>
         </div>
       </div>
     </div>
