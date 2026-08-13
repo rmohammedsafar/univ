@@ -413,7 +413,7 @@ html {
   background-color: var(--bg-dark);
   color: var(--text-main);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
 }
 
@@ -421,7 +421,7 @@ body {
   min-height: 100vh;
   background: radial-gradient(circle at 50% 0%, #31070c 0%, #0d090a 70%);
   background-attachment: fixed;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
 }
 
