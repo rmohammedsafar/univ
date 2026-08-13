@@ -3030,31 +3030,21 @@ body.light-theme .site-footer h4 {
 
 /* HOME PAGE BACKGROUND */
 .home-page-main {
-  background-image: linear-gradient(rgba(10, 10, 10, 0.88), rgba(10, 10, 10, 0.92)), url('/assets/home-bg.png');
+  background-image: linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.85)), url('/assets/home-bg-3.png');
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   background-attachment: fixed;
   background-repeat: no-repeat;
   min-height: 100vh;
 }
 
 body.light-theme .home-page-main {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.65)), url('/assets/home-bg.png');
+  background-image: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.55)), url('/assets/home-bg-3.png');
 }
 
 .home-page-main .hero-section {
-  background-image: linear-gradient(rgba(10, 10, 10, 0.45), rgba(10, 10, 10, 0.65)), url('/assets/hero-bg-2.png') !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  width: 100%;
+  background: transparent !important;
   border-bottom: none;
-}
-
-body.light-theme .home-page-main .hero-section {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.5)), url('/assets/hero-bg-2.png') !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
 }
 
 .home-page-main .section-wrapper,
