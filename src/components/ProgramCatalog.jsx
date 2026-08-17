@@ -103,7 +103,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
         body .program-card.program-${p.id} { border: 2px solid rgba(${rgb}, 0.6) !important; }
         body .program-card.program-${p.id}:hover { border-color: ${colorHex} !important; box-shadow: 0 14px 35px rgba(${rgb}, 0.3) !important; }
         body .program-card.program-${p.id} .card-header { background: linear-gradient(135deg, rgba(${rgb}, 0.9) 0%, rgba(${rgb}, 0.7) 100%), url('${bgImg}') center/cover !important; border-bottom: 2px solid ${colorHex}; }
-        body .program-card.program-${p.id} .program-degree { color: ${titleColor} !important; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; padding: 4px 14px; display: inline-block; width: fit-content; text-transform: uppercase; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+        body .program-card.program-${p.id} .program-degree { color: ${titleColor} !important; background: rgba(${rgb}, 0.25); border: 1px solid rgba(${rgb}, 0.4); border-radius: 50px; padding: 4px 14px; display: inline-block; width: fit-content; text-transform: uppercase; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
         body .program-card.program-${p.id} .program-name { text-transform: capitalize; margin-top: 8px; color: ${titleColor} !important; }
         body .program-card.program-${p.id} .card-body p, 
         body .program-card.program-${p.id} .card-body .spec-label, 
