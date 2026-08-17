@@ -14,8 +14,8 @@ import LoadingScreen from './components/LoadingScreen';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -43,6 +43,10 @@ export default function App() {
   const [programs, setPrograms] = useState(() => {
     const saved = loadCMSConfigFromStorage();
     return saved && saved.length > 0 ? saved : INITIAL_DEGREE_PROGRAMS;
+  });
+  const [aboutData, setAboutData] = useState(() => {
+    const saved = loadAboutUsFromStorage();
+    return saved ? saved : INITIAL_ABOUT_US;
   });
   const [tourSlides, setTourSlides] = useState(() => {
     const saved = loadTourConfigFromStorage();
@@ -134,7 +138,7 @@ export default function App() {
               onExplorePrograms={() => document.getElementById('programs').scrollIntoView({ behavior: 'smooth' })} 
             />
             
-            <AboutUs />
+            <AboutUs aboutData={aboutData} />
             <ProgramCatalog programs={programs} />
             <CampusTour tourSlides={tourSlides} />
             <UpcomingEvents />
@@ -161,6 +165,8 @@ export default function App() {
               onUpdateContact={setContactInfo}
               heroConfig={heroConfig}
               onUpdateHero={setHeroConfig}
+              aboutData={aboutData}
+              onUpdateAbout={setAboutData}
             />
         } />
       </Routes>

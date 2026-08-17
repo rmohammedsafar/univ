@@ -4,7 +4,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews, contactInfo, onUpdateContact, heroConfig, onUpdateHero, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
@@ -32,6 +32,17 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const handleSaveHero = () => {
     onUpdateHero(heroFormData);
     alert('Hero section updated successfully!');
+  };
+
+  const [aboutFormData, setAboutFormData] = React.useState(aboutData || {});
+  
+  React.useEffect(() => {
+    if (aboutData) setAboutFormData(aboutData);
+  }, [aboutData]);
+
+  const handleSaveAbout = () => {
+    onUpdateAbout(aboutFormData);
+    alert('About Us section updated successfully!');
   };
 
   const [editingNewsIndex, setEditingNewsIndex] = useState(null);
@@ -340,6 +351,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('tour')}
           >
             🏛️ Virtual Tour
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'about' ? 'active' : ''}`}
+            onClick={() => setActiveTab('about')}
+          >
+            🏢 About Us
           </button>
 
           <button 
@@ -880,6 +897,51 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                   <label className="form-label">Footer Watermark / Security Banner</label>
                   <input className="form-control" value={contactFormData.watermark || ''} onChange={e => setContactFormData({...contactFormData, watermark: e.target.value})} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* TAB: ABOUT US */}
+        {activeTab === 'about' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ color: 'var(--gold-light)' }}>About Us Configuration</h3>
+              <button className="btn btn-gold" onClick={handleSaveAbout}>
+                💾 Save Changes
+              </button>
+            </div>
+
+            <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Main Title</label>
+                  <input className="form-control" value={aboutFormData.title || ''} onChange={e => setAboutFormData({...aboutFormData, title: e.target.value})} />
+                </div>
+                
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Quote Text</label>
+                  <textarea className="form-control" value={aboutFormData.quote || ''} onChange={e => setAboutFormData({...aboutFormData, quote: e.target.value})} rows={2} />
+                </div>
+
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Detailed Description</label>
+                  <textarea className="form-control" value={aboutFormData.description || ''} onChange={e => setAboutFormData({...aboutFormData, description: e.target.value})} rows={5} />
+                </div>
+
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label">Logo Image URL</label>
+                  <input className="form-control" value={aboutFormData.logoUrl || ''} onChange={e => setAboutFormData({...aboutFormData, logoUrl: e.target.value})} placeholder="/assets/logo.jpg" />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Image 1 URL</label>
+                  <input className="form-control" value={aboutFormData.image1 || ''} onChange={e => setAboutFormData({...aboutFormData, image1: e.target.value})} />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Image 2 URL</label>
+                  <input className="form-control" value={aboutFormData.image2 || ''} onChange={e => setAboutFormData({...aboutFormData, image2: e.target.value})} />
                 </div>
               </div>
             </div>

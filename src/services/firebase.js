@@ -288,3 +288,33 @@ export const getInquiryRecords = async () => {
     return [];
   }
 };
+
+const LOCAL_ABOUT_KEY = 'uef_about_config';
+
+export const saveAboutUsToStorage = (aboutData) => {
+  try {
+    const configData = {
+      aboutData,
+      isCustomized: true,
+      updatedAt: new Date().toISOString()
+    };
+    localStorage.setItem(LOCAL_ABOUT_KEY, JSON.stringify(configData));
+  } catch (e) {
+    console.warn("LocalStorage save warning:", e);
+  }
+};
+
+export const loadAboutUsFromStorage = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_ABOUT_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.aboutData) {
+        return parsed.aboutData;
+      }
+    }
+  } catch (e) {
+    console.warn("LocalStorage load warning:", e);
+  }
+  return null;
+};

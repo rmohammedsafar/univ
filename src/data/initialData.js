@@ -302,3 +302,22 @@ export const INITIAL_HERO_CONFIG = {
     { num: "ORLANDO", label: "Florida, USA Headquarters" }
   ]
 };
+e x p o r t   c o n s t   I N I T I A L _ A B O U T _ U S   =   {   q u o t e :   '  
+ D i v e r s i t y  
+ i s  
+ t h e  
+ o n e  
+ t r u e  
+ t h i n g  
+ w e  
+ a l l  
+ h a v e  
+ i n  
+ c o m m o n .  
+ C e l e b r a t e  
+ i t  
+ e v e r y  
+ d a y  
+ w i t h  
+ U E F . ' ,   t i t l e :   ' W h o   w e   a r e ' ,   d e s c r i p t i o n :   ' T h e   U n i v e r s i t y   o f   E a s t   F l o r i d a   ( U E F )   i s   a   p r e m i e r   d i g i t a l   i n s t i t u t i o n   d e d i c a t e d   t o   f o s t e r i n g   a c a d e m i c   e x c e l l e n c e   a n d   b u i l d i n g   m e a n i n g f u l   r e l a t i o n s h i p s   a m o n g   i n t e r n a t i o n a l   s c h o l a r s .   F o u n d e d   i n   2 0 2 6 ,   w e   b r i d g e   g e o g r a p h i c a l   g a p s   t h r o u g h   r i g o r o u s ,   1 0 0 %   o n l i n e   t h e o r e t i c a l   p r o g r a m s .   A t   U E F ,   w e   c e l e b r a t e   i n t e l l e c t u a l   d i v e r s i t y   a n d   c r e a t e   o p p o r t u n i t i e s   f o r   s t u d e n t s   t o   c o n n e c t ,   g r o w ,   a n d   t h r i v e   g l o b a l l y   i n   a   c o m p l e t e l y   a s y n c h r o n o u s   e n v i r o n m e n t . ' ,   l o g o U r l :   ' / a s s e t s / l o g o . j p g ' ,   i m a g e 1 :   ' h t t p s : / / i m a g e s . u n s p l a s h . c o m / p h o t o - 1 5 2 2 2 0 2 1 7 6 9 8 8 - 6 6 2 7 3 c 2 f d 5 5 f ? a u t o = f o r m a t & f i t = c r o p & w = 6 0 0 & q = 8 0 ' ,   i m a g e 2 :   ' h t t p s : / / i m a g e s . u n s p l a s h . c o m / p h o t o - 1 5 4 1 3 3 9 9 0 7 1 9 8 - e 0 8 7 5 6 d e d f 3 f ? a u t o = f o r m a t & f i t = c r o p & w = 6 0 0 & q = 8 0 '   } ;  
+ 
