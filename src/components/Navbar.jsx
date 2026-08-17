@@ -75,7 +75,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
         {/* Desktop Nav Links */}
         <ul className="nav-links">
-          <li><a href="/#programs" className="nav-link">Program</a></li>
+          <li><Link to="/#programs" className="nav-link">Program</Link></li>
           <li><Link to="/gallery" className="nav-link">Gallery</Link></li>
           <li><a href="#usaHeadquarters"     className="nav-link">Contact</a></li>
           <li><a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setEnquiryOpen(true); }}>Enquire</a></li>
@@ -118,7 +118,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
               </svg>
             </button>
             <ul className="mobile-nav-links">
-              <li><a href="/#programs" onClick={closeMobile}>Program</a></li>
+              <li><Link to="/#programs" onClick={closeMobile}>Program</Link></li>
               <li><Link to="/gallery" onClick={closeMobile}>Gallery</Link></li>
               <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); closeMobile(); setEnquiryOpen(true); }}>Enquire</a></li>

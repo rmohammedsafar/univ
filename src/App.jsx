@@ -120,6 +120,19 @@ export default function App() {
     };
   }, [location.pathname]);
 
+  // Handle hash routing scroll
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const id = location.hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 500); // Allow time for loading screen & rendering
+    }
+  }, [location.hash, location.pathname]);
+
   const toggleTheme = () => {
     setIsLightTheme(!isLightTheme);
   };
