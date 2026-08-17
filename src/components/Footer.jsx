@@ -160,7 +160,6 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
               <li><a href="/">About Us</a></li>
               <li><a href="/">Campus Tour</a></li>
               <li><a href="/gallery">Gallery</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenAdminLogin(); }}>Admin Portal</a></li>
             </ul>
           </div>
 
