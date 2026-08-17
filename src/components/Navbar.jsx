@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { INITIAL_DEGREE_PROGRAMS } from '../data/initialData';
 import { sendInquiryEmailAsync } from '../services/emailService';
 import { saveInquiryRecord } from '../services/firebase';
@@ -75,10 +76,10 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
         {/* Desktop Nav Links */}
         <ul className="nav-links">
           <li><a href="#programs"            className="nav-link">Program</a></li>
-          <li><a href="/gallery" target="_blank" rel="noopener noreferrer" className="nav-link">Gallery</a></li>
+          <li><Link to="/gallery" className="nav-link">Gallery</Link></li>
           <li><a href="#usaHeadquarters"     className="nav-link">Contact</a></li>
           <li><a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setEnquiryOpen(true); }}>Enquire</a></li>
-          <li><a href="/apply" target="_blank" rel="noopener noreferrer" className="nav-link">Enroll Now</a></li>
+          <li><Link to="/apply" className="nav-link">Enroll Now</Link></li>
         </ul>
 
         {/* Nav Actions */}
@@ -118,10 +119,10 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
             </button>
             <ul className="mobile-nav-links">
               <li><a href="#programs" onClick={closeMobile}>Program</a></li>
-              <li><a href="/gallery" target="_blank" rel="noopener noreferrer" onClick={closeMobile}>Gallery</a></li>
+              <li><Link to="/gallery" onClick={closeMobile}>Gallery</Link></li>
               <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); closeMobile(); setEnquiryOpen(true); }}>Enquire</a></li>
-              <li><a href="/apply" target="_blank" rel="noopener noreferrer" onClick={closeMobile}>Enroll Now</a></li>
+              <li><Link to="/apply" onClick={closeMobile}>Enroll Now</Link></li>
               
               <li style={{ marginTop: '16px', borderTop: '1px solid rgba(212,175,55,0.2)', paddingTop: '16px' }}>
                 <button
