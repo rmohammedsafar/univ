@@ -223,7 +223,7 @@ export const INITIAL_TOUR_SLIDES = [
       { label: 'Access Protocol',     val: '24/7 Unlimited SSO', green: true },
       { label: 'Librarian Support',   val: 'Live Chat Active',   green: true },
     ],
-    cta: { label: '🔬 Explore Academic Research Papers', href: '#researchPapersSection' },
+    cta: { label: '📅 View Upcoming Events', href: '/events' },
     img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80',
     imgAlt: 'Digital Research Library',
   },
@@ -253,7 +253,7 @@ export const INITIAL_TOUR_SLIDES = [
       { label: 'GPA Tracking',       val: 'Real-Time', green: true },
       { label: 'Advisor Response',   val: '< 24 Hours', green: true },
     ],
-    cta: { label: '📅 View Upcoming Events', href: '/events' },
+    cta: { label: '🎓 Apply Now', href: '/apply' },
     img: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80',
     imgAlt: 'Student Advisory Portal',
   },
