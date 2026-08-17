@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import ProgramCatalog from './components/ProgramCatalog';
 import AboutUs from './components/AboutUs';
 import CampusTour from './components/CampusTour';
+import UpcomingEvents from './components/UpcomingEvents';
 import RegistrationPage from './components/RegistrationPage';
 import GalleryPage from './components/GalleryPage';
 import AdminPage from './components/AdminPage';
@@ -142,6 +143,7 @@ export default function App() {
             <ProgramCatalog programs={programs} />
             <AboutUs />
             <CampusTour tourSlides={tourSlides} />
+            <UpcomingEvents />
           </main>
         } />
 
