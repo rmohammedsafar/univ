@@ -4,6 +4,29 @@ import { jsPDF } from 'jspdf';
 export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeIndex, setActiveIndex] = useState(0);
+  const gridRef = useRef(null);
+
+  const handleScroll = () => {
+    if (window.innerWidth > 768 || !gridRef.current) return;
+    const child = gridRef.current.children[0];
+    const itemWidth = child ? child.offsetWidth : (window.innerWidth * 0.85);
+    const gap = 16;
+    const index = Math.round(gridRef.current.scrollLeft / (itemWidth + gap));
+    if (index !== activeIndex && index >= 0 && index < filteredPrograms.length) {
+      setActiveIndex(index);
+    }
+  };
+
+  const scrollToSlide = (index) => {
+    setActiveIndex(index);
+    if (gridRef.current && window.innerWidth <= 768) {
+      const child = gridRef.current.children[0];
+      const itemWidth = child ? child.offsetWidth : (window.innerWidth * 0.85);
+      const gap = 16;
+      gridRef.current.scrollTo({ left: (itemWidth + gap) * index, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -218,7 +241,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
       </div>
 
       {/* PROGRAMS GRID */}
-      <div className="programs-grid">
+      <div className="programs-grid" ref={gridRef} onScroll={handleScroll}>
         {filteredPrograms.length === 0 ? (
           <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '40px', background: 'rgba(0,0,0,0.3)', borderRadius: '16px', border: '1px solid var(--border-gold)' }}>
             <p style={{ color: 'var(--gold-light)', fontSize: '16px' }}>No programs found matching "{searchQuery}".</p>
@@ -262,6 +285,20 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
           </div>
         ))}
       </div>
+
+      {/* MOBILE PAGINATION DOTS */}
+      {filteredPrograms.length > 0 && (
+        <div className="tour-dots-mobile" style={{ flexWrap: 'wrap', marginTop: '24px' }}>
+          {filteredPrograms.map((prog, idx) => (
+            <button 
+              key={prog.id} 
+              className={`tour-dot ${activeIndex === idx ? 'active' : ''}`}
+              onClick={() => scrollToSlide(idx)}
+              aria-label={`Go to ${prog.title || prog.name}`}
+            />
+          ))}
+        </div>
+      )}
 
 
     </section>
