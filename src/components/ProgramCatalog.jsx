@@ -24,16 +24,64 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
     return () => elements.forEach((el) => observer.unobserve(el));
   }, [programs, categoryFilter, searchQuery]);
 
-  const standardDisplayMap = {
-    'technology': 'Computer & Data Tech',
-    'business': 'Business & FinTech',
-    'healthcare': 'Health Informatics'
+  const getCategoryColor = (cat) => {
+    const colors = [
+      { primary: '#8b5cf6', rgb: '139, 92, 246', gradient: ['rgba(46, 16, 101, 0.92)', 'rgba(91, 33, 182, 0.92)'] },
+      { primary: '#ec4899', rgb: '236, 72, 153', gradient: ['rgba(80, 7, 36, 0.92)', 'rgba(157, 23, 77, 0.92)'] },
+      { primary: '#f97316', rgb: '249, 115, 22', gradient: ['rgba(67, 20, 7, 0.92)', 'rgba(154, 52, 18, 0.92)'] },
+      { primary: '#14b8a6', rgb: '20, 184, 166', gradient: ['rgba(4, 47, 46, 0.92)', 'rgba(17, 94, 89, 0.92)'] },
+      { primary: '#eab308', rgb: '234, 179, 8', gradient: ['rgba(66, 32, 6, 0.92)', 'rgba(133, 77, 14, 0.92)'] },
+      { primary: '#ef4444', rgb: '239, 68, 68', gradient: ['rgba(69, 10, 10, 0.92)', 'rgba(153, 27, 27, 0.92)'] },
+    ];
+    
+    if (cat === 'technology' || cat === 'business' || cat === 'healthcare') return null;
+    
+    let hash = 0;
+    for (let i = 0; i < cat.length; i++) {
+      hash = cat.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash) % colors.length];
+  };
+
+  const getCategoryDisplayName = (cat) => {
+    if (cat === 'all') return 'All Programs';
+    if (cat === 'technology') return '💻 Computer & Data Tech';
+    if (cat === 'business') return '📈 Business & FinTech';
+    if (cat === 'healthcare') return '⚕️ Health Informatics';
+    
+    let title = cat.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    let emoji = '📚';
+    const lower = cat.toLowerCase();
+    if (lower.includes('art') || lower.includes('design')) emoji = '🎨';
+    else if (lower.includes('science') || lower.includes('physics')) emoji = '🔬';
+    else if (lower.includes('law') || lower.includes('legal')) emoji = '⚖️';
+    else if (lower.includes('educat') || lower.includes('teach')) emoji = '🍎';
+    else if (lower.includes('engineer')) emoji = '⚙️';
+    else if (lower.includes('math')) emoji = '➗';
+    else if (lower.includes('music')) emoji = '🎵';
+    else if (lower.includes('sport') || lower.includes('athletic')) emoji = '⚽';
+    else if (lower.includes('language') || lower.includes('linguistic')) emoji = '🗣️';
+    
+    return `${emoji} ${title}`;
   };
 
   const dynamicCategories = ['all'];
+  const customStyles = [];
+  
   programs.forEach(p => {
     if (p.category && !dynamicCategories.includes(p.category)) {
       dynamicCategories.push(p.category);
+      
+      const color = getCategoryColor(p.category);
+      if (color) {
+        const safeCat = p.category.replace(/[^a-zA-Z0-9-]/g, '');
+        customStyles.push(`
+          .program-card.category-${safeCat} { border: 2px solid rgba(${color.rgb}, 0.6) !important; }
+          .program-card.category-${safeCat}:hover { border-color: ${color.primary} !important; box-shadow: 0 14px 35px rgba(${color.rgb}, 0.3) !important; }
+          .program-card.category-${safeCat} .card-header { background: linear-gradient(135deg, ${color.gradient[0]} 0%, ${color.gradient[1]} 100%), url('/assets/home-bg-3.png') center/cover !important; border-bottom: 2px solid ${color.primary}; }
+          .program-card.category-${safeCat} .program-degree { color: ${color.primary} !important; background: rgba(${color.rgb}, 0.25); border: 1px solid rgba(${color.rgb}, 0.4); }
+        `);
+      }
     }
   });
 
@@ -116,6 +164,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
 
   return (
     <section className="section-wrapper" id="programs">
+      <style>{customStyles.join('\n')}</style>
       <div className="section-header">
         <h2 className="section-title">100% ONLINE DEGREE CATALOG</h2>
         <p className="section-desc">
@@ -142,7 +191,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
               className={`filter-pill${categoryFilter === cat ? ' active' : ''}`}
               onClick={() => setCategoryFilter(cat)}
             >
-              {cat === 'all' ? 'All Programs' : standardDisplayMap[cat] || cat}
+              {getCategoryDisplayName(cat)}
             </button>
           ))}
         </div>
@@ -157,7 +206,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
         ) : filteredPrograms.map((prog, idx) => (
           <div 
             key={prog.id} 
-            className={`program-card category-${prog.category || 'default'} scroll-reveal`}
+            className={`program-card category-${(prog.category || 'default').replace(/[^a-zA-Z0-9-]/g, '')} scroll-reveal`}
             style={{ transitionDelay: `${(idx % 4) * 110}ms` }}
           >
             <div className="card-header">
