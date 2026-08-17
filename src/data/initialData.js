@@ -253,7 +253,7 @@ export const INITIAL_TOUR_SLIDES = [
       { label: 'GPA Tracking',       val: 'Real-Time', green: true },
       { label: 'Advisor Response',   val: '< 24 Hours', green: true },
     ],
-    cta: { label: '✍️ Apply & Upload Marksheets', href: '#applySection' },
+    cta: { label: '📅 View Upcoming Events', href: '/events' },
     img: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80',
     imgAlt: 'Student Advisory Portal',
   },

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-
+import { Link } from 'react-router-dom';
 export default function CampusTour({ tourSlides = [] }) {
   const [activeTab, setActiveTab] = useState(tourSlides[0]?.id || 'library');
   const carouselRef = useRef(null);
@@ -89,9 +89,9 @@ export default function CampusTour({ tourSlides = [] }) {
                     ))}
                   </div>
 
-                  <a href={room.cta.href} className="btn btn-gold tour-room-btn" style={{ display: 'inline-flex', padding: '10px 20px', fontSize: '13px' }}>
+                  <Link to={room.cta.href} className="btn btn-gold tour-room-btn" style={{ display: 'inline-flex', padding: '10px 20px', fontSize: '13px' }}>
                     {room.cta.label}
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Image Column */}
