@@ -10,7 +10,7 @@ export const EVENTS = [
     month: 'Sept',
     location: 'Virtual Conference Hall',
     time: '6:00 PM - 9:00 PM EST',
-    link: 'https://un-mu.vercel.app/apply'
+    link: 'https://scholar.google.com/scholar?q=global+scholars+symposium+academics'
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ export const EVENTS = [
     month: 'Oct',
     location: 'Online Dev Portal',
     time: '9:00 AM - 5:00 PM EST',
-    link: 'https://un-mu.vercel.app/apply'
+    link: 'https://devpost.com/hackathons'
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ export const EVENTS = [
     month: 'Nov',
     location: 'Networking Lounge',
     time: '7:00 PM - 9:00 PM EST',
-    link: 'https://un-mu.vercel.app/apply'
+    link: 'https://www.linkedin.com/events/'
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ export const EVENTS = [
     month: 'Nov',
     location: 'Main Auditorium',
     time: '10:00 AM - 4:00 PM EST',
-    link: 'https://un-mu.vercel.app/apply'
+    link: 'https://www.handshake.com/'
   },
   {
     id: 5,
@@ -54,7 +54,7 @@ export const EVENTS = [
     month: 'Dec',
     location: 'Student Union Hub',
     time: '6:00 PM - 10:00 PM EST',
-    link: 'https://un-mu.vercel.app/apply'
+    link: 'https://www.culturalsurvival.org/'
   }
 ];
 
@@ -116,23 +116,24 @@ export default function EventsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      display: 'block',
-                      width: '100%',
-                      padding: '12px',
-                      background: 'linear-gradient(135deg, var(--gold-primary), var(--gold-light))',
-                      color: '#000',
-                      fontWeight: '700',
-                      fontSize: '14px',
-                      textAlign: 'center',
-                      borderRadius: '8px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: 'transparent',
+                      border: 'none',
+                      fontSize: '13px',
+                      fontWeight: '600',
+                      letterSpacing: '1px',
+                      cursor: 'pointer',
+                      color: 'var(--text-muted)',
                       textDecoration: 'none',
-                      letterSpacing: '0.5px',
-                      transition: 'opacity 0.2s ease'
+                      marginTop: '4px',
+                      transition: 'color 0.2s ease'
                     }}
-                    onMouseEnter={e => e.target.style.opacity = '0.85'}
-                    onMouseLeave={e => e.target.style.opacity = '1'}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--gold-primary)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
                   >
-                    Register Now →
+                    KNOW MORE <span style={{ fontSize: '16px' }}>↓</span>
                   </a>
                 )}
               </div>
