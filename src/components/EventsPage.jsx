@@ -9,7 +9,8 @@ export const EVENTS = [
     day: '28',
     month: 'Sept',
     location: 'Virtual Conference Hall',
-    time: '6:00 PM - 9:00 PM EST'
+    time: '6:00 PM - 9:00 PM EST',
+    link: 'https://un-mu.vercel.app/apply'
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ export const EVENTS = [
     day: '15',
     month: 'Oct',
     location: 'Online Dev Portal',
-    time: '9:00 AM - 5:00 PM EST'
+    time: '9:00 AM - 5:00 PM EST',
+    link: 'https://un-mu.vercel.app/apply'
   },
   {
     id: 3,
@@ -29,7 +31,8 @@ export const EVENTS = [
     day: '05',
     month: 'Nov',
     location: 'Networking Lounge',
-    time: '7:00 PM - 9:00 PM EST'
+    time: '7:00 PM - 9:00 PM EST',
+    link: 'https://un-mu.vercel.app/apply'
   },
   {
     id: 4,
@@ -39,7 +42,8 @@ export const EVENTS = [
     day: '20',
     month: 'Nov',
     location: 'Main Auditorium',
-    time: '10:00 AM - 4:00 PM EST'
+    time: '10:00 AM - 4:00 PM EST',
+    link: 'https://un-mu.vercel.app/apply'
   },
   {
     id: 5,
@@ -49,7 +53,8 @@ export const EVENTS = [
     day: '01',
     month: 'Dec',
     location: 'Student Union Hub',
-    time: '6:00 PM - 10:00 PM EST'
+    time: '6:00 PM - 10:00 PM EST',
+    link: 'https://un-mu.vercel.app/apply'
   }
 ];
 
@@ -94,7 +99,7 @@ export default function EventsPage() {
                 <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.6', flex: 1, marginBottom: '24px' }}>
                   {ev.desc}
                 </p>
-                <div style={{ display: 'flex', gap: '15px', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid var(--border-gold)' }}>
+                <div style={{ display: 'flex', gap: '15px', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid var(--border-gold)', marginBottom: '20px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '50px' }}>
                     <span style={{ fontSize: '28px', fontFamily: 'var(--font-serif)', color: 'var(--text-main)', lineHeight: 1 }}>{ev.day}</span>
                     <span style={{ fontSize: '12px', color: 'var(--gold-primary)', fontWeight: 'bold', textTransform: 'uppercase' }}>{ev.month}</span>
@@ -105,6 +110,31 @@ export default function EventsPage() {
                     <span>🕒 {ev.time}</span>
                   </div>
                 </div>
+                {ev.link && (
+                  <a
+                    href={ev.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      padding: '12px',
+                      background: 'linear-gradient(135deg, var(--gold-primary), var(--gold-light))',
+                      color: '#000',
+                      fontWeight: '700',
+                      fontSize: '14px',
+                      textAlign: 'center',
+                      borderRadius: '8px',
+                      textDecoration: 'none',
+                      letterSpacing: '0.5px',
+                      transition: 'opacity 0.2s ease'
+                    }}
+                    onMouseEnter={e => e.target.style.opacity = '0.85'}
+                    onMouseLeave={e => e.target.style.opacity = '1'}
+                  >
+                    Register Now →
+                  </a>
+                )}
               </div>
             </div>
           ))}
