@@ -184,7 +184,9 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [customDegree, setCustomDegree] = useState('');
   const [customCategory, setCustomCategory] = useState('');
   const [newProgBrochureFile, setNewProgBrochureFile] = useState(null);
+  const [newProgBgImage, setNewProgBgImage] = useState(null);
   const [isUploadingBrochure, setIsUploadingBrochure] = useState(false);
+  const [isUploadingProgBg, setIsUploadingProgBg] = useState(false);
   const [uploadingRowId, setUploadingRowId] = useState(null);
 
   useEffect(() => {
@@ -216,8 +218,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       return;
     }
 
+    const existingProg = editingProgramId ? programs.find(p => p.id === editingProgramId) : null;
     const tuitionVal = parseInt(newProgTuition) || 14400;
-    let brochureUrl = null;
+    
+    let brochureUrl = existingProg ? existingProg.brochureUrl : null;
     if (newProgBrochureFile) {
       setIsUploadingBrochure(true);
       try {
@@ -228,6 +232,19 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
         return;
       }
       setIsUploadingBrochure(false);
+    }
+
+    let finalBgImage = existingProg ? existingProg.bgImage : null;
+    if (newProgBgImage && typeof newProgBgImage === 'object') {
+      setIsUploadingProgBg(true);
+      try {
+        finalBgImage = await uploadDocument(newProgBgImage, 'program-bg');
+      } catch (err) {
+        alert("Background image upload failed: " + err.message);
+        setIsUploadingProgBg(false);
+        return;
+      }
+      setIsUploadingProgBg(false);
     }
 
     const newProg = {
@@ -243,7 +260,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       format: "100% Remote / Asynchronous",
       credits: "36 US Credit Hours (12 Core Modules)",
       brochureUrl: brochureUrl,
-      themeColor: newProgColor
+      themeColor: newProgColor,
+      bgImage: finalBgImage
     };
 
     if (editingProgramId) {
@@ -268,6 +286,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setCustomDegree('');
     setCustomCategory('');
     setNewProgBrochureFile(null);
+    setNewProgBgImage(null);
     setShowInlineAddPortal(false);
     alert(`🎉 Success! Degree program '${newProgTitle}' has been saved successfully!`);
   };
@@ -300,6 +319,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgDuration(prog.duration || '');
     setNewProgDesc(prog.description || '');
     setNewProgColor(prog.themeColor || '#8b5cf6');
+    setNewProgBgImage(null); // Clear file input
     setShowInlineAddPortal(true);
   };
 
@@ -743,13 +763,27 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     </small>
                   </div>
 
+                  <div className="form-group">
+                    <label className="form-label">Upload Grid Background Image (Optional)</label>
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      className="form-control" 
+                      onChange={(e) => setNewProgBgImage(e.target.files[0])}
+                      style={{ padding: '10px 14px' }}
+                    />
+                    <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
+                      Replaces the default background pattern for this program's card on the Programs catalog.
+                    </small>
+                  </div>
+
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
                     <button type="button" className="btn btn-outline" onClick={() => {
                       setShowInlineAddPortal(false);
                       setEditingProgramId(null);
                     }}>Cancel</button>
-                    <button type="submit" className="btn btn-gold" style={{ padding: '10px 24px', fontSize: '14px' }} disabled={isUploadingBrochure}>
-                      {isUploadingBrochure ? '⏳ Uploading Brochure...' : (editingProgramId ? '💾 Save Changes' : '🚀 Publish Degree Program Live')}
+                    <button type="submit" className="btn btn-gold" style={{ padding: '10px 24px', fontSize: '14px' }} disabled={isUploadingBrochure || isUploadingProgBg}>
+                      {isUploadingBrochure || isUploadingProgBg ? '⏳ Uploading...' : (editingProgramId ? '💾 Save Changes' : '🚀 Publish Degree Program Live')}
                     </button>
                   </div>
                 </form>

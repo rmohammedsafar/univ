@@ -92,13 +92,16 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
       }
     }
 
-    if (p.themeColor) {
-      const rgb = hexToRgb(p.themeColor);
+    if (p.themeColor || p.bgImage) {
+      const colorHex = p.themeColor || '#1f2937'; // Default dark gray if no themeColor specified
+      const rgb = p.themeColor ? hexToRgb(p.themeColor) : '31, 41, 55';
+      const bgImg = p.bgImage || '/assets/home-bg-3.png';
+      
       customStyles.push(`
         body .program-card.program-${p.id} { border: 2px solid rgba(${rgb}, 0.6) !important; }
-        body .program-card.program-${p.id}:hover { border-color: ${p.themeColor} !important; box-shadow: 0 14px 35px rgba(${rgb}, 0.3) !important; }
-        body .program-card.program-${p.id} .card-header { background: linear-gradient(135deg, rgba(${rgb}, 0.9) 0%, rgba(${rgb}, 0.7) 100%), url('/assets/home-bg-3.png') center/cover !important; border-bottom: 2px solid ${p.themeColor}; }
-        body .program-card.program-${p.id} .program-degree { color: ${p.themeColor} !important; background: rgba(${rgb}, 0.25); border: 1px solid rgba(${rgb}, 0.4); border-radius: 50px; padding: 4px 14px; display: inline-block; width: fit-content; text-transform: uppercase; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+        body .program-card.program-${p.id}:hover { border-color: ${colorHex} !important; box-shadow: 0 14px 35px rgba(${rgb}, 0.3) !important; }
+        body .program-card.program-${p.id} .card-header { background: linear-gradient(135deg, rgba(${rgb}, 0.9) 0%, rgba(${rgb}, 0.7) 100%), url('${bgImg}') center/cover !important; border-bottom: 2px solid ${colorHex}; }
+        body .program-card.program-${p.id} .program-degree { color: ${colorHex} !important; background: rgba(${rgb}, 0.25); border: 1px solid rgba(${rgb}, 0.4); border-radius: 50px; padding: 4px 14px; display: inline-block; width: fit-content; text-transform: uppercase; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
         body .program-card.program-${p.id} .program-name { text-transform: capitalize; margin-top: 8px; }
       `);
     }
