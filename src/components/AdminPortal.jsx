@@ -4,8 +4,9 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
+  const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
   const [applications, setApplications] = useState([]);
@@ -279,6 +280,27 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     saveCMSConfigToStorage(updated);
   };
 
+  const handleGalleryUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setIsUploadingGallery(true);
+    try {
+      const url = await uploadDocument(file, 'gallery');
+      const newImages = [...galleryImages, url];
+      onUpdateGallery(newImages);
+    } catch (err) {
+      alert('Failed to upload image: ' + err.message);
+    }
+    setIsUploadingGallery(false);
+    e.target.value = ''; // reset file input
+  };
+
+  const handleDeleteGalleryImage = (indexToRemove) => {
+    if (!window.confirm("Are you sure you want to delete this image from the gallery?")) return;
+    const newImages = galleryImages.filter((_, idx) => idx !== indexToRemove);
+    onUpdateGallery(newImages);
+  };
+
   const handleExportExcel = () => {
     if (!applications || applications.length === 0) {
       alert("No applications to export.");
@@ -400,6 +422,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('contact')}
           >
             📞 Contact Info
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'gallery' ? 'active' : ''}`}
+            onClick={() => setActiveTab('gallery')}
+          >
+            🖼️ Gallery CMS
           </button>
         </div>
 
@@ -715,7 +743,47 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           </div>
         )}
 
+        {/* GALLERY CMS TAB */}
+        {activeTab === 'gallery' && (
+          <div className="admin-panel">
+            <div className="admin-header">
+              <h2 className="section-title" style={{ fontSize: '24px' }}>🖼️ Gallery CMS</h2>
+              <label className="btn btn-maroon" style={{ cursor: 'pointer', margin: 0 }}>
+                {isUploadingGallery ? '⏳ Uploading...' : '➕ Upload New Image'}
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  style={{ display: 'none' }} 
+                  onChange={handleGalleryUpload}
+                  disabled={isUploadingGallery}
+                />
+              </label>
+            </div>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
+              Upload high-quality images directly to the interactive masonry gallery.
+            </p>
 
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+              {galleryImages && galleryImages.map((imgUrl, idx) => (
+                <div key={idx} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+                  <img src={imgUrl} alt={`Gallery ${idx}`} style={{ width: '100%', height: '150px', objectFit: 'cover', display: 'block' }} />
+                  <button 
+                    onClick={() => handleDeleteGalleryImage(idx)}
+                    style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(239, 68, 68, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '28px', height: '28px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    title="Delete Image"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              ))}
+            </div>
+            {(!galleryImages || galleryImages.length === 0) && (
+              <div style={{ padding: '40px', textAlign: 'center', background: 'var(--bg-card)', borderRadius: '8px' }}>
+                No images in gallery. Upload one to get started!
+              </div>
+            )}
+          </div>
+        )}
 
         {/* HERO CONFIG TAB */}
         {activeTab === 'hero' && (

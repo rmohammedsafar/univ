@@ -14,8 +14,8 @@ import LoadingScreen from './components/LoadingScreen';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage, loadGalleryFromStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -70,6 +70,11 @@ export default function App() {
   const [heroConfig, setHeroConfig] = useState(() => {
     let saved = loadHeroConfigFromStorage();
     return saved ? saved : INITIAL_HERO_CONFIG;
+  });
+
+  const [galleryImages, setGalleryImages] = useState(() => {
+    let saved = loadGalleryFromStorage();
+    return saved ? saved : INITIAL_GALLERY_IMAGES;
   });
 
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
@@ -146,12 +151,7 @@ export default function App() {
           </main>
         } />
 
-        <Route path="/gallery" element={
-          <GalleryPage 
-            tourSlides={tourSlides} 
-
-          />
-        } />
+        <Route path="/gallery" element={<GalleryPage galleryImages={galleryImages} />} />
 
         <Route path="/apply" element={<RegistrationPage />} />
         
@@ -168,6 +168,8 @@ export default function App() {
               onUpdateHero={setHeroConfig}
               aboutData={aboutData}
               onUpdateAbout={setAboutData}
+              galleryImages={galleryImages}
+              onUpdateGallery={setGalleryImages}
             />
         } />
       </Routes>

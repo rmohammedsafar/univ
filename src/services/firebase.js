@@ -22,6 +22,7 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 
 const LOCAL_CMS_KEY = 'uef_cms_config';
+const LOCAL_GALLERY_KEY = 'uef_gallery_config';
 
 export const saveCMSConfigToStorage = (programs) => {
   try {
@@ -197,6 +198,30 @@ export const loadHeroConfigFromStorage = () => {
     }
   } catch (e) {
     console.warn("LocalStorage load warning (Hero):", e);
+  }
+  return null;
+};
+
+export const saveGalleryToStorage = (galleryImages) => {
+  try {
+    const data = { galleryImages, updatedAt: new Date().toISOString() };
+    localStorage.setItem(LOCAL_GALLERY_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.warn("LocalStorage save warning (Gallery):", e);
+  }
+};
+
+export const loadGalleryFromStorage = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_GALLERY_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.galleryImages) {
+        return parsed.galleryImages;
+      }
+    }
+  } catch (e) {
+    console.warn("LocalStorage load warning (Gallery):", e);
   }
   return null;
 };
