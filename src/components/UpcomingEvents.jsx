@@ -187,26 +187,6 @@ export default function UpcomingEvents() {
                 </div>
               </div>
 
-              {/* RSVP Button */}
-              <button style={{
-                width: '100%',
-                padding: '12px 0',
-                background: 'transparent',
-                border: '1px solid #2c2a29',
-                borderRadius: '6px',
-                fontSize: '13px',
-                fontWeight: 'bold',
-                letterSpacing: '1px',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                color: '#2c2a29'
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = '#2c2a29'; e.currentTarget.style.color = '#f4ecd8'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#2c2a29'; }}
-              >
-                RSVP
-              </button>
-
             </div>
           ))}
         </div>
