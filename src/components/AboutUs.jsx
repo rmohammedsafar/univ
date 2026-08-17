@@ -27,40 +27,19 @@ export default function AboutUs() {
         }} className="about-us-grid">
           {/* Left Column */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            {/* CSS Circular Seal */}
-            <div style={{ 
-              width: '280px', 
-              height: '280px', 
-              borderRadius: '50%', 
-              border: '2px solid #d4c4af', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              position: 'relative',
-              marginBottom: '40px',
-              backgroundColor: '#e6dec8'
-            }}>
-              <div style={{
-                width: '240px',
-                height: '240px',
-                borderRadius: '50%',
-                border: '1px dashed #c0b09b',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative'
-              }}>
-                <span style={{ fontSize: '64px' }}>🌍</span>
-                <svg viewBox="0 0 100 100" style={{ position: 'absolute', width: '100%', height: '100%', animation: 'spin 40s linear infinite' }}>
-                  <path id="curve" d="M 10 50 A 40 40 0 1 1 90 50 A 40 40 0 1 1 10 50" fill="transparent" />
-                  <text style={{ fontSize: '10px', fill: '#8c7b66', letterSpacing: '4px', fontWeight: '600' }}>
-                    <textPath href="#curve" startOffset="50%" textAnchor="middle">
-                      UNIVERSITY OF EAST FLORIDA • EST 2026 •
-                    </textPath>
-                  </text>
-                </svg>
-              </div>
-            </div>
+            <img 
+              src="/assets/logo.jpg" 
+              alt="University Logo" 
+              style={{ 
+                width: '280px', 
+                height: '280px', 
+                borderRadius: '50%', 
+                objectFit: 'cover',
+                marginBottom: '40px',
+                border: '4px solid #d4c4af'
+              }} 
+              onError={(e) => { e.target.style.display='none' }}
+            />
 
             <p style={{ 
               fontSize: '24px', 
