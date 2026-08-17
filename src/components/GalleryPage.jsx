@@ -38,16 +38,7 @@ export default function GalleryPage() {
 
   return (
     <div style={{ backgroundColor: '#f4ecd8', minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'var(--font-body, sans-serif)' }}>
-      {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 40px', alignItems: 'center', width: '100%', maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <img src="/assets/logo.jpg" alt="Logo" style={{ height: '40px', borderRadius: '50%' }} onError={(e) => { e.target.style.display='none' }}/>
-          <span style={{ color: '#2c2a29', fontSize: '20px', fontWeight: 'bold', letterSpacing: '1px', fontFamily: 'var(--font-serif, serif)' }}>UNIVERSITY OF EAST FLORIDA</span>
-        </div>
-        <div style={{ color: '#2c2a29', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '500' }}>
-          📞 {INITIAL_CONTACT_INFO.phone}
-        </div>
-      </header>
+
 
       <main style={{ padding: '40px 40px 80px', maxWidth: '1200px', margin: '0 auto', width: '100%', flex: 1 }}>
         <h1 style={{ fontSize: '48px', color: '#2c2a29', textAlign: 'left', marginBottom: '40px', fontFamily: 'var(--font-serif, serif)', fontWeight: 'normal' }}>Gallery</h1>

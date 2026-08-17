@@ -19,7 +19,7 @@ import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfig
 
 export default function App() {
   const location = useLocation();
-  const isStandalonePage = location.pathname === '/apply' || location.pathname === '/gallery';
+  const isStandalonePage = false;
 
   const [showLoading, setShowLoading] = useState(true);
   const [isFadingLoading, setIsFadingLoading] = useState(false);
