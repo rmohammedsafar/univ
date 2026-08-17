@@ -4,7 +4,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, pdfConfig, onUpdatePdf, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
@@ -43,6 +43,17 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const handleSaveAbout = () => {
     onUpdateAbout(aboutFormData);
     alert('About Us section updated successfully!');
+  };
+
+  const [pdfFormData, setPdfFormData] = React.useState(pdfConfig || {});
+  
+  React.useEffect(() => {
+    if (pdfConfig) setPdfFormData(pdfConfig);
+  }, [pdfConfig]);
+
+  const handleSavePdf = () => {
+    onUpdatePdf(pdfFormData);
+    alert('PDF Template updated successfully!');
   };
 
   const [editingNewsIndex, setEditingNewsIndex] = useState(null);
@@ -353,6 +364,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             📚 Courses & Tuition CMS
           </button>
           <button 
+            className={`filter-pill ${activeTab === 'pdf' ? 'active' : ''}`}
+            onClick={() => setActiveTab('pdf')}
+          >
+            📄 PDF Template
+          </button>
+          <button 
             className={`filter-pill ${activeTab === 'tour' ? 'active' : ''}`}
             onClick={() => setActiveTab('tour')}
           >
@@ -652,7 +669,57 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
 
 
 
-        {/* TAB: HERO CONFIG */}
+        {activeTab === 'pdf' && (
+          <div className="admin-panel">
+            <div className="admin-header">
+              <h2 className="section-title" style={{ fontSize: '24px' }}>📄 PDF Brochure Template</h2>
+              <button className="btn btn-maroon" onClick={handleSavePdf}>💾 Save Changes</button>
+            </div>
+            
+            <div className="form-group" style={{ marginBottom: '20px' }}>
+              <label className="form-label">University Name (Header)</label>
+              <input 
+                type="text" 
+                className="form-control" 
+                value={pdfFormData.universityName || ''}
+                onChange={(e) => setPdfFormData({...pdfFormData, universityName: e.target.value})}
+              />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: '20px' }}>
+              <label className="form-label">Subheader Text</label>
+              <input 
+                type="text" 
+                className="form-control" 
+                value={pdfFormData.subHeader || ''}
+                onChange={(e) => setPdfFormData({...pdfFormData, subHeader: e.target.value})}
+              />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: '20px' }}>
+              <label className="form-label">Footer Watermark Text</label>
+              <input 
+                type="text" 
+                className="form-control" 
+                value={pdfFormData.footerText || ''}
+                onChange={(e) => setPdfFormData({...pdfFormData, footerText: e.target.value})}
+              />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: '20px' }}>
+              <label className="form-label">Primary Accent Color (Hex format, e.g. #d4af37)</label>
+              <input 
+                type="color" 
+                className="form-control" 
+                style={{ width: '80px', padding: '2px', height: '40px' }}
+                value={pdfFormData.primaryColor || '#d4af37'}
+                onChange={(e) => setPdfFormData({...pdfFormData, primaryColor: e.target.value})}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* HERO CONFIG TAB */}
         {activeTab === 'hero' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>

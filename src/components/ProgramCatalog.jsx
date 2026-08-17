@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { jsPDF } from 'jspdf';
 
-export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
+export default function ProgramCatalog({ programs, pdfConfig, onSelectProgramToApply }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -88,20 +88,30 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
     }
   });
 
+  const hexToRgb = (hex) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [
+      parseInt(result[1], 16),
+      parseInt(result[2], 16),
+      parseInt(result[3], 16)
+    ] : [212, 175, 55]; // fallback to gold
+  };
+
   const handleDownloadBrochure = (prog) => {
     const doc = new jsPDF();
+    const primaryRgb = hexToRgb(pdfConfig?.primaryColor || '#d4af37');
     
     // Header
     doc.setFontSize(22);
-    doc.setTextColor(212, 175, 55); // Gold
-    doc.text("UNIVERSITY OF EAST FLORIDA", 20, 20);
+    doc.setTextColor(primaryRgb[0], primaryRgb[1], primaryRgb[2]);
+    doc.text(pdfConfig?.universityName || "UNIVERSITY OF EAST FLORIDA", 20, 20);
     
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
-    doc.text("OFFICIAL PROGRAM SYLLABUS & BROCHURE", 20, 28);
+    doc.text(pdfConfig?.subHeader || "OFFICIAL PROGRAM SYLLABUS & BROCHURE", 20, 28);
     
     // Line separator
-    doc.setDrawColor(212, 175, 55);
+    doc.setDrawColor(primaryRgb[0], primaryRgb[1], primaryRgb[2]);
     doc.setLineWidth(0.5);
     doc.line(20, 32, 190, 32);
     
@@ -150,7 +160,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
     // Footer watermark
     doc.setFontSize(8);
     doc.setTextColor(200, 200, 200);
-    doc.text("This document is an officially verified syllabus from University of East Florida.", 20, 280);
+    doc.text(pdfConfig?.footerText || "This document is an officially verified syllabus from University of East Florida.", 20, 280);
 
     doc.save(`UEF_Brochure_${prog.id}.pdf`);
   };
