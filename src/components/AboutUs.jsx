@@ -4,20 +4,13 @@ export default function AboutUs({ aboutData }) {
   if (!aboutData) return null;
 
   return (
-    <section id="aboutUs" style={{ 
+    <section id="aboutUs" className="about-section" style={{ 
       backgroundColor: '#f4ecd8', 
-      padding: '100px 5%', 
       fontFamily: 'var(--font-body, sans-serif)',
       color: '#2c2a29'
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 style={{ 
-          fontSize: '48px', 
-          fontFamily: 'var(--font-serif, serif)', 
-          fontWeight: 'normal', 
-          marginBottom: '50px',
-          color: '#2c2a29'
-        }}>
+        <h2 className="about-title">
           About Us
         </h2>
 
@@ -43,8 +36,8 @@ export default function AboutUs({ aboutData }) {
 
           {/* Right Column */}
           <div>
-            <h3 style={{ fontSize: '26px', fontWeight: '500', marginBottom: '20px', color: '#2c2a29' }}>{aboutData.title}</h3>
-            <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#54504c', marginBottom: '40px', whiteSpace: 'pre-wrap' }}>
+            <h3 className="about-subtitle">{aboutData.title}</h3>
+            <p className="about-desc">
               {aboutData.description}
             </p>
 
@@ -67,31 +60,72 @@ export default function AboutUs({ aboutData }) {
         @keyframes spin {
           100% { transform: rotate(360deg); }
         }
+        .about-section {
+          padding: 100px 5%;
+        }
+        .about-title {
+          font-size: 48px;
+          font-family: var(--font-serif, serif);
+          font-weight: normal;
+          margin-bottom: 50px;
+          color: #2c2a29;
+        }
+        .about-subtitle {
+          font-size: 26px;
+          font-weight: 500;
+          margin-bottom: 20px;
+          color: #2c2a29;
+        }
+        .about-desc {
+          font-size: 16px;
+          line-height: 1.7;
+          color: #54504c;
+          margin-bottom: 40px;
+          white-space: pre-wrap;
+        }
         .about-logo {
           width: 100%;
-          maxWidth: 280px;
+          max-width: 280px;
           height: auto;
-          objectFit: contain;
-          marginBottom: 40px;
+          object-fit: contain;
+          margin-bottom: 40px;
         }
         .about-quote {
-          fontSize: 24px;
-          fontFamily: var(--font-serif, serif);
-          lineHeight: 1.4;
-          fontWeight: 500;
+          font-size: 24px;
+          font-family: var(--font-serif, serif);
+          line-height: 1.4;
+          font-weight: 500;
           color: #2c2a29;
         }
         @media (max-width: 900px) {
+          .about-section {
+            padding: 50px 5%;
+          }
+          .about-title {
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-align: center;
+          }
+          .about-subtitle {
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+          }
+          .about-desc {
+            font-size: 14px;
+            margin-bottom: 25px;
+            text-align: center;
+          }
           .about-us-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            gap: 30px !important;
           }
           .about-logo {
-            maxWidth: 180px !important;
-            marginBottom: 20px !important;
+            max-width: 130px !important;
+            margin-bottom: 15px !important;
           }
           .about-quote {
-            fontSize: 18px !important;
+            font-size: 16px !important;
           }
         }
       `}</style>
