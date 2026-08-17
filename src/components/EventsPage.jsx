@@ -63,9 +63,6 @@ export default function EventsPage() {
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 5%' }}>
         
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <span style={{ color: 'var(--gold-primary)', fontSize: '14px', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase' }}>
-            📅 Full Calendar
-          </span>
           <h1 style={{ fontSize: '48px', fontFamily: 'var(--font-serif)', color: 'var(--text-main)', margin: '15px 0' }}>
             All Upcoming Events
           </h1>
