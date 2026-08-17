@@ -79,8 +79,12 @@ function AnimatedStat({ value }) {
 }
 
 export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
+  const customBgStyle = heroConfig?.backgroundImage 
+    ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url("${heroConfig.backgroundImage}")`, backgroundSize: 'cover', backgroundPosition: 'center' } 
+    : {};
+
   return (
-    <section className="hero-section">
+    <section className="hero-section" style={customBgStyle}>
       <div className="hero-badge">
         <span>{heroConfig?.badge}</span>
       </div>

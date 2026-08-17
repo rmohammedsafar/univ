@@ -658,8 +658,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 </div>
 
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                  <label className="form-label">Description</label>
-                  <textarea className="form-control" value={heroFormData.description || ''} onChange={e => setHeroFormData({...heroFormData, description: e.target.value})} rows={3} />
+                  <label className="form-label">Background Image URL</label>
+                  <input className="form-control" value={heroFormData.backgroundImage || ''} onChange={e => setHeroFormData({...heroFormData, backgroundImage: e.target.value})} placeholder="e.g. /assets/campus-bg.jpg or https://images.unsplash.com/..." />
                 </div>
 
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
