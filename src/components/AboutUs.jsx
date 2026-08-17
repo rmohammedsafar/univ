@@ -32,23 +32,11 @@ export default function AboutUs({ aboutData }) {
             <img 
               src={aboutData.logoUrl || "/assets/logo.jpg"} 
               alt="University Logo" 
-              style={{ 
-                width: '100%', 
-                maxWidth: '280px', 
-                height: 'auto', 
-                objectFit: 'contain',
-                marginBottom: '40px'
-              }} 
+              className="about-logo"
               onError={(e) => { e.target.style.display='none' }}
             />
 
-            <p style={{ 
-              fontSize: '24px', 
-              fontFamily: 'var(--font-serif, serif)', 
-              lineHeight: '1.4', 
-              fontWeight: '500',
-              color: '#2c2a29'
-            }}>
+            <p className="about-quote">
               {aboutData.quote}
             </p>
           </div>
@@ -79,10 +67,31 @@ export default function AboutUs({ aboutData }) {
         @keyframes spin {
           100% { transform: rotate(360deg); }
         }
+        .about-logo {
+          width: 100%;
+          maxWidth: 280px;
+          height: auto;
+          objectFit: contain;
+          marginBottom: 40px;
+        }
+        .about-quote {
+          fontSize: 24px;
+          fontFamily: var(--font-serif, serif);
+          lineHeight: 1.4;
+          fontWeight: 500;
+          color: #2c2a29;
+        }
         @media (max-width: 900px) {
           .about-us-grid {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
+          }
+          .about-logo {
+            maxWidth: 180px !important;
+            marginBottom: 20px !important;
+          }
+          .about-quote {
+            fontSize: 18px !important;
           }
         }
       `}</style>
