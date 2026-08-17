@@ -2796,12 +2796,24 @@ body.light-theme .modal-title {
   }
 
   .programs-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .programs-grid::-webkit-scrollbar {
+    display: none;
   }
 
   .program-card {
+    min-width: 85vw;
+    max-width: 85vw;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
     margin-bottom: 0;
   }
 
@@ -3272,10 +3284,6 @@ body.light-theme .modal-title {
 
   .application-portal-box {
     padding: 20px 16px;
-  }
-
-  .programs-grid {
-    grid-template-columns: 1fr;
   }
 }
 
