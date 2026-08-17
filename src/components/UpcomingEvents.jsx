@@ -78,7 +78,7 @@ export default function UpcomingEvents() {
           justifyContent: 'space-between', 
           alignItems: 'flex-end', 
           marginBottom: '40px' 
-        }}>
+        }} className="scroll-reveal">
           <h2 style={{ 
             fontSize: '42px', 
             fontFamily: 'var(--font-serif, serif)', 
@@ -118,7 +118,7 @@ export default function UpcomingEvents() {
             scrollbarWidth: 'none', /* Firefox */
             msOverflowStyle: 'none'  /* IE/Edge */
           }}
-          className="hide-scrollbar"
+          className="hide-scrollbar scroll-reveal"
         >
           {EVENTS.map((ev) => (
             <div 

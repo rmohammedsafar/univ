@@ -15,7 +15,7 @@ export default function AboutUs() {
           fontWeight: 'normal', 
           marginBottom: '50px',
           color: '#2c2a29'
-        }}>
+        }} className="scroll-reveal">
           About Us
         </h2>
 
@@ -26,7 +26,7 @@ export default function AboutUs() {
           alignItems: 'center'
         }} className="about-us-grid">
           {/* Left Column */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }} className="scroll-reveal">
             <img 
               src="/assets/logo.jpg" 
               alt="University Logo" 
@@ -52,7 +52,7 @@ export default function AboutUs() {
           </div>
 
           {/* Right Column */}
-          <div>
+          <div className="scroll-reveal">
             <h3 style={{ fontSize: '26px', fontWeight: '500', marginBottom: '20px', color: '#2c2a29' }}>Who we are</h3>
             <p style={{ fontSize: '16px', lineHeight: '1.7', color: '#54504c', marginBottom: '40px' }}>
               The University of East Florida (UEF) is a premier digital institution dedicated to fostering academic excellence and building meaningful relationships among international scholars. Founded in 2026, we bridge geographical gaps through rigorous, 100% online theoretical programs. At UEF, we celebrate intellectual diversity and create opportunities for students to connect, grow, and thrive globally in a completely asynchronous environment.
