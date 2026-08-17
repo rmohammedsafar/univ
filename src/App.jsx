@@ -8,6 +8,7 @@ import CampusTour from './components/CampusTour';
 import UpcomingEvents from './components/UpcomingEvents';
 import RegistrationPage from './components/RegistrationPage';
 import GalleryPage from './components/GalleryPage';
+import EventsPage from './components/EventsPage';
 import AdminPage from './components/AdminPage';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
@@ -157,6 +158,8 @@ export default function App() {
         } />
 
         <Route path="/gallery" element={<GalleryPage galleryImages={galleryImages} />} />
+        
+        <Route path="/events" element={<EventsPage />} />
 
         <Route path="/apply" element={<RegistrationPage programs={programs} electives={electives} />} />
         
