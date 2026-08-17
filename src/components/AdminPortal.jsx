@@ -341,6 +341,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             🖼️ Hero Config
           </button>
           <button 
+            className={`filter-pill ${activeTab === 'about' ? 'active' : ''}`}
+            onClick={() => setActiveTab('about')}
+          >
+            🏢 About Us
+          </button>
+          <button 
             className={`filter-pill ${activeTab === 'courses' ? 'active' : ''}`}
             onClick={() => setActiveTab('courses')}
           >
@@ -351,12 +357,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('tour')}
           >
             🏛️ Virtual Tour
-          </button>
-          <button 
-            className={`filter-pill ${activeTab === 'about' ? 'active' : ''}`}
-            onClick={() => setActiveTab('about')}
-          >
-            🏢 About Us
           </button>
 
           <button 
