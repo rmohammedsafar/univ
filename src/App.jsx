@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProgramCatalog from './components/ProgramCatalog';
+import AboutUs from './components/AboutUs';
 import CampusTour from './components/CampusTour';
 import RegistrationPage from './components/RegistrationPage';
 import GalleryPage from './components/GalleryPage';
@@ -139,6 +140,7 @@ export default function App() {
             />
             
             <ProgramCatalog programs={programs} />
+            <AboutUs />
             <CampusTour tourSlides={tourSlides} />
           </main>
         } />
