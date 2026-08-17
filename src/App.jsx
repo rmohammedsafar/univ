@@ -14,8 +14,8 @@ import LoadingScreen from './components/LoadingScreen';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_RESEARCH_PAPERS, INITIAL_NEWS, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadResearchConfigFromStorage, loadNewsConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -48,14 +48,7 @@ export default function App() {
     const saved = loadTourConfigFromStorage();
     return saved && saved.length > 0 ? saved : INITIAL_TOUR_SLIDES;
   });
-  const [researchPapers, setResearchPapers] = useState(() => {
-    const saved = loadResearchConfigFromStorage();
-    return saved && saved.length > 0 ? saved : INITIAL_RESEARCH_PAPERS;
-  });
-  const [newsArticles, setNewsArticles] = useState(() => {
-    const saved = loadNewsConfigFromStorage();
-    return saved && saved.length > 0 ? saved : INITIAL_NEWS;
-  });
+
   const [contactInfo, setContactInfo] = useState(() => {
     let saved = loadContactConfigFromStorage();
     if (saved) {
@@ -151,8 +144,7 @@ export default function App() {
         <Route path="/gallery" element={
           <GalleryPage 
             tourSlides={tourSlides} 
-            researchPapers={researchPapers} 
-            newsArticles={newsArticles} 
+
           />
         } />
 
@@ -164,10 +156,7 @@ export default function App() {
               onUpdatePrograms={setPrograms} 
               tourSlides={tourSlides}
               onUpdateTour={setTourSlides}
-              researchPapers={researchPapers}
-              onUpdateResearch={setResearchPapers}
-              newsArticles={newsArticles}
-              onUpdateNews={setNewsArticles}
+
               contactInfo={contactInfo}
               onUpdateContact={setContactInfo}
               heroConfig={heroConfig}
