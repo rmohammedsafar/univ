@@ -16,7 +16,7 @@ import LoadingScreen from './components/LoadingScreen';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES, INITIAL_ELECTIVES, INITIAL_EVENTS } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage, loadEventsFromStorage } from './services/firebase';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage, loadEventsFromStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -41,52 +41,46 @@ export default function App() {
   }, []);
 
   const [isLightTheme, setIsLightTheme] = useState(true);
-  const [programs, setPrograms] = useState(() => {
-    const saved = loadCMSConfigFromStorage();
-    return saved && saved.length > 0 ? saved : INITIAL_DEGREE_PROGRAMS;
-  });
-  const [aboutData, setAboutData] = useState(() => {
-    const saved = loadAboutUsFromStorage();
-    return saved ? saved : INITIAL_ABOUT_US;
-  });
-  const [tourSlides, setTourSlides] = useState(() => {
-    const saved = loadTourConfigFromStorage();
-    return saved && saved.length > 0 ? saved : INITIAL_TOUR_SLIDES;
-  });
+  const [programs, setPrograms] = useState(INITIAL_DEGREE_PROGRAMS);
+  const [aboutData, setAboutData] = useState(INITIAL_ABOUT_US);
+  const [tourSlides, setTourSlides] = useState(INITIAL_TOUR_SLIDES);
+  const [contactInfo, setContactInfo] = useState(INITIAL_CONTACT_INFO);
+  const [heroConfig, setHeroConfig] = useState(INITIAL_HERO_CONFIG);
+  const [galleryImages, setGalleryImages] = useState(INITIAL_GALLERY_IMAGES);
+  const [electives, setElectives] = useState(INITIAL_ELECTIVES);
+  const [events, setEvents] = useState(INITIAL_EVENTS);
 
-  const [contactInfo, setContactInfo] = useState(() => {
-    let saved = loadContactConfigFromStorage();
-    if (saved) {
-      if (!saved.dailyHours) {
-        saved.dailyHours = INITIAL_CONTACT_INFO.dailyHours;
-        saveContactConfigToStorage(saved);
-      } else if (saved.dailyHours.length === 5) {
-        saved.dailyHours.push({ day: "Saturday", startTime: "Closed", endTime: "Closed" });
-        saved.dailyHours.push({ day: "Sunday", startTime: "Closed", endTime: "Closed" });
-        saveContactConfigToStorage(saved);
+  // Load all CMS data from Firestore on startup (works across all devices)
+  useEffect(() => {
+    const loadAll = async () => {
+      try {
+        const [
+          savedPrograms, savedAbout, savedTour, savedContact,
+          savedHero, savedGallery, savedElectives, savedEvents
+        ] = await Promise.all([
+          loadCMSConfigFromStorage(),
+          loadAboutUsFromStorage(),
+          loadTourConfigFromStorage(),
+          loadContactConfigFromStorage(),
+          loadHeroConfigFromStorage(),
+          loadGalleryFromStorage(),
+          loadElectivesFromStorage(),
+          loadEventsFromStorage()
+        ]);
+        if (savedPrograms && savedPrograms.length > 0) setPrograms(savedPrograms);
+        if (savedAbout) setAboutData(savedAbout);
+        if (savedTour && savedTour.length > 0) setTourSlides(savedTour);
+        if (savedContact) setContactInfo(savedContact);
+        if (savedHero) setHeroConfig(savedHero);
+        if (savedGallery) setGalleryImages(savedGallery);
+        if (savedElectives) setElectives(savedElectives);
+        if (savedEvents) setEvents(savedEvents);
+      } catch (e) {
+        console.warn("CMS load error:", e);
       }
-    }
-    return saved || INITIAL_CONTACT_INFO;
-  });
-  const [heroConfig, setHeroConfig] = useState(() => {
-    let saved = loadHeroConfigFromStorage();
-    return saved ? saved : INITIAL_HERO_CONFIG;
-  });
-
-  const [galleryImages, setGalleryImages] = useState(() => {
-    let saved = loadGalleryFromStorage();
-    return saved ? saved : INITIAL_GALLERY_IMAGES;
-  });
-
-  const [electives, setElectives] = useState(() => {
-    let saved = loadElectivesFromStorage();
-    return saved ? saved : INITIAL_ELECTIVES;
-  });
-
-  const [events, setEvents] = useState(() => {
-    let saved = loadEventsFromStorage();
-    return saved ? saved : INITIAL_EVENTS;
-  });
+    };
+    loadAll();
+  }, []);
 
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
 

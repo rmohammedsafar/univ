@@ -1,11 +1,11 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    UNIVERSITY OF EAST FLORIDA - FIREBASE FIRESTORE INTEGRATION SERVICE
-   Project ID: university-8f798
+   Project ID: american-board-online
    ========================================================================== */
 
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs, orderBy, query } from 'firebase/firestore';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs, orderBy, query, doc, setDoc, getDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC5aK_bNcjjfVrSTpMk21kdOQCHci9vM8w",
@@ -21,225 +21,152 @@ const app = initializeApp(FIREBASE_CONFIG);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-const LOCAL_CMS_KEY = 'uef_cms_config';
-const LOCAL_GALLERY_KEY = 'uef_gallery_config';
+// ============================================================
+// Generic Firestore CMS helpers (single-document per section)
+// ============================================================
 
-export const saveCMSConfigToStorage = (programs) => {
+const CMS_COLLECTION = "cms_config";
+
+const saveCMSDoc = async (docId, data) => {
   try {
-    const configData = {
-      programs,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_CMS_KEY, JSON.stringify(configData));
+    await setDoc(doc(db, CMS_COLLECTION, docId), { ...data, updatedAt: new Date().toISOString() });
   } catch (e) {
-    console.warn("LocalStorage save warning:", e);
+    console.warn("Firestore save warning:", e);
   }
 };
 
-export const loadCMSConfigFromStorage = () => {
+const loadCMSDoc = async (docId) => {
   try {
-    const raw = localStorage.getItem(LOCAL_CMS_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.programs)) {
-        return parsed.programs;
-      }
-    }
+    const snap = await getDoc(doc(db, CMS_COLLECTION, docId));
+    if (snap.exists()) return snap.data();
   } catch (e) {
-    console.warn("LocalStorage load warning:", e);
+    console.warn("Firestore load warning:", e);
   }
   return null;
 };
 
-const LOCAL_TOUR_KEY = 'uef_tour_config';
-
-export const saveTourConfigToStorage = (tourSlides) => {
-  try {
-    const configData = {
-      tourSlides,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_TOUR_KEY, JSON.stringify(configData));
-  } catch (e) {
-    console.warn("LocalStorage save warning (Tour):", e);
-  }
+// ============================================================
+// Programs (Courses)
+// ============================================================
+export const saveCMSConfigToStorage = async (programs) => {
+  await saveCMSDoc("programs", { programs });
+};
+export const loadCMSConfigFromStorage = async () => {
+  const data = await loadCMSDoc("programs");
+  return data && Array.isArray(data.programs) ? data.programs : null;
 };
 
-export const loadTourConfigFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_TOUR_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.tourSlides)) {
-        return parsed.tourSlides;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning (Tour):", e);
-  }
-  return null;
+// ============================================================
+// Virtual Tour Slides
+// ============================================================
+export const saveTourConfigToStorage = async (tourSlides) => {
+  await saveCMSDoc("tour", { tourSlides });
+};
+export const loadTourConfigFromStorage = async () => {
+  const data = await loadCMSDoc("tour");
+  return data && Array.isArray(data.tourSlides) ? data.tourSlides : null;
 };
 
-const LOCAL_RESEARCH_KEY = 'uef_research_config';
-
-export const saveResearchConfigToStorage = (researchPapers) => {
-  try {
-    const configData = {
-      researchPapers,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_RESEARCH_KEY, JSON.stringify(configData));
-  } catch (e) {
-    console.warn("LocalStorage save warning (Research):", e);
-  }
+// ============================================================
+// Research Papers
+// ============================================================
+export const saveResearchConfigToStorage = async (researchPapers) => {
+  await saveCMSDoc("research", { researchPapers });
+};
+export const loadResearchConfigFromStorage = async () => {
+  const data = await loadCMSDoc("research");
+  return data && Array.isArray(data.researchPapers) ? data.researchPapers : null;
 };
 
-export const loadResearchConfigFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_RESEARCH_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.researchPapers)) {
-        return parsed.researchPapers;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning (Research):", e);
-  }
-  return null;
+// ============================================================
+// News Articles
+// ============================================================
+export const saveNewsConfigToStorage = async (newsArticles) => {
+  await saveCMSDoc("news", { newsArticles });
+};
+export const loadNewsConfigFromStorage = async () => {
+  const data = await loadCMSDoc("news");
+  return data && Array.isArray(data.newsArticles) ? data.newsArticles : null;
 };
 
-const LOCAL_NEWS_KEY = 'uef_news_config';
-
-export const saveNewsConfigToStorage = (newsArticles) => {
-  try {
-    const configData = {
-      newsArticles,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_NEWS_KEY, JSON.stringify(configData));
-  } catch (e) {
-    console.warn("LocalStorage save warning (News):", e);
-  }
+// ============================================================
+// Contact Info
+// ============================================================
+export const saveContactConfigToStorage = async (contactInfo) => {
+  await saveCMSDoc("contact", { contactInfo });
+};
+export const loadContactConfigFromStorage = async () => {
+  const data = await loadCMSDoc("contact");
+  return data && data.contactInfo ? data.contactInfo : null;
 };
 
-export const loadNewsConfigFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_NEWS_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.newsArticles)) {
-        return parsed.newsArticles;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning (News):", e);
-  }
-  return null;
+// ============================================================
+// Hero Config
+// ============================================================
+export const saveHeroConfigToStorage = async (heroConfig) => {
+  await saveCMSDoc("hero", { heroConfig });
+};
+export const loadHeroConfigFromStorage = async () => {
+  const data = await loadCMSDoc("hero");
+  return data && data.heroConfig ? data.heroConfig : null;
 };
 
-const LOCAL_CONTACT_KEY = 'uef_contact_config';
-
-export const saveContactConfigToStorage = (contactInfo) => {
-  try {
-    const configData = {
-      contactInfo,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_CONTACT_KEY, JSON.stringify(configData));
-  } catch (e) {
-    console.warn("LocalStorage save warning (Contact):", e);
-  }
+// ============================================================
+// Gallery Images
+// ============================================================
+export const saveGalleryToStorage = async (galleryImages) => {
+  await saveCMSDoc("gallery", { galleryImages });
+};
+export const loadGalleryFromStorage = async () => {
+  const data = await loadCMSDoc("gallery");
+  return data && data.galleryImages ? data.galleryImages : null;
 };
 
-export const loadContactConfigFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_CONTACT_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.contactInfo) {
-        return parsed.contactInfo;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning (Contact):", e);
-  }
-  return null;
+// ============================================================
+// About Us
+// ============================================================
+export const saveAboutUsToStorage = async (aboutData) => {
+  await saveCMSDoc("about", { aboutData });
+};
+export const loadAboutUsFromStorage = async () => {
+  const data = await loadCMSDoc("about");
+  return data && data.aboutData ? data.aboutData : null;
 };
 
-const LOCAL_HERO_KEY = 'uef_hero_config';
-
-export const saveHeroConfigToStorage = (heroConfig) => {
-  try {
-    const configData = {
-      heroConfig,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_HERO_KEY, JSON.stringify(configData));
-  } catch (e) {
-    console.warn("LocalStorage save warning (Hero):", e);
-  }
+// ============================================================
+// Electives
+// ============================================================
+export const saveElectivesToStorage = async (electives) => {
+  await saveCMSDoc("electives", { electives });
+};
+export const loadElectivesFromStorage = async () => {
+  const data = await loadCMSDoc("electives");
+  return data && Array.isArray(data.electives) ? data.electives : null;
 };
 
-export const loadHeroConfigFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_HERO_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.heroConfig) {
-        return parsed.heroConfig;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning (Hero):", e);
-  }
-  return null;
+// ============================================================
+// Events
+// ============================================================
+export const saveEventsToStorage = async (events) => {
+  await saveCMSDoc("events", { events });
+};
+export const loadEventsFromStorage = async () => {
+  const data = await loadCMSDoc("events");
+  return data && Array.isArray(data.events) ? data.events : null;
 };
 
-export const saveGalleryToStorage = (galleryImages) => {
-  try {
-    const data = { galleryImages, updatedAt: new Date().toISOString() };
-    localStorage.setItem(LOCAL_GALLERY_KEY, JSON.stringify(data));
-  } catch (e) {
-    console.warn("LocalStorage save warning (Gallery):", e);
-  }
-};
-
-export const loadGalleryFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_GALLERY_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.galleryImages) {
-        return parsed.galleryImages;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning (Gallery):", e);
-  }
-  return null;
-};
-
+// ============================================================
+// File Upload to Firebase Storage
+// ============================================================
 const withTimeout = (promise, ms = 60000) => {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
-      const err = new Error('Firebase operation timed out. Please check your Firebase rules and configuration.');
-      alert('Error submitting application: ' + err.message);
+      const err = new Error("Firebase operation timed out.");
+      alert("Error: " + err.message);
       reject(err);
     }, ms);
-    promise.then(value => {
-      clearTimeout(timer);
-      resolve(value);
-    }).catch(err => {
-      clearTimeout(timer);
-      reject(err);
-    });
+    promise.then(value => { clearTimeout(timer); resolve(value); })
+           .catch(err => { clearTimeout(timer); reject(err); });
   });
 };
 
@@ -247,28 +174,24 @@ export const uploadDocument = async (file, folderPath, onProgress) => {
   if (!file) return null;
   const uniqueName = `${Date.now()}_${file.name}`;
   const storageRef = ref(storage, `${folderPath}/${uniqueName}`);
-  
   const uploadTask = uploadBytesResumable(storageRef, file);
-  
   if (onProgress) {
-    uploadTask.on('state_changed', snapshot => {
+    uploadTask.on("state_changed", snapshot => {
       const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
       onProgress(progress);
     });
   }
-
   await withTimeout(uploadTask);
-
   return await withTimeout(getDownloadURL(storageRef));
 };
 
+// ============================================================
+// Student Applications
+// ============================================================
 export const saveApplicationRecord = async (appData) => {
   try {
-    const colRef = collection(db, 'student_applications');
-    const docRef = await withTimeout(addDoc(colRef, {
-      ...appData,
-      createdAt: new Date().toISOString()
-    }));
+    const colRef = collection(db, "student_applications");
+    const docRef = await withTimeout(addDoc(colRef, { ...appData, createdAt: new Date().toISOString() }));
     return docRef.id;
   } catch (e) {
     console.error("Firestore save error:", e);
@@ -278,8 +201,8 @@ export const saveApplicationRecord = async (appData) => {
 
 export const getApplicationRecords = async () => {
   try {
-    const colRef = collection(db, 'student_applications');
-    const q = query(colRef, orderBy('createdAt', 'desc'));
+    const colRef = collection(db, "student_applications");
+    const q = query(colRef, orderBy("createdAt", "desc"));
     const snapshot = await withTimeout(getDocs(q));
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (e) {
@@ -290,11 +213,8 @@ export const getApplicationRecords = async () => {
 
 export const saveInquiryRecord = async (inquiryData) => {
   try {
-    const colRef = collection(db, 'student_inquiries');
-    const docRef = await withTimeout(addDoc(colRef, {
-      ...inquiryData,
-      createdAt: new Date().toISOString()
-    }));
+    const colRef = collection(db, "student_inquiries");
+    const docRef = await withTimeout(addDoc(colRef, { ...inquiryData, createdAt: new Date().toISOString() }));
     return docRef.id;
   } catch (e) {
     console.error("Firestore inquiry save error:", e);
@@ -304,95 +224,12 @@ export const saveInquiryRecord = async (inquiryData) => {
 
 export const getInquiryRecords = async () => {
   try {
-    const colRef = collection(db, 'student_inquiries');
-    const q = query(colRef, orderBy('createdAt', 'desc'));
+    const colRef = collection(db, "student_inquiries");
+    const q = query(colRef, orderBy("createdAt", "desc"));
     const snapshot = await withTimeout(getDocs(q));
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (e) {
     console.error("Firestore inquiry get error:", e);
     return [];
   }
-};
-
-const LOCAL_ABOUT_KEY = 'uef_about_config';
-
-export const saveAboutUsToStorage = (aboutData) => {
-  try {
-    const configData = {
-      aboutData,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_ABOUT_KEY, JSON.stringify(configData));
-  } catch (e) {
-    console.warn("LocalStorage save warning:", e);
-  }
-};
-
-export const loadAboutUsFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_ABOUT_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.aboutData) {
-        return parsed.aboutData;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning:", e);
-  }
-  return null;
-};
-
-const LOCAL_ELECTIVES_KEY = 'uef_electives_config';
-
-export const saveElectivesToStorage = (electives) => {
-  try {
-    const configData = {
-      electives,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_ELECTIVES_KEY, JSON.stringify(configData));
-  } catch (e) {
-    console.warn("LocalStorage save warning:", e);
-  }
-};
-
-export const loadElectivesFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_ELECTIVES_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.electives) {
-        return parsed.electives;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning:", e);
-  }
-  return null;
-};
-
-const LOCAL_EVENTS_KEY = 'uef_events_config';
-
-export const saveEventsToStorage = (events) => {
-  try {
-    localStorage.setItem(LOCAL_EVENTS_KEY, JSON.stringify({ events, updatedAt: new Date().toISOString() }));
-  } catch (e) {
-    console.warn("LocalStorage save warning (Events):", e);
-  }
-};
-
-export const loadEventsFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_EVENTS_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.events)) return parsed.events;
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning (Events):", e);
-  }
-  return null;
 };
