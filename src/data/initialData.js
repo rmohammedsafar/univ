@@ -1,3 +1,8 @@
+export const INITIAL_THEME_CONFIG = {
+  bgColor: '#f8fafc',
+  textColor: '#0f172a'
+};
+
 export const INITIAL_DEGREE_PROGRAMS = [
   {
     id: "ms-cs-ai",
