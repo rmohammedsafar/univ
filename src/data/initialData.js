@@ -324,6 +324,10 @@ export const INITIAL_GALLERY_IMAGES = [
   'https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?auto=format&fit=crop&w=800&q=80',
   'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
   'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80',
   'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80'
+];
+
+export const INITIAL_ELECTIVES = [
+  { id: 'general', name: 'General Track' },
+  { id: 'advanced', name: 'Advanced Honors' }
 ];

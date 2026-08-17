@@ -343,3 +343,33 @@ export const loadAboutUsFromStorage = () => {
   }
   return null;
 };
+
+const LOCAL_ELECTIVES_KEY = 'uef_electives_config';
+
+export const saveElectivesToStorage = (electives) => {
+  try {
+    const configData = {
+      electives,
+      isCustomized: true,
+      updatedAt: new Date().toISOString()
+    };
+    localStorage.setItem(LOCAL_ELECTIVES_KEY, JSON.stringify(configData));
+  } catch (e) {
+    console.warn("LocalStorage save warning:", e);
+  }
+};
+
+export const loadElectivesFromStorage = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_ELECTIVES_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.electives) {
+        return parsed.electives;
+      }
+    }
+  } catch (e) {
+    console.warn("LocalStorage load warning:", e);
+  }
+  return null;
+};

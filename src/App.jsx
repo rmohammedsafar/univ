@@ -14,8 +14,8 @@ import LoadingScreen from './components/LoadingScreen';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage, loadGalleryFromStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES, INITIAL_ELECTIVES } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -75,6 +75,11 @@ export default function App() {
   const [galleryImages, setGalleryImages] = useState(() => {
     let saved = loadGalleryFromStorage();
     return saved ? saved : INITIAL_GALLERY_IMAGES;
+  });
+
+  const [electives, setElectives] = useState(() => {
+    let saved = loadElectivesFromStorage();
+    return saved ? saved : INITIAL_ELECTIVES;
   });
 
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
@@ -153,7 +158,7 @@ export default function App() {
 
         <Route path="/gallery" element={<GalleryPage galleryImages={galleryImages} />} />
 
-        <Route path="/apply" element={<RegistrationPage />} />
+        <Route path="/apply" element={<RegistrationPage programs={programs} electives={electives} />} />
         
         <Route path="/admin" element={
             <AdminPage 
@@ -170,6 +175,8 @@ export default function App() {
               onUpdateAbout={setAboutData}
               galleryImages={galleryImages}
               onUpdateGallery={setGalleryImages}
+              electives={electives}
+              onUpdateElectives={setElectives}
             />
         } />
       </Routes>

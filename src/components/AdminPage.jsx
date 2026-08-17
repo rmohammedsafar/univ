@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import AdminPortal from './AdminPortal';
-import { saveCMSConfigToStorage, saveTourConfigToStorage, saveContactConfigToStorage, saveHeroConfigToStorage, saveAboutUsToStorage, saveGalleryToStorage } from '../services/firebase';
+import { saveCMSConfigToStorage, saveTourConfigToStorage, saveContactConfigToStorage, saveHeroConfigToStorage, saveAboutUsToStorage, saveGalleryToStorage, saveElectivesToStorage } from '../services/firebase';
 
-export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery }) {
+export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives }) {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPass, setAdminPass] = useState('');
@@ -60,6 +60,11 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
         onUpdateGallery={(updatedGallery) => {
           onUpdateGallery(updatedGallery);
           saveGalleryToStorage(updatedGallery);
+        }}
+        electives={electives}
+        onUpdateElectives={(updatedElectives) => {
+          onUpdateElectives(updatedElectives);
+          saveElectivesToStorage(updatedElectives);
         }}
         onLogout={handleAdminLogout}
       />

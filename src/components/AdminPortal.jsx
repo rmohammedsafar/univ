@@ -4,7 +4,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [editingProgramId, setEditingProgramId] = useState(null);
@@ -12,6 +12,9 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [applications, setApplications] = useState([]);
   const [inquiries, setInquiries] = useState([]);
   const [admissionsSubTab, setAdmissionsSubTab] = useState('applications');
+
+  const [editingElectiveId, setEditingElectiveId] = useState(null);
+  const [newElectiveName, setNewElectiveName] = useState('');
 
   const [contactFormData, setContactFormData] = React.useState(contactInfo || {});
   
@@ -22,6 +25,31 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const handleSaveContact = () => {
     onUpdateContact(contactFormData);
     alert('Contact information updated successfully!');
+  };
+
+  const handleAddElectiveSubmit = (e) => {
+    e.preventDefault();
+    if (!newElectiveName.trim()) {
+      alert("Please enter an elective name.");
+      return;
+    }
+
+    if (editingElectiveId) {
+      const updated = electives.map(el => el.id === editingElectiveId ? { ...el, name: newElectiveName.trim() } : el);
+      onUpdateElectives(updated);
+      setEditingElectiveId(null);
+    } else {
+      const newEl = { id: 'track-' + Date.now(), name: newElectiveName.trim() };
+      onUpdateElectives([...(electives || []), newEl]);
+    }
+    setNewElectiveName('');
+  };
+
+  const handleDeleteElective = (id) => {
+    if (window.confirm("Are you sure you want to delete this elective track?")) {
+      const updated = electives.filter(el => el.id !== id);
+      onUpdateElectives(updated);
+    }
   };
 
   const [heroFormData, setHeroFormData] = React.useState(heroConfig || {});
@@ -496,6 +524,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('gallery')}
           >
             🖼️ Gallery CMS
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'registration' ? 'active' : ''}`}
+            onClick={() => setActiveTab('registration')}
+          >
+            📝 Registration CMS
           </button>
         </div>
 
@@ -1186,6 +1220,84 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             </div>
           </div>
         )}
+        {/* TAB: REGISTRATION CMS */}
+        {activeTab === 'registration' && (
+          <div>
+            <div style={{ marginBottom: '24px' }}>
+              <h3 style={{ fontSize: '20px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>
+                📝 Registration Form Configuration
+              </h3>
+              <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                Manage the "Elective Tracks" that appear in the student Enrollment Application form. Degree Programs are automatically synced from the Courses & Tuition CMS.
+              </p>
+            </div>
+
+            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
+              <form onSubmit={handleAddElectiveSubmit} style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+                <div style={{ flex: 1 }}>
+                  <label className="form-label">{editingElectiveId ? 'Edit Elective Name' : 'New Elective Track Name'}</label>
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    placeholder="e.g. Cybersecurity Analytics" 
+                    value={newElectiveName}
+                    onChange={(e) => setNewElectiveName(e.target.value)}
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn btn-gold" style={{ height: '42px', padding: '0 24px' }}>
+                  {editingElectiveId ? '💾 Save Changes' : '➕ Add Elective'}
+                </button>
+                {editingElectiveId && (
+                  <button type="button" className="btn btn-outline" onClick={() => { setEditingElectiveId(null); setNewElectiveName(''); }} style={{ height: '42px', padding: '0 16px' }}>
+                    Cancel
+                  </button>
+                )}
+              </form>
+            </div>
+
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
+                    <th>Elective Track Name</th>
+                    <th style={{ width: '150px' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(!electives || electives.length === 0) ? (
+                    <tr>
+                      <td colSpan="2" style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)' }}>No elective tracks available.</td>
+                    </tr>
+                  ) : electives.map(el => (
+                    <tr key={el.id}>
+                      <td style={{ fontWeight: 700 }}>{el.name}</td>
+                      <td>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button 
+                            className="btn btn-outline" 
+                            onClick={() => { setEditingElectiveId(el.id); setNewElectiveName(el.name); }} 
+                            style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}
+                          >
+                            ✏️ Edit
+                          </button>
+                          <button 
+                            className="btn btn-outline" 
+                            onClick={() => handleDeleteElective(el.id)} 
+                            style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}
+                          >
+                            🗑️ Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
       </div>
     </section>
   );

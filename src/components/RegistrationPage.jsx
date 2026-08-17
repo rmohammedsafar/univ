@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_CONTACT_INFO } from '../data/initialData';
+import { INITIAL_CONTACT_INFO } from '../data/initialData';
 import { GLOBAL_COUNTRIES } from '../data/countryStateData';
 import { saveApplicationRecord } from '../services/firebase';
 import { sendConfirmationEmailAsync } from '../services/emailService';
 
-export default function RegistrationPage() {
+export default function RegistrationPage({ programs = [], electives = [] }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -39,8 +39,11 @@ export default function RegistrationPage() {
 
     const fullName = `${firstName} ${lastName}`.trim();
     const fullPhone = `${phoneCode} ${phone}`.trim();
-    const selectedProgObj = INITIAL_DEGREE_PROGRAMS.find(p => p.id === program || p.name === program || p.title === program);
+    const selectedProgObj = programs.find(p => p.id === program || p.name === program || p.title === program);
     const programTitle = selectedProgObj ? `${selectedProgObj.degree} in ${selectedProgObj.name || selectedProgObj.title}` : (program || 'Degree Program');
+    
+    const selectedElectiveObj = electives.find(e => e.id === elective);
+    const electiveName = selectedElectiveObj ? selectedElectiveObj.name : elective;
 
     const appData = {
       fullName,
@@ -49,7 +52,7 @@ export default function RegistrationPage() {
       country,
       state,
       programTitle,
-      highestQual: elective === 'advanced' ? 'Advanced Honors' : 'General Undergraduate Track',
+      highestQual: electiveName,
       submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
     };
 
@@ -234,7 +237,7 @@ export default function RegistrationPage() {
                     required
                   >
                     <option value="" style={{ color: '#000' }}>Select Program</option>
-                    {INITIAL_DEGREE_PROGRAMS.map(p => (
+                    {programs.map(p => (
                       <option key={p.id} value={p.id} style={{ color: '#000' }}>{p.degree} in {p.name || p.title}</option>
                     ))}
                   </select>
@@ -248,8 +251,9 @@ export default function RegistrationPage() {
                     onChange={(e) => setElective(e.target.value)}
                     required
                   >
-                    <option value="general" style={{ color: '#000' }}>General Track</option>
-                    <option value="advanced" style={{ color: '#000' }}>Advanced Honors</option>
+                    {electives.map(e => (
+                      <option key={e.id} value={e.id} style={{ color: '#000' }}>{e.name}</option>
+                    ))}
                   </select>
                 </div>
 
