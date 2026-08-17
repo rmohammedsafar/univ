@@ -28,11 +28,7 @@ export default function GalleryPage({ galleryImages }) {
         <h1 style={{ fontSize: '48px', color: '#2c2a29', textAlign: 'left', marginBottom: '40px', fontFamily: 'var(--font-serif, serif)', fontWeight: 'normal' }}>Gallery</h1>
         
         {/* Gallery Grid */}
-        <div style={{ 
-          columnCount: 3, 
-          columnGap: '20px',
-          marginBottom: '60px'
-        }}>
+        <div className="gallery-masonry">
           {imagesToShow.map((src, idx) => (
             <div 
               key={idx} 
