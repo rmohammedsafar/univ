@@ -1749,6 +1749,7 @@ body.light-theme .address-text p {
 .map-iframe {
   width: 100%;
   height: 100%;
+  flex: 1;
   min-height: 320px;
   border: none;
   filter: contrast(1.1) opacity(0.9);

@@ -82,11 +82,6 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
               </div>
             </div>
 
-            <div style={{ background: 'rgba(212,175,55,0.1)', padding: 14, borderRadius: 10, border: '1px solid var(--border-gold)', marginTop: 8 }}>
-              <span style={{ fontSize: 12, color: 'var(--gold-light)', fontWeight: 'bold' }}>
-                🎓 {contactInfo?.watermark}
-              </span>
-            </div>
           </div>
 
           {/* Right: Google Map + Quick Inquiry */}
