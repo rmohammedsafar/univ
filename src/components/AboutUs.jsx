@@ -82,6 +82,7 @@ export default function AboutUs({ aboutData }) {
           color: #54504c;
           margin-bottom: 40px;
           white-space: pre-wrap;
+          text-align: justify;
         }
         .about-logo {
           width: 100%;
@@ -114,7 +115,7 @@ export default function AboutUs({ aboutData }) {
           .about-desc {
             font-size: 14px;
             margin-bottom: 25px;
-            text-align: center;
+            text-align: justify;
           }
           .about-us-grid {
             grid-template-columns: 1fr !important;
