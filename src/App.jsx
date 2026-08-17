@@ -141,8 +141,8 @@ export default function App() {
               onExplorePrograms={() => document.getElementById('programs').scrollIntoView({ behavior: 'smooth' })} 
             />
             
-            <ProgramCatalog programs={programs} />
             <AboutUs />
+            <ProgramCatalog programs={programs} />
             <CampusTour tourSlides={tourSlides} />
             <UpcomingEvents />
           </main>
