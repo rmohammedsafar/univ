@@ -80,7 +80,7 @@ function AnimatedStat({ value }) {
 
 export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
   const customBgStyle = heroConfig?.backgroundImage 
-    ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url("${heroConfig.backgroundImage}")`, backgroundSize: 'cover', backgroundPosition: 'center' } 
+    ? { '--hero-bg-url': `url("${heroConfig.backgroundImage}")` } 
     : {};
 
   return (
