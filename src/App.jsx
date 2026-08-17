@@ -120,7 +120,7 @@ export default function App() {
     };
   }, [location.pathname]);
 
-  // Handle hash routing scroll
+  // Handle hash routing scroll and scroll to top
   useEffect(() => {
     if (location.hash) {
       setTimeout(() => {
@@ -130,6 +130,8 @@ export default function App() {
           element.scrollIntoView({ behavior: 'smooth' });
         }
       }, 500); // Allow time for loading screen & rendering
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
   }, [location.hash, location.pathname]);
 
