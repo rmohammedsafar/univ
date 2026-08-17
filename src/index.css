@@ -3627,9 +3627,101 @@ body.light-theme .site-footer h4 {
   align-items: start;
 }
 
+.tour-carousel-container {
+  display: flex;
+}
+
+.tour-slide {
+  width: 100%;
+  flex: 0 0 100%;
+}
+
+.tour-dots-mobile {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .tour-slide:not(.active) {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
+  .tour-tabs-desktop { display: none !important; }
+  
+  .tour-carousel-container {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    gap: 16px;
+    padding-bottom: 8px;
+  }
+  .tour-carousel-container::-webkit-scrollbar { display: none; }
+  
+  .tour-slide {
+    scroll-snap-align: center;
+  }
+  
+  .tour-card-inner {
+    padding: 16px !important;
+  }
+
   .tour-grid-2 {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .tour-room-img {
+    height: 200px !important;
+  }
+  
+  .tour-room-title {
+    font-size: 18px !important;
+  }
+
+  .tour-room-desc {
+    font-size: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .tour-stats-grid {
+    padding: 12px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .tour-stats-grid span { font-size: 9px !important; }
+  .tour-stats-grid div { font-size: 14px !important; }
+  
+  .tour-room-btn {
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tour-dots-mobile {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .tour-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.4;
+    border: none;
+    padding: 0;
+    transition: all 0.3s;
+  }
+
+  .tour-dot.active {
+    opacity: 1;
+    background: var(--gold-primary);
+    width: 24px;
+    border-radius: 4px;
   }
 }
 
