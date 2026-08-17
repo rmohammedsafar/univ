@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import AdminPortal from './AdminPortal';
-import { saveCMSConfigToStorage, saveTourConfigToStorage, saveResearchConfigToStorage, saveNewsConfigToStorage, saveContactConfigToStorage, saveHeroConfigToStorage } from '../services/firebase';
+import { saveCMSConfigToStorage, saveTourConfigToStorage, saveContactConfigToStorage, saveHeroConfigToStorage, saveAboutUsToStorage } from '../services/firebase';
 
-export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, researchPapers, onUpdateResearch, newsArticles, onUpdateNews, contactInfo, onUpdateContact, heroConfig, onUpdateHero }) {
+export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout }) {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPass, setAdminPass] = useState('');
@@ -41,16 +41,6 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
           onUpdateTour(updatedSlides);
           saveTourConfigToStorage(updatedSlides);
         }}
-        researchPapers={researchPapers}
-        onUpdateResearch={(updatedResearch) => {
-          onUpdateResearch(updatedResearch);
-          saveResearchConfigToStorage(updatedResearch);
-        }}
-        newsArticles={newsArticles}
-        onUpdateNews={(updatedNews) => {
-          onUpdateNews(updatedNews);
-          saveNewsConfigToStorage(updatedNews);
-        }}
         contactInfo={contactInfo}
         onUpdateContact={(updatedContact) => {
           onUpdateContact(updatedContact);
@@ -60,6 +50,11 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
         onUpdateHero={(updatedHero) => {
           onUpdateHero(updatedHero);
           saveHeroConfigToStorage(updatedHero);
+        }}
+        aboutData={aboutData}
+        onUpdateAbout={(updatedAbout) => {
+          onUpdateAbout(updatedAbout);
+          saveAboutUsToStorage(updatedAbout);
         }}
         onLogout={handleAdminLogout}
       />
