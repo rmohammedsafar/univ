@@ -2798,14 +2798,12 @@ body.light-theme .modal-title {
   }
 
   .programs-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
   .program-card {
-    max-width: 340px;
-    margin: 0 auto 15px auto;
-    width: 100%;
+    margin-bottom: 0;
   }
 
   .program-card .card-header {
