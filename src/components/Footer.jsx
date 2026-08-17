@@ -153,14 +153,14 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
             </ul>
           </div>
 
-          {/* Student Services */}
+          {/* Quick Links */}
           <div className="footer-col">
-            <h4>Student Services</h4>
+            <h4>Quick Links</h4>
             <ul className="footer-links">
-              <li><a href="#applySection">Marksheet Upload</a></li>
-              <li><a href="#applySection">Marks Evaluator</a></li>
-              <li><a href="#applySection">Referral Discount Hub</a></li>
-              <li><a href="#programs">PDF Brochure Downloads</a></li>
+              <li><a href="/">About Us</a></li>
+              <li><a href="/">Campus Tour</a></li>
+              <li><a href="/gallery">Gallery</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenAdminLogin(); }}>Admin Portal</a></li>
             </ul>
           </div>
 
