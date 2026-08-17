@@ -10,6 +10,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [inquiries, setInquiries] = useState([]);
+  const [admissionsSubTab, setAdmissionsSubTab] = useState('applications');
 
   const [contactFormData, setContactFormData] = React.useState(contactInfo || {});
   
@@ -321,12 +322,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           >
             📋 Admissions & Leads
           </button>
-          <button 
-            className={`filter-pill ${activeTab === 'inquiries' ? 'active' : ''}`}
-            onClick={() => setActiveTab('inquiries')}
-          >
-            📧 General Inquiries
-          </button>
+
           <button 
             className={`filter-pill ${activeTab === 'hero' ? 'active' : ''}`}
             onClick={() => setActiveTab('hero')}
@@ -392,37 +388,85 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
               </div>
             </div>
 
-            <div className="admin-table-container" style={{ marginTop: '24px' }}>
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Student Name</th>
-                    <th>Email &amp; Location</th>
-                    <th>Phone Number</th>
-                    <th>Target Program</th>
-                    <th>Submitted Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {applications.length === 0 ? (
+            <div style={{ display: 'flex', gap: '15px', marginTop: '30px', marginBottom: '15px' }}>
+              <button 
+                className={`filter-pill ${admissionsSubTab === 'applications' ? 'active' : ''}`}
+                onClick={() => setAdmissionsSubTab('applications')}
+              >
+                📋 Student Applications
+              </button>
+              <button 
+                className={`filter-pill ${admissionsSubTab === 'inquiries' ? 'active' : ''}`}
+                onClick={() => setAdmissionsSubTab('inquiries')}
+              >
+                📧 General Inquiries
+              </button>
+            </div>
+
+            <div className="admin-table-container">
+              {admissionsSubTab === 'applications' ? (
+                <table className="admin-table">
+                  <thead>
                     <tr>
-                      <td colSpan="5" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
-                        No student application leads recorded yet.
-                      </td>
+                      <th>Student Name</th>
+                      <th>Email &amp; Location</th>
+                      <th>Phone Number</th>
+                      <th>Target Program</th>
+                      <th>Submitted Date</th>
                     </tr>
-                  ) : (
-                    applications.map(app => (
-                      <tr key={app.id}>
-                        <td style={{ fontWeight: 'bold' }}>{app.fullName}</td>
-                        <td>{app.email} {app.country ? `(${app.country}${app.state ? `, ${app.state}` : ''})` : ''}</td>
-                        <td>{app.phone || 'N/A'}</td>
-                        <td><span style={{ color: 'var(--gold-primary)', fontWeight: '600' }}>{app.programTitle || app.program}</span></td>
-                        <td style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{app.submittedAt || 'Recent'}</td>
+                  </thead>
+                  <tbody>
+                    {applications.length === 0 ? (
+                      <tr>
+                        <td colSpan="5" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
+                          No student application leads recorded yet.
+                        </td>
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+                    ) : (
+                      applications.map(app => (
+                        <tr key={app.id}>
+                          <td style={{ fontWeight: 'bold' }}>{app.fullName}</td>
+                          <td>{app.email} {app.country ? `(${app.country}${app.state ? `, ${app.state}` : ''})` : ''}</td>
+                          <td>{app.phone || 'N/A'}</td>
+                          <td><span style={{ color: 'var(--gold-primary)', fontWeight: '600' }}>{app.programTitle || app.program}</span></td>
+                          <td style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{app.submittedAt || 'Recent'}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              ) : (
+                <table className="admin-table">
+                  <thead>
+                    <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
+                      <th>Date</th>
+                      <th>Student Name</th>
+                      <th>Email Address</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {inquiries.length === 0 ? (
+                      <tr>
+                        <td colSpan="3" style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>
+                          No inquiries received yet.
+                        </td>
+                      </tr>
+                    ) : (
+                      inquiries.map(inq => (
+                        <tr key={inq.id}>
+                          <td style={{ fontSize: '13px', color: '#888' }}>{inq.submittedAt}</td>
+                          <td style={{ fontWeight: 700, color: '#fff' }}>{inq.name}</td>
+                          <td>
+                            <a href={`mailto:${inq.email}`} style={{ color: '#60a5fa', textDecoration: 'none' }}>
+                              {inq.email}
+                            </a>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         )}
@@ -600,54 +644,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           </div>
         )}
 
-        {/* TAB 3: INQUIRIES */}
-        {activeTab === 'inquiries' && (
-          <div>
-            <div className="admin-kpi-grid" style={{ marginBottom: '24px' }}>
-              <div className="admin-kpi-card">
-                <div className="kpi-icon">📧</div>
-                <div>
-                  <div className="kpi-val">{inquiries.length}</div>
-                  <div className="kpi-lbl">Total Inquiries</div>
-                </div>
-              </div>
-            </div>
 
-            <h3 style={{ color: 'var(--gold-light)', marginBottom: '16px' }}>Student Inquiries</h3>
-            
-            {inquiries.length === 0 ? (
-              <div style={{ padding: '30px', textAlign: 'center', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(212,175,55,0.3)', borderRadius: '8px' }}>
-                <div style={{ fontSize: '30px', marginBottom: '10px' }}>📭</div>
-                <div style={{ color: '#c7b8b2' }}>No inquiries received yet.</div>
-              </div>
-            ) : (
-              <div className="admin-table-container">
-                <table className="admin-table">
-                  <thead>
-                    <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
-                      <th>Date</th>
-                      <th>Student Name</th>
-                      <th>Email Address</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {inquiries.map(inq => (
-                      <tr key={inq.id}>
-                        <td style={{ fontSize: '13px', color: '#888' }}>{inq.submittedAt}</td>
-                        <td style={{ fontWeight: 700, color: '#fff' }}>{inq.name}</td>
-                        <td>
-                          <a href={`mailto:${inq.email}`} style={{ color: '#60a5fa', textDecoration: 'none' }}>
-                            {inq.email}
-                          </a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-        )}
 
         {/* TAB: HERO CONFIG */}
         {activeTab === 'hero' && (
