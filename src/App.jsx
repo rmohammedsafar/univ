@@ -15,8 +15,8 @@ import LoadingScreen from './components/LoadingScreen';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES, INITIAL_ELECTIVES, INITIAL_EVENTS, INITIAL_THEME_CONFIG } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage, loadEventsFromStorage, loadThemeConfigFromStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES, INITIAL_ELECTIVES, INITIAL_EVENTS } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage, loadEventsFromStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -49,12 +49,11 @@ export default function App() {
   const [galleryImages, setGalleryImages] = useState(INITIAL_GALLERY_IMAGES);
   const [electives, setElectives] = useState(INITIAL_ELECTIVES);
   const [events, setEvents] = useState(INITIAL_EVENTS);
-  const [themeConfig, setThemeConfig] = useState(INITIAL_THEME_CONFIG);
 
   useEffect(() => {
     const loadAllCMS = async () => {
       try {
-        const [savedPrograms, savedTour, savedContact, savedHero, savedAbout, savedGallery, savedElectives, savedEvents, savedTheme] = await Promise.all([
+        const [savedPrograms, savedTour, savedContact, savedHero, savedAbout, savedGallery, savedElectives, savedEvents] = await Promise.all([
           loadCMSConfigFromStorage(),
           loadTourConfigFromStorage(),
           loadContactConfigFromStorage(),
@@ -62,8 +61,7 @@ export default function App() {
           loadAboutUsFromStorage(),
           loadGalleryFromStorage(),
           loadElectivesFromStorage(),
-          loadEventsFromStorage(),
-          loadThemeConfigFromStorage()
+          loadEventsFromStorage()
         ]);
         
         if (savedPrograms && savedPrograms.length > 0) setPrograms(savedPrograms);
@@ -74,7 +72,6 @@ export default function App() {
         if (savedGallery && savedGallery.length > 0) setGalleryImages(savedGallery);
         if (savedElectives && savedElectives.length > 0) setElectives(savedElectives);
         if (savedEvents && savedEvents.length > 0) setEvents(savedEvents);
-        if (savedTheme) setThemeConfig(savedTheme);
       } catch (e) {
         console.error("Failed to load CMS data:", e);
       }
@@ -129,30 +126,6 @@ export default function App() {
 
   return (
     <div className="app-main-wrapper">
-      {themeConfig && (
-        <style>{`
-          :root, body.light-theme {
-            background: ${themeConfig.bgColor} !important;
-            color: ${themeConfig.textColor} !important;
-            --bg-dark: ${themeConfig.bgColor};
-            --text-main: ${themeConfig.textColor};
-          }
-          body.light-theme .section-wrapper,
-          body.light-theme section {
-            background: ${themeConfig.bgColor} !important;
-            color: ${themeConfig.textColor} !important;
-          }
-          body.light-theme h1,
-          body.light-theme h2,
-          body.light-theme h3,
-          body.light-theme h4,
-          body.light-theme h5,
-          body.light-theme h6 {
-            color: ${themeConfig.textColor} !important;
-          }
-        `}</style>
-      )}
-
       {showLoading && <LoadingScreen isFading={isFadingLoading} />}
 
       {/* Navigation Header */}
@@ -205,8 +178,6 @@ export default function App() {
               onUpdateElectives={setElectives}
               events={events}
               onUpdateEvents={setEvents}
-              themeConfig={themeConfig}
-              onUpdateTheme={setThemeConfig}
             />
         } />
       </Routes>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import AdminPortal from './AdminPortal';
-import { saveCMSConfigToStorage, saveTourConfigToStorage, saveContactConfigToStorage, saveHeroConfigToStorage, saveAboutUsToStorage, saveGalleryToStorage, saveElectivesToStorage, saveEventsToStorage, saveThemeConfigToStorage } from '../services/firebase';
+import { saveCMSConfigToStorage, saveTourConfigToStorage, saveContactConfigToStorage, saveHeroConfigToStorage, saveAboutUsToStorage, saveGalleryToStorage, saveElectivesToStorage, saveEventsToStorage } from '../services/firebase';
 
-export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents, themeConfig, onUpdateTheme }) {
+export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents }) {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPass, setAdminPass] = useState('');
@@ -70,11 +70,6 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
         onUpdateEvents={(updatedEvents) => {
           onUpdateEvents(updatedEvents);
           saveEventsToStorage(updatedEvents);
-        }}
-        themeConfig={themeConfig}
-        onUpdateTheme={(updatedTheme) => {
-          onUpdateTheme(updatedTheme);
-          saveThemeConfigToStorage(updatedTheme);
         }}
         onLogout={handleAdminLogout}
       />

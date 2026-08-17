@@ -4,7 +4,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents, themeConfig, onUpdateTheme, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [editingProgramId, setEditingProgramId] = useState(null);
@@ -12,17 +12,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [applications, setApplications] = useState([]);
   const [inquiries, setInquiries] = useState([]);
   const [admissionsSubTab, setAdmissionsSubTab] = useState('applications');
-
-  const [themeFormData, setThemeFormData] = React.useState(themeConfig || { bgColor: '#f8fafc', textColor: '#0f172a' });
-
-  React.useEffect(() => {
-    if (themeConfig) setThemeFormData(themeConfig);
-  }, [themeConfig]);
-
-  const handleSaveTheme = () => {
-    onUpdateTheme(themeFormData);
-    alert('Global Theme colors updated successfully!');
-  };
 
   const [editingElectiveId, setEditingElectiveId] = useState(null);
   const [newElectiveName, setNewElectiveName] = useState('');
@@ -283,6 +272,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [newProgCategory, setNewProgCategory] = useState('technology');
   const [newProgTuition, setNewProgTuition] = useState('14400');
   const [newProgColor, setNewProgColor] = useState('#8b5cf6');
+  const [newProgTextColor, setNewProgTextColor] = useState('#ffffff');
   const [newProgDuration, setNewProgDuration] = useState('1.5 Years (100% Online)');
   const [newProgDesc, setNewProgDesc] = useState('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
   const [customDegree, setCustomDegree] = useState('');
@@ -365,6 +355,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       credits: "36 US Credit Hours (12 Core Modules)",
       brochureUrl: brochureUrl,
       themeColor: newProgColor,
+      textColor: newProgTextColor,
       bgImage: finalBgImage
     };
 
@@ -387,6 +378,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgDuration('1.5 Years (100% Online)');
     setNewProgDesc('');
     setNewProgColor('#8b5cf6');
+    setNewProgTextColor('#ffffff');
     setCustomDegree('');
     setCustomCategory('');
     setNewProgBrochureFile(null);
@@ -423,6 +415,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgDuration(prog.duration || '');
     setNewProgDesc(prog.description || '');
     setNewProgColor(prog.themeColor || '#8b5cf6');
+    setNewProgTextColor(prog.textColor || '#ffffff');
     setNewProgBgImage(null); // Clear file input
     setShowInlineAddPortal(true);
   };
@@ -593,12 +586,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('events')}
           >
             📅 Events CMS
-          </button>
-          <button 
-            className={`filter-pill ${activeTab === 'theme' ? 'active' : ''}`}
-            onClick={() => setActiveTab('theme')}
-          >
-            🎨 Theme Settings
           </button>
           <button 
             className={`filter-pill ${activeTab === 'contact' ? 'active' : ''}`}
@@ -866,6 +853,17 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       className="form-control" 
                       value={newProgColor}
                       onChange={(e) => setNewProgColor(e.target.value)}
+                      style={{ padding: '4px', height: '40px', width: '100px', cursor: 'pointer' }}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Custom Text Color (Card Title & Text)</label>
+                    <input 
+                      type="color" 
+                      className="form-control" 
+                      value={newProgTextColor}
+                      onChange={(e) => setNewProgTextColor(e.target.value)}
                       style={{ padding: '4px', height: '40px', width: '100px', cursor: 'pointer' }}
                     />
                   </div>
@@ -1490,74 +1488,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           </div>
         )}
 
-        {/* TAB: THEME SETTINGS */}
-        {activeTab === 'theme' && (
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-              <div>
-                <h3 style={{ fontSize: '24px', color: '#fff', margin: 0 }}>🎨 Global Theme Settings</h3>
-                <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '13px' }}>Change the primary background and text colors for the entire website.</p>
-              </div>
-              <button className="btn btn-gold" onClick={handleSaveTheme}>💾 Save Global Theme</button>
-            </div>
-
-            <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-gold)', borderRadius: '16px', padding: '24px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                <div className="form-group">
-                  <label className="form-label">Background Color (Global)</label>
-                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <input 
-                      type="color" 
-                      className="form-control" 
-                      value={themeFormData.bgColor} 
-                      onChange={(e) => setThemeFormData({...themeFormData, bgColor: e.target.value})}
-                      style={{ padding: '0', height: '50px', cursor: 'pointer' }}
-                    />
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      value={themeFormData.bgColor} 
-                      onChange={(e) => setThemeFormData({...themeFormData, bgColor: e.target.value})}
-                      placeholder="#f8fafc"
-                      style={{ flex: 1 }}
-                    />
-                  </div>
-                  <small style={{ color: 'var(--text-muted)' }}>Main background color for all pages (Light Theme default: #f8fafc).</small>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Text Color (Global)</label>
-                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <input 
-                      type="color" 
-                      className="form-control" 
-                      value={themeFormData.textColor} 
-                      onChange={(e) => setThemeFormData({...themeFormData, textColor: e.target.value})}
-                      style={{ padding: '0', height: '50px', cursor: 'pointer' }}
-                    />
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      value={themeFormData.textColor} 
-                      onChange={(e) => setThemeFormData({...themeFormData, textColor: e.target.value})}
-                      placeholder="#0f172a"
-                      style={{ flex: 1 }}
-                    />
-                  </div>
-                  <small style={{ color: 'var(--text-muted)' }}>Primary text and heading color (Light Theme default: #0f172a).</small>
-                </div>
-              </div>
-
-              <div style={{ marginTop: '30px', padding: '20px', background: themeFormData.bgColor, color: themeFormData.textColor, borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
-                <h3 style={{ margin: '0 0 10px 0', color: themeFormData.textColor }}>Live Preview</h3>
-                <p style={{ margin: 0, fontSize: '15px' }}>
-                  This is how the text will look on top of the background color across the website. 
-                  Make sure there is enough contrast so that students can easily read the content.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
 
       </div>
     </section>

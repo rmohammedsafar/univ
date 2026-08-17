@@ -151,17 +151,9 @@ export const saveEventsToStorage = async (events) => {
   await saveCMSDoc("events", { events });
 };
 
-export const saveThemeConfigToStorage = async (themeConfig) => {
-  await saveCMSDoc("theme", { themeConfig });
-};
 export const loadEventsFromStorage = async () => {
   const data = await loadCMSDoc("events");
   return data && Array.isArray(data.events) ? data.events : null;
-};
-
-export const loadThemeConfigFromStorage = async () => {
-  const data = await loadCMSDoc("theme");
-  return data && data.themeConfig ? data.themeConfig : null;
 };
 
 // ============================================================
