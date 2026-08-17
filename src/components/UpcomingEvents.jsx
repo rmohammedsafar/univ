@@ -9,7 +9,8 @@ const EVENTS = [
     day: '28',
     month: 'Sept',
     location: 'Virtual Conference Hall',
-    time: '6:00 PM - 9:00 PM EST'
+    time: '6:00 PM - 9:00 PM EST',
+    link: 'https://scholar.google.com/scholar?q=global+scholars+symposium+academics'
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ const EVENTS = [
     day: '15',
     month: 'Oct',
     location: 'Online Dev Portal',
-    time: '9:00 AM - 5:00 PM EST'
+    time: '9:00 AM - 5:00 PM EST',
+    link: 'https://devpost.com/hackathons'
   },
   {
     id: 3,
@@ -29,7 +31,8 @@ const EVENTS = [
     day: '05',
     month: 'Nov',
     location: 'Networking Lounge',
-    time: '7:00 PM - 9:00 PM EST'
+    time: '7:00 PM - 9:00 PM EST',
+    link: 'https://www.linkedin.com/events/'
   },
   {
     id: 4,
@@ -39,7 +42,8 @@ const EVENTS = [
     day: '20',
     month: 'Nov',
     location: 'Main Auditorium',
-    time: '10:00 AM - 4:00 PM EST'
+    time: '10:00 AM - 4:00 PM EST',
+    link: 'https://www.handshake.com/'
   },
   {
     id: 5,
@@ -49,7 +53,8 @@ const EVENTS = [
     day: '01',
     month: 'Dec',
     location: 'Student Union Hub',
-    time: '6:00 PM - 10:00 PM EST'
+    time: '6:00 PM - 10:00 PM EST',
+    link: 'https://www.culturalsurvival.org/'
   }
 ];
 
@@ -192,6 +197,34 @@ export default function UpcomingEvents() {
                   </div>
                 </div>
               </div>
+
+              {/* Know More Button */}
+              {ev.link && (
+                <a
+                  href={ev.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'transparent',
+                    border: 'none',
+                    fontSize: '13px',
+                    fontWeight: '600',
+                    letterSpacing: '1px',
+                    cursor: 'pointer',
+                    color: '#54504c',
+                    textDecoration: 'none',
+                    marginTop: '4px',
+                    transition: 'color 0.2s ease'
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.color = '#c9a84c'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#54504c'}
+                >
+                  KNOW MORE <span style={{ fontSize: '16px' }}>↓</span>
+                </a>
+              )}
 
             </div>
           ))}
