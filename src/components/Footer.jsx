@@ -104,22 +104,7 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
         </div>
       </section>
 
-      {/* ── ACCREDITATION DISCLAIMER BANNER ─────────────────────────────── */}
-      <section className="section-wrapper" id="accreditation" style={{ paddingTop: 0 }}>
-        <div className="accreditation-banner">
-          <h3 style={{ fontSize: 20, color: 'var(--gold-light)', marginBottom: 10, fontFamily: 'var(--font-serif)' }}>
-            🏅 Global Accreditation &amp; Quality Assurance
-          </h3>
-          <p style={{ fontSize: 14, color: 'var(--text-muted)', maxWidth: 900, margin: '0 auto 16px' }}>
-            The University of East Florida is dedicated to maintaining international standards in distance education. Our curriculum is modeled after top U.S. university frameworks and vetted by industry leaders.
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 20, flexWrap: 'wrap' }}>
-            <span className="usa-flag-badge">DEAC Distance Education Standards</span>
-            <span className="usa-flag-badge">SACSCOC Regional Quality Model</span>
-            <span className="usa-flag-badge">100% Online Verification</span>
-          </div>
-        </div>
-      </section>
+
 
       {/* STICKY ACCREDITATION BANNER */}
       
