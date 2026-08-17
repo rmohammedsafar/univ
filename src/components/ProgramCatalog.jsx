@@ -48,6 +48,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
     if (cat === 'technology') return '💻 Computer & Data Tech';
     if (cat === 'business') return '📈 Business & FinTech';
     if (cat === 'healthcare') return '⚕️ Health Informatics';
+    if (cat === 'default') return '🎓 General Studies';
     
     let title = cat.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     let emoji = '📚';
@@ -69,12 +70,13 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
   const customStyles = [];
   
   programs.forEach(p => {
-    if (p.category && !dynamicCategories.includes(p.category)) {
-      dynamicCategories.push(p.category);
+    const catValue = p.category || 'default';
+    if (!dynamicCategories.includes(catValue)) {
+      dynamicCategories.push(catValue);
       
-      const color = getCategoryColor(p.category);
+      const color = getCategoryColor(catValue);
       if (color) {
-        const safeCat = p.category.replace(/[^a-zA-Z0-9-]/g, '');
+        const safeCat = catValue.replace(/[^a-zA-Z0-9-]/g, '');
         customStyles.push(`
           .program-card.category-${safeCat} { border: 2px solid rgba(${color.rgb}, 0.6) !important; }
           .program-card.category-${safeCat}:hover { border-color: ${color.primary} !important; box-shadow: 0 14px 35px rgba(${color.rgb}, 0.3) !important; }
