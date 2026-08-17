@@ -23,7 +23,7 @@ export default function AboutUs() {
           display: 'grid', 
           gridTemplateColumns: '1fr 1.5fr', 
           gap: '80px',
-          alignItems: 'start'
+          alignItems: 'center'
         }} className="about-us-grid">
           {/* Left Column */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
