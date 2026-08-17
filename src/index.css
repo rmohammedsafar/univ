@@ -2798,7 +2798,8 @@ body.light-theme .modal-title {
 
   .programs-grid {
     display: grid;
-    grid-template-rows: 1fr;
+    grid-template-rows: auto;
+    align-items: start;
     grid-auto-flow: column;
     grid-auto-columns: 220px;
     gap: 12px;
