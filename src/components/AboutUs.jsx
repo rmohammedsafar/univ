@@ -31,12 +31,11 @@ export default function AboutUs() {
               src="/assets/logo.jpg" 
               alt="University Logo" 
               style={{ 
-                width: '280px', 
-                height: '280px', 
-                borderRadius: '50%', 
-                objectFit: 'cover',
-                marginBottom: '40px',
-                border: '4px solid #d4c4af'
+                width: '100%', 
+                maxWidth: '280px', 
+                height: 'auto', 
+                objectFit: 'contain',
+                marginBottom: '40px'
               }} 
               onError={(e) => { e.target.style.display='none' }}
             />
