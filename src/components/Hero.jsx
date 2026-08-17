@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function AnimatedStat({ value }) {
-  const [displayValue, setDisplayValue] = useState(value);
+  const [displayValue, setDisplayValue] = useState('0');
 
   useEffect(() => {
     if (!value) return;
@@ -10,66 +10,73 @@ function AnimatedStat({ value }) {
     const isNumeric = /\d/.test(value);
     let animationFrameId;
     let intervalId;
+    let timeoutId;
 
-    if (isNumeric) {
-      const numericString = value.replace(/[^\d.-]/g, '');
-      const number = parseFloat(numericString);
+    const startAnimation = () => {
+      if (isNumeric) {
+        const numericString = value.replace(/[^\d.-]/g, '');
+        const number = parseFloat(numericString);
 
-      if (isNaN(number)) {
-        setDisplayValue(value);
-        return;
+        if (isNaN(number)) {
+          setDisplayValue(value);
+          return;
+        }
+
+        const hasCommas = value.includes(',');
+        const prefixMatch = value.match(/^[^\d.-]+/);
+        const prefix = prefixMatch ? prefixMatch[0] : '';
+        const suffixMatch = value.match(/[^\d.,]+$/);
+        const suffix = suffixMatch ? suffixMatch[0] : '';
+
+        const duration = 2000;
+        const startTime = performance.now();
+
+        const animate = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+          const currentNumber = Math.floor(easeProgress * number);
+
+          let formattedNumber = currentNumber.toString();
+          if (hasCommas) {
+            formattedNumber = currentNumber.toLocaleString('en-US');
+          }
+
+          setDisplayValue(`${prefix}${formattedNumber}${suffix}`);
+
+          if (progress < 1) {
+            animationFrameId = requestAnimationFrame(animate);
+          } else {
+            setDisplayValue(value);
+          }
+        };
+
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        let currentText = '';
+        const totalChars = value.length;
+        const duration = 2000;
+        const timePerChar = duration / totalChars;
+
+        let index = 0;
+        intervalId = setInterval(() => {
+          currentText += value[index];
+          setDisplayValue(currentText);
+          index++;
+          if (index >= totalChars) {
+            clearInterval(intervalId);
+            setDisplayValue(value);
+          }
+        }, timePerChar);
       }
+    };
 
-      const hasCommas = value.includes(',');
-      const prefixMatch = value.match(/^[^\d.-]+/);
-      const prefix = prefixMatch ? prefixMatch[0] : '';
-      const suffixMatch = value.match(/[^\d.,]+$/);
-      const suffix = suffixMatch ? suffixMatch[0] : '';
-
-      const duration = 2000;
-      const startTime = performance.now();
-
-      const animate = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        const currentNumber = Math.floor(easeProgress * number);
-
-        let formattedNumber = currentNumber.toString();
-        if (hasCommas) {
-          formattedNumber = currentNumber.toLocaleString('en-US');
-        }
-
-        setDisplayValue(`${prefix}${formattedNumber}${suffix}`);
-
-        if (progress < 1) {
-          animationFrameId = requestAnimationFrame(animate);
-        } else {
-          setDisplayValue(value);
-        }
-      };
-
-      animationFrameId = requestAnimationFrame(animate);
-    } else {
-      let currentText = '';
-      const totalChars = value.length;
-      const duration = 2000;
-      const timePerChar = duration / totalChars;
-
-      let index = 0;
-      intervalId = setInterval(() => {
-        currentText += value[index];
-        setDisplayValue(currentText);
-        index++;
-        if (index >= totalChars) {
-          clearInterval(intervalId);
-          setDisplayValue(value);
-        }
-      }, timePerChar);
-    }
+    // Delay animation to sync with LoadingScreen fade out (1100ms fade start + 400ms)
+    timeoutId = setTimeout(startAnimation, 1500);
 
     return () => {
+      if (timeoutId) clearTimeout(timeoutId);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       if (intervalId) clearInterval(intervalId);
     };
