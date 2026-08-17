@@ -178,6 +178,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [newProgDegree, setNewProgDegree] = useState('Master of Science');
   const [newProgCategory, setNewProgCategory] = useState('technology');
   const [newProgTuition, setNewProgTuition] = useState('14400');
+  const [newProgColor, setNewProgColor] = useState('#8b5cf6');
   const [newProgDuration, setNewProgDuration] = useState('1.5 Years (100% Online)');
   const [newProgDesc, setNewProgDesc] = useState('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
   const [customDegree, setCustomDegree] = useState('');
@@ -241,18 +242,65 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       description: newProgDesc,
       format: "100% Remote / Asynchronous",
       credits: "36 US Credit Hours (12 Core Modules)",
-      brochureUrl: brochureUrl
+      brochureUrl: brochureUrl,
+      themeColor: newProgColor
     };
 
-    const updated = [...programs, newProg];
-    onUpdatePrograms(updated);
-    saveCMSConfigToStorage(updated);
+    if (editingProgramId) {
+      const updated = programs.map(p => p.id === editingProgramId ? newProg : p);
+      onUpdatePrograms(updated);
+      saveCMSConfigToStorage(updated);
+      setEditingProgramId(null);
+    } else {
+      const updated = [...programs, newProg];
+      onUpdatePrograms(updated);
+      saveCMSConfigToStorage(updated);
+    }
 
     // Reset Form
     setNewProgTitle('');
+    setNewProgDegree('Master of Science');
+    setNewProgCategory('technology');
+    setNewProgTuition('14400');
+    setNewProgDuration('1.5 Years (100% Online)');
+    setNewProgDesc('');
+    setNewProgColor('#8b5cf6');
+    setCustomDegree('');
+    setCustomCategory('');
     setNewProgBrochureFile(null);
     setShowInlineAddPortal(false);
-    alert(`🎉 Success! Degree program '${newProgTitle}' has been added and published live!`);
+    alert(`🎉 Success! Degree program '${newProgTitle}' has been saved successfully!`);
+  };
+
+  const handleEditProgram = (prog) => {
+    setEditingProgramId(prog.id);
+    setNewProgTitle(prog.title || prog.name || '');
+    
+    // Check if degree is in default list
+    const defaultsDegree = ['Master of Science', 'Bachelor of Science', 'Master of Business Administration', 'Doctor of Philosophy'];
+    if (defaultsDegree.includes(prog.degree)) {
+      setNewProgDegree(prog.degree);
+      setCustomDegree('');
+    } else {
+      setNewProgDegree('Other');
+      setCustomDegree(prog.degree || '');
+    }
+
+    // Check if category is default
+    const defaultsCat = ['technology', 'business', 'healthcare'];
+    if (defaultsCat.includes(prog.category)) {
+      setNewProgCategory(prog.category);
+      setCustomCategory('');
+    } else {
+      setNewProgCategory('Other');
+      setCustomCategory(prog.category || '');
+    }
+
+    setNewProgTuition(prog.numericFee ? prog.numericFee.toString() : (prog.tuition || '').replace(/\D/g, ''));
+    setNewProgDuration(prog.duration || '');
+    setNewProgDesc(prog.description || '');
+    setNewProgColor(prog.themeColor || '#8b5cf6');
+    setShowInlineAddPortal(true);
   };
 
   const handleRowPdfUpload = async (e, progId) => {
@@ -566,9 +614,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
               <div style={{ background: 'var(--bg-card)', border: '1.5px solid var(--gold-primary)', borderRadius: '14px', padding: '24px', marginBottom: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-gold)', paddingBottom: '12px' }}>
                   <h4 style={{ fontSize: '18px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>
-                    ✨ Create & Publish New Degree Program
+                    ✨ {editingProgramId ? 'Edit Degree Program' : 'Create & Publish New Degree Program'}
                   </h4>
-                  <button className="btn btn-outline" onClick={() => setShowInlineAddPortal(false)} style={{ padding: '4px 10px', fontSize: '12px' }}>✕ Close Form</button>
+                  <button className="btn btn-outline" onClick={() => {
+                    setShowInlineAddPortal(false);
+                    setEditingProgramId(null);
+                  }} style={{ padding: '4px 10px', fontSize: '12px' }}>✕ Close Form</button>
                 </div>
 
                 <form onSubmit={handleAddProgramSubmit}>
@@ -668,6 +719,17 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   </div>
 
                   <div className="form-group">
+                    <label className="form-label">Custom Theme Color (Grid & Badge Background)</label>
+                    <input 
+                      type="color" 
+                      className="form-control" 
+                      value={newProgColor}
+                      onChange={(e) => setNewProgColor(e.target.value)}
+                      style={{ padding: '4px', height: '40px', width: '100px', cursor: 'pointer' }}
+                    />
+                  </div>
+
+                  <div className="form-group">
                     <label className="form-label">Upload Brochure PDF (Optional)</label>
                     <input 
                       type="file" 
@@ -682,9 +744,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   </div>
 
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
-                    <button type="button" className="btn btn-outline" onClick={() => setShowInlineAddPortal(false)}>Cancel</button>
+                    <button type="button" className="btn btn-outline" onClick={() => {
+                      setShowInlineAddPortal(false);
+                      setEditingProgramId(null);
+                    }}>Cancel</button>
                     <button type="submit" className="btn btn-gold" style={{ padding: '10px 24px', fontSize: '14px' }} disabled={isUploadingBrochure}>
-                      {isUploadingBrochure ? '⏳ Uploading Brochure...' : '🚀 Publish Degree Program Live'}
+                      {isUploadingBrochure ? '⏳ Uploading Brochure...' : (editingProgramId ? '💾 Save Changes' : '🚀 Publish Degree Program Live')}
                     </button>
                   </div>
                 </form>
@@ -726,6 +791,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                               />
                             </label>
                           )}
+                          <button 
+                            className="btn btn-outline" 
+                            onClick={() => handleEditProgram(prog)} 
+                            style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}
+                          >
+                            ✏️ Edit
+                          </button>
                           <button 
                             className="btn btn-outline" 
                             onClick={() => handleDeleteProgram(prog.id)} 
