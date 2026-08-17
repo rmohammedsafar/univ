@@ -2797,18 +2797,8 @@ body.light-theme .modal-title {
 
   .programs-grid {
     display: grid;
-    grid-template-rows: auto;
-    align-items: start;
-    grid-auto-flow: column;
-    grid-auto-columns: 220px;
+    grid-template-columns: 1fr;
     gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 15px;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .programs-grid::-webkit-scrollbar {
-    display: none;
   }
 
   .program-card {
