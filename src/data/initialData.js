@@ -331,3 +331,66 @@ export const INITIAL_ELECTIVES = [
   { id: 'general', name: 'General Track' },
   { id: 'advanced', name: 'Advanced Honors' }
 ];
+
+export const INITIAL_EVENTS = [
+  {
+    id: 'evt-1',
+    title: 'Global Scholars Symposium',
+    desc: 'Celebrate the beauty of diversity at the Global Scholars Symposium! Indulge in a global feast of academic presentations, captivating performances, and lively discussions.',
+    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80',
+    day: '28',
+    month: 'Sept',
+    location: 'Virtual Conference Hall',
+    time: '6:00 PM - 9:00 PM EST',
+    buttonLabel: 'KNOW MORE',
+    link: 'https://scholar.google.com/scholar?q=global+scholars+symposium+academics'
+  },
+  {
+    id: 'evt-2',
+    title: 'Tech Innovation Hackathon',
+    desc: 'Unleash your coding skills at our annual online Hackathon! Whether you are a seasoned developer or a beginner, this hands-on session offers exciting challenges.',
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
+    day: '15',
+    month: 'Oct',
+    location: 'Online Dev Portal',
+    time: '9:00 AM - 5:00 PM EST',
+    buttonLabel: 'KNOW MORE',
+    link: 'https://devpost.com/hackathons'
+  },
+  {
+    id: 'evt-3',
+    title: 'Alumni Networking Mixer',
+    desc: 'Connect with successful UEF alumni from around the globe. Join us for an unforgettable evening of storytelling, career advice, and professional networking.',
+    image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
+    day: '05',
+    month: 'Nov',
+    location: 'Networking Lounge',
+    time: '7:00 PM - 9:00 PM EST',
+    buttonLabel: 'KNOW MORE',
+    link: 'https://www.linkedin.com/events/'
+  },
+  {
+    id: 'evt-4',
+    title: 'Virtual Career Fair',
+    desc: 'Meet top employers and explore internship and job opportunities. Prepare your resume and get ready to engage with recruiters from leading global companies.',
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80',
+    day: '20',
+    month: 'Nov',
+    location: 'Main Auditorium',
+    time: '10:00 AM - 4:00 PM EST',
+    buttonLabel: 'KNOW MORE',
+    link: 'https://www.handshake.com/'
+  },
+  {
+    id: 'evt-5',
+    title: 'Cultural Exchange Night',
+    desc: 'Lights, camera, culture! Watch films that highlight the uniqueness of different cultures and join our open panel discussions hosted by international students.',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80',
+    day: '01',
+    month: 'Dec',
+    location: 'Student Union Hub',
+    time: '6:00 PM - 10:00 PM EST',
+    buttonLabel: 'KNOW MORE',
+    link: 'https://www.culturalsurvival.org/'
+  }
+];

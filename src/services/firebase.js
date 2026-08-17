@@ -373,3 +373,26 @@ export const loadElectivesFromStorage = () => {
   }
   return null;
 };
+
+const LOCAL_EVENTS_KEY = 'uef_events_config';
+
+export const saveEventsToStorage = (events) => {
+  try {
+    localStorage.setItem(LOCAL_EVENTS_KEY, JSON.stringify({ events, updatedAt: new Date().toISOString() }));
+  } catch (e) {
+    console.warn("LocalStorage save warning (Events):", e);
+  }
+};
+
+export const loadEventsFromStorage = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_EVENTS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.events)) return parsed.events;
+    }
+  } catch (e) {
+    console.warn("LocalStorage load warning (Events):", e);
+  }
+  return null;
+};

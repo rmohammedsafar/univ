@@ -15,8 +15,8 @@ import LoadingScreen from './components/LoadingScreen';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES, INITIAL_ELECTIVES } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES, INITIAL_ELECTIVES, INITIAL_EVENTS } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage, loadEventsFromStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -81,6 +81,11 @@ export default function App() {
   const [electives, setElectives] = useState(() => {
     let saved = loadElectivesFromStorage();
     return saved ? saved : INITIAL_ELECTIVES;
+  });
+
+  const [events, setEvents] = useState(() => {
+    let saved = loadEventsFromStorage();
+    return saved ? saved : INITIAL_EVENTS;
   });
 
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
@@ -153,13 +158,13 @@ export default function App() {
             <AboutUs aboutData={aboutData} />
             <ProgramCatalog programs={programs} />
             <CampusTour tourSlides={tourSlides} />
-            <UpcomingEvents />
+            <UpcomingEvents events={events} />
           </main>
         } />
 
         <Route path="/gallery" element={<GalleryPage galleryImages={galleryImages} />} />
         
-        <Route path="/events" element={<EventsPage />} />
+        <Route path="/events" element={<EventsPage events={events} />} />
 
         <Route path="/apply" element={<RegistrationPage programs={programs} electives={electives} />} />
         
@@ -180,6 +185,8 @@ export default function App() {
               onUpdateGallery={setGalleryImages}
               electives={electives}
               onUpdateElectives={setElectives}
+              events={events}
+              onUpdateEvents={setEvents}
             />
         } />
       </Routes>

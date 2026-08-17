@@ -4,7 +4,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [editingProgramId, setEditingProgramId] = useState(null);
@@ -15,6 +15,21 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
 
   const [editingElectiveId, setEditingElectiveId] = useState(null);
   const [newElectiveName, setNewElectiveName] = useState('');
+
+  // Events CMS state
+  const [editingEventId, setEditingEventId] = useState(null);
+  const [evtTitle, setEvtTitle] = useState('');
+  const [evtDesc, setEvtDesc] = useState('');
+  const [evtImage, setEvtImage] = useState('');
+  const [evtDay, setEvtDay] = useState('');
+  const [evtMonth, setEvtMonth] = useState('');
+  const [evtLocation, setEvtLocation] = useState('');
+  const [evtTime, setEvtTime] = useState('');
+  const [evtLink, setEvtLink] = useState('');
+  const [evtButtonLabel, setEvtButtonLabel] = useState('KNOW MORE');
+  const [showEvtForm, setShowEvtForm] = useState(false);
+  const [isUploadingEvtImg, setIsUploadingEvtImg] = useState(false);
+  const [evtImageFile, setEvtImageFile] = useState(null);
 
   const [contactFormData, setContactFormData] = React.useState(contactInfo || {});
   
@@ -49,6 +64,56 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     if (window.confirm("Are you sure you want to delete this elective track?")) {
       const updated = electives.filter(el => el.id !== id);
       onUpdateElectives(updated);
+    }
+  };
+
+  // --- Events CMS handlers ---
+  const resetEvtForm = () => {
+    setEditingEventId(null);
+    setEvtTitle(''); setEvtDesc(''); setEvtImage('');
+    setEvtDay(''); setEvtMonth(''); setEvtLocation('');
+    setEvtTime(''); setEvtLink(''); setEvtButtonLabel('KNOW MORE');
+    setEvtImageFile(null);
+    setShowEvtForm(false);
+  };
+
+  const handleEvtEdit = (ev) => {
+    setEditingEventId(ev.id);
+    setEvtTitle(ev.title || ''); setEvtDesc(ev.desc || '');
+    setEvtImage(ev.image || ''); setEvtDay(ev.day || '');
+    setEvtMonth(ev.month || ''); setEvtLocation(ev.location || '');
+    setEvtTime(ev.time || ''); setEvtLink(ev.link || '');
+    setEvtButtonLabel(ev.buttonLabel || 'KNOW MORE');
+    setEvtImageFile(null);
+    setShowEvtForm(true);
+  };
+
+  const handleEvtSubmit = async (e) => {
+    e.preventDefault();
+    let finalImage = evtImage;
+    if (evtImageFile) {
+      setIsUploadingEvtImg(true);
+      try { finalImage = await uploadDocument(evtImageFile, 'event-images'); }
+      catch (err) { alert('Image upload failed: ' + err.message); setIsUploadingEvtImg(false); return; }
+      setIsUploadingEvtImg(false);
+    }
+    const evtData = {
+      id: editingEventId || ('evt-' + Date.now()),
+      title: evtTitle.trim(), desc: evtDesc.trim(), image: finalImage,
+      day: evtDay.trim(), month: evtMonth.trim(), location: evtLocation.trim(),
+      time: evtTime.trim(), link: evtLink.trim(), buttonLabel: evtButtonLabel.trim()
+    };
+    if (editingEventId) {
+      onUpdateEvents((events || []).map(ev => ev.id === editingEventId ? evtData : ev));
+    } else {
+      onUpdateEvents([...(events || []), evtData]);
+    }
+    resetEvtForm();
+  };
+
+  const handleEvtDelete = (id) => {
+    if (window.confirm('Delete this event?')) {
+      onUpdateEvents((events || []).filter(ev => ev.id !== id));
     }
   };
 
@@ -512,7 +577,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           >
             🏛️ Virtual Tour
           </button>
-
+          <button 
+            className={`filter-pill ${activeTab === 'events' ? 'active' : ''}`}
+            onClick={() => setActiveTab('events')}
+          >
+            📅 Events CMS
+          </button>
           <button 
             className={`filter-pill ${activeTab === 'contact' ? 'active' : ''}`}
             onClick={() => setActiveTab('contact')}
@@ -1288,6 +1358,111 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                           >
                             🗑️ Delete
                           </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* TAB: EVENTS CMS */}
+        {activeTab === 'events' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <div>
+                <h3 style={{ fontSize: '20px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>📅 Events CMS</h3>
+                <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>Manage all upcoming events shown on the homepage and the Events page.</p>
+              </div>
+              <button className="btn btn-gold" onClick={() => { resetEvtForm(); setShowEvtForm(true); }} style={{ padding: '10px 20px', fontSize: '13px' }}>
+                ➕ Add New Event
+              </button>
+            </div>
+
+            {showEvtForm && (
+              <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px', marginBottom: '28px' }}>
+                <h4 style={{ color: 'var(--gold-light)', marginBottom: '20px', fontFamily: 'var(--font-serif)' }}>{editingEventId ? '✏️ Edit Event' : '➕ Add New Event'}</h4>
+                <form onSubmit={handleEvtSubmit}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Event Title *</label>
+                      <input className="form-control" required value={evtTitle} onChange={e => setEvtTitle(e.target.value)} placeholder="e.g. Global Scholars Symposium" />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Description *</label>
+                      <textarea className="form-control" required rows={3} value={evtDesc} onChange={e => setEvtDesc(e.target.value)} placeholder="Event description..." style={{ resize: 'vertical' }} />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Image URL (or upload below)</label>
+                      <input className="form-control" value={evtImage} onChange={e => setEvtImage(e.target.value)} placeholder="https://images.unsplash.com/..." />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Upload New Image (optional)</label>
+                      <input type="file" accept="image/*" className="form-control" onChange={e => setEvtImageFile(e.target.files[0])} style={{ padding: '10px 14px' }} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Day (e.g. 28) *</label>
+                      <input className="form-control" required value={evtDay} onChange={e => setEvtDay(e.target.value)} placeholder="28" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Month (e.g. Sept) *</label>
+                      <input className="form-control" required value={evtMonth} onChange={e => setEvtMonth(e.target.value)} placeholder="Sept" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Location *</label>
+                      <input className="form-control" required value={evtLocation} onChange={e => setEvtLocation(e.target.value)} placeholder="Virtual Conference Hall" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Time *</label>
+                      <input className="form-control" required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="6:00 PM - 9:00 PM EST" />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Know More Link URL</label>
+                      <input className="form-control" value={evtLink} onChange={e => setEvtLink(e.target.value)} placeholder="https://example.com" />
+                    </div>
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Button Label (e.g. KNOW MORE, REGISTER)</label>
+                      <input className="form-control" value={evtButtonLabel} onChange={e => setEvtButtonLabel(e.target.value)} placeholder="KNOW MORE" />
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
+                    <button type="button" className="btn btn-outline" onClick={resetEvtForm}>Cancel</button>
+                    <button type="submit" className="btn btn-gold" disabled={isUploadingEvtImg}>
+                      {isUploadingEvtImg ? '⏳ Uploading...' : (editingEventId ? '💾 Save Changes' : '🚀 Publish Event')}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
+                    <th style={{ width: '70px' }}>Image</th>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Button</th>
+                    <th style={{ width: '130px' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(!events || events.length === 0) ? (
+                    <tr><td colSpan="6" style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)' }}>No events found. Click "Add New Event" to create one.</td></tr>
+                  ) : events.map(ev => (
+                    <tr key={ev.id}>
+                      <td><img src={ev.image} alt={ev.title} style={{ width: '60px', height: '45px', objectFit: 'cover', borderRadius: '6px' }} /></td>
+                      <td style={{ fontWeight: 700 }}>{ev.title}</td>
+                      <td>{ev.day} {ev.month}</td>
+                      <td>{ev.location}</td>
+                      <td><span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{ev.buttonLabel || 'KNOW MORE'}</span></td>
+                      <td>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button className="btn btn-outline" onClick={() => handleEvtEdit(ev)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}>✏️ Edit</button>
+                          <button className="btn btn-outline" onClick={() => handleEvtDelete(ev.id)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}>🗑️ Delete</button>
                         </div>
                       </td>
                     </tr>
