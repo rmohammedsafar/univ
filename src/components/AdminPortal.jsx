@@ -273,6 +273,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [newProgTuition, setNewProgTuition] = useState('14400');
   const [newProgColor, setNewProgColor] = useState('#8b5cf6');
   const [newProgTextColor, setNewProgTextColor] = useState('#ffffff');
+  const [newProgTitleColor, setNewProgTitleColor] = useState('#ffffff');
   const [newProgDuration, setNewProgDuration] = useState('1.5 Years (100% Online)');
   const [newProgDesc, setNewProgDesc] = useState('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
   const [customDegree, setCustomDegree] = useState('');
@@ -356,6 +357,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       brochureUrl: brochureUrl,
       themeColor: newProgColor,
       textColor: newProgTextColor,
+      titleColor: newProgTitleColor,
       bgImage: finalBgImage
     };
 
@@ -379,6 +381,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgDesc('');
     setNewProgColor('#8b5cf6');
     setNewProgTextColor('#ffffff');
+    setNewProgTitleColor('#ffffff');
     setCustomDegree('');
     setCustomCategory('');
     setNewProgBrochureFile(null);
@@ -416,6 +419,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgDesc(prog.description || '');
     setNewProgColor(prog.themeColor || '#8b5cf6');
     setNewProgTextColor(prog.textColor || '#ffffff');
+    setNewProgTitleColor(prog.titleColor || '#ffffff');
     setNewProgBgImage(null); // Clear file input
     setShowInlineAddPortal(true);
   };
@@ -858,7 +862,18 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Custom Text Color (Card Title & Text)</label>
+                    <label className="form-label">Custom Heading Text Color (Card Title & Badge)</label>
+                    <input 
+                      type="color" 
+                      className="form-control" 
+                      value={newProgTitleColor}
+                      onChange={(e) => setNewProgTitleColor(e.target.value)}
+                      style={{ padding: '4px', height: '40px', width: '100px', cursor: 'pointer' }}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Custom Body Text Color (Description & Specs)</label>
                     <input 
                       type="color" 
                       className="form-control" 
