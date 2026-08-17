@@ -55,6 +55,7 @@ const EVENTS = [
 
 export default function UpcomingEvents() {
   const scrollRef = useRef(null);
+  const [showAllModal, setShowAllModal] = React.useState(false);
 
   const scrollRight = () => {
     if (scrollRef.current) {
@@ -88,7 +89,7 @@ export default function UpcomingEvents() {
             Upcoming Events
           </h2>
           <button 
-            onClick={scrollRight}
+            onClick={() => setShowAllModal(true)}
             style={{
               background: 'transparent',
               border: 'none',
@@ -192,6 +193,64 @@ export default function UpcomingEvents() {
         </div>
 
       </div>
+
+      {/* MODAL FOR VIEW ALL EVENTS */}
+      {showAllModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.6)',
+          zIndex: 9999,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            background: 'var(--bg-card, #fff)',
+            width: '100%',
+            maxWidth: '600px',
+            maxHeight: '80vh',
+            borderRadius: '16px',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden'
+          }}>
+            {/* Modal Header */}
+            <div style={{ padding: '20px', borderBottom: '1px solid var(--border-gold, #e2d7c1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-dark, #1f2937)' }}>
+              <h3 style={{ margin: 0, fontSize: '20px', color: 'var(--gold-light, #d4af37)', fontFamily: 'var(--font-serif, serif)' }}>All Upcoming Events</h3>
+              <button 
+                onClick={() => setShowAllModal(false)}
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted, #9ca3af)', fontSize: '24px', cursor: 'pointer', lineHeight: 1 }}
+              >
+                &times;
+              </button>
+            </div>
+            
+            {/* Modal Body */}
+            <div style={{ padding: '20px', overflowY: 'auto', background: 'var(--bg-main, #111827)' }} className="hide-scrollbar">
+              {EVENTS.map((ev) => (
+                <div key={ev.id} style={{ display: 'flex', gap: '16px', marginBottom: '24px', borderBottom: '1px solid rgba(212, 175, 55, 0.2)', paddingBottom: '20px' }}>
+                  <img src={ev.image} alt={ev.title} style={{ width: '120px', height: '100px', objectFit: 'cover', borderRadius: '8px' }} />
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <h4 style={{ margin: '0 0 6px 0', fontSize: '16px', color: 'var(--text-main, #f3f4f6)', fontWeight: 600 }}>{ev.title}</h4>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: 'var(--text-muted, #9ca3af)', marginBottom: '4px' }}>
+                      <span style={{ color: 'var(--gold-primary, #d4af37)', fontWeight: 'bold' }}>{ev.day} {ev.month}</span>
+                      <span>•</span>
+                      <span>{ev.time}</span>
+                    </div>
+                    <div style={{ fontSize: '13px', color: 'var(--text-muted, #9ca3af)' }}>
+                      📍 {ev.location}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
