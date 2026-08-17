@@ -1,39 +1,12 @@
 import React, { useState } from 'react';
-import { sendInquiryEmail } from '../services/emailService';
-import { saveInquiryRecord } from '../services/firebase';
 import { MapPin, Phone, Mail, Clock, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function Footer({ contactInfo, onOpenAdminLogin }) {
-  const [inquiryName, setInquiryName] = useState('');
-  const [inquiryEmail, setInquiryEmail] = useState('');
-  const [isSending, setIsSending] = useState(false);
-  
   const [hoursExpanded, setHoursExpanded] = useState(false);
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   
   const todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
   const currentDayInfo = contactInfo?.dailyHours?.find(d => d.day === todayName) || contactInfo?.dailyHours?.[0] || { startTime: '8:00 AM', endTime: '6:00 PM' };
-
-  const handleInquiry = async (e) => {
-    e.preventDefault();
-    if (!inquiryName || !inquiryEmail) return;
-    setIsSending(true);
-    try {
-      await saveInquiryRecord({
-        name: inquiryName,
-        email: inquiryEmail,
-        submittedAt: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-      });
-      await sendInquiryEmail(inquiryName, inquiryEmail);
-      alert('✅ Your inquiry has been dispatched to the UEF Registrar Office! We will respond within 24 hours.');
-      setInquiryName('');
-      setInquiryEmail('');
-    } catch (err) {
-      alert('⚠️ Error sending inquiry. Please try again.');
-    } finally {
-      setIsSending(false);
-    }
-  };
 
   return (
     <>
@@ -131,25 +104,6 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
               title="University of East Florida - Orlando Campus Map"
             />
 
-            {/* Quick Inquiry Form */}
-            <div style={{ padding: '20px', background: 'rgba(13, 9, 10, 0.95)', borderTop: '1px solid var(--border-gold)' }}>
-              <h4 style={{ fontSize: 14, color: '#d4af37', marginBottom: 10 }}>Send Instant Inquiry to USA Registrar</h4>
-              <form onSubmit={handleInquiry} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                <input
-                  type="text" className="form-control" placeholder="Your Name" required
-                  value={inquiryName} onChange={e => setInquiryName(e.target.value)}
-                  style={{ flex: 1, minWidth: 140, padding: '8px 12px' }}
-                />
-                <input
-                  type="email" className="form-control" placeholder="Your Email" required
-                  value={inquiryEmail} onChange={e => setInquiryEmail(e.target.value)}
-                  style={{ flex: 1, minWidth: 140, padding: '8px 12px' }}
-                />
-                <button type="submit" className="btn btn-gold" style={{ padding: '8px 18px', fontSize: 13 }} disabled={isSending}>
-                  {isSending ? 'Sending...' : 'Send Inquiry'}
-                </button>
-              </form>
-            </div>
           </div>
 
         </div>
