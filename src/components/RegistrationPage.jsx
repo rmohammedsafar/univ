@@ -40,7 +40,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
     const fullName = `${firstName} ${lastName}`.trim();
     const fullPhone = `${phoneCode} ${phone}`.trim();
     const selectedProgObj = programs.find(p => p.id === program || p.name === program || p.title === program);
-    const programTitle = selectedProgObj ? `${selectedProgObj.degree} in ${selectedProgObj.name || selectedProgObj.title}` : (program || 'Degree Program');
+    const programTitle = selectedProgObj ? (selectedProgObj.name ? selectedProgObj.name : `${selectedProgObj.degree} in ${selectedProgObj.title}`) : (program || 'Degree Program');
     
     const selectedElectiveObj = electives.find(e => e.id === elective);
     const electiveName = selectedElectiveObj ? selectedElectiveObj.name : elective;
@@ -238,7 +238,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                   >
                     <option value="" style={{ color: '#000' }}>Select Program</option>
                     {programs.map(p => (
-                      <option key={p.id} value={p.id} style={{ color: '#000' }}>{p.degree} in {p.name || p.title}</option>
+                      <option key={p.id} value={p.id} style={{ color: '#000' }}>{p.name ? p.name : `${p.degree} in ${p.title}`}</option>
                     ))}
                   </select>
                 </div>
