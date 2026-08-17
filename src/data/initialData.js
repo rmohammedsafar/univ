@@ -311,10 +311,3 @@ export const INITIAL_ABOUT_US = {
   image1: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
   image2: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80"
 };
-
-export const INITIAL_PDF_CONFIG = {
-  universityName: "UNIVERSITY OF EAST FLORIDA",
-  subHeader: "OFFICIAL PROGRAM SYLLABUS & BROCHURE",
-  footerText: "This document is an officially verified syllabus from University of East Florida.",
-  primaryColor: "#d4af37"
-};

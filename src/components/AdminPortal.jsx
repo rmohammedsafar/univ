@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { saveCMSConfigToStorage, getApplicationRecords, getInquiryRecords } from '../services/firebase';
+import { saveCMSConfigToStorage, getApplicationRecords, getInquiryRecords, uploadDocument } from '../services/firebase';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, pdfConfig, onUpdatePdf, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [editingProgramId, setEditingProgramId] = useState(null);
   const [showInlineAddPortal, setShowInlineAddPortal] = useState(false);
@@ -43,17 +43,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const handleSaveAbout = () => {
     onUpdateAbout(aboutFormData);
     alert('About Us section updated successfully!');
-  };
-
-  const [pdfFormData, setPdfFormData] = React.useState(pdfConfig || {});
-  
-  React.useEffect(() => {
-    if (pdfConfig) setPdfFormData(pdfConfig);
-  }, [pdfConfig]);
-
-  const handleSavePdf = () => {
-    onUpdatePdf(pdfFormData);
-    alert('PDF Template updated successfully!');
   };
 
   const [editingNewsIndex, setEditingNewsIndex] = useState(null);
@@ -192,6 +181,9 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [newProgDesc, setNewProgDesc] = useState('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
   const [customDegree, setCustomDegree] = useState('');
   const [customCategory, setCustomCategory] = useState('');
+  const [newProgBrochureFile, setNewProgBrochureFile] = useState(null);
+  const [isUploadingBrochure, setIsUploadingBrochure] = useState(false);
+  const [uploadingRowId, setUploadingRowId] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -203,7 +195,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     fetchData();
   }, []);
 
-  const handleAddProgramSubmit = (e) => {
+  const handleAddProgramSubmit = async (e) => {
     e.preventDefault();
     if (!newProgTitle.trim()) {
       alert('Please enter a degree program title.');
@@ -223,6 +215,19 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     }
 
     const tuitionVal = parseInt(newProgTuition) || 14400;
+    let brochureUrl = null;
+    if (newProgBrochureFile) {
+      setIsUploadingBrochure(true);
+      try {
+        brochureUrl = await uploadDocument(newProgBrochureFile, 'brochures');
+      } catch (err) {
+        alert("Brochure upload failed: " + err.message);
+        setIsUploadingBrochure(false);
+        return;
+      }
+      setIsUploadingBrochure(false);
+    }
+
     const newProg = {
       id: 'uef-prog-' + Math.floor(100 + Math.random() * 900),
       name: newProgTitle.trim(),
@@ -234,7 +239,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       duration: newProgDuration,
       description: newProgDesc,
       format: "100% Remote / Asynchronous",
-      credits: "36 US Credit Hours (12 Core Modules)"
+      credits: "36 US Credit Hours (12 Core Modules)",
+      brochureUrl: brochureUrl
     };
 
     const updated = [...programs, newProg];
@@ -243,8 +249,27 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
 
     // Reset Form
     setNewProgTitle('');
+    setNewProgBrochureFile(null);
     setShowInlineAddPortal(false);
     alert(`🎉 Success! Degree program '${newProgTitle}' has been added and published live!`);
+  };
+
+  const handleRowPdfUpload = async (e, progId) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    setUploadingRowId(progId);
+    try {
+      const url = await uploadDocument(file, 'brochures');
+      const updated = programs.map(p => p.id === progId ? { ...p, brochureUrl: url } : p);
+      onUpdatePrograms(updated);
+      saveCMSConfigToStorage(updated);
+      alert('PDF Brochure attached successfully!');
+    } catch (err) {
+      alert('Failed to upload PDF: ' + err.message);
+    }
+    setUploadingRowId(null);
+    e.target.value = ''; // reset file input
   };
 
   const handleDeleteProgram = (progId) => {
@@ -362,12 +387,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('courses')}
           >
             📚 Courses & Tuition CMS
-          </button>
-          <button 
-            className={`filter-pill ${activeTab === 'pdf' ? 'active' : ''}`}
-            onClick={() => setActiveTab('pdf')}
-          >
-            📄 PDF Template
           </button>
           <button 
             className={`filter-pill ${activeTab === 'tour' ? 'active' : ''}`}
@@ -620,10 +639,24 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     />
                   </div>
 
+                  <div className="form-group">
+                    <label className="form-label">Upload Brochure PDF (Optional)</label>
+                    <input 
+                      type="file" 
+                      accept=".pdf"
+                      className="form-control" 
+                      onChange={(e) => setNewProgBrochureFile(e.target.files[0])}
+                      style={{ padding: '10px 14px' }}
+                    />
+                    <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
+                      If provided, students will download this exact PDF instead of the auto-generated syllabus.
+                    </small>
+                  </div>
+
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
                     <button type="button" className="btn btn-outline" onClick={() => setShowInlineAddPortal(false)}>Cancel</button>
-                    <button type="submit" className="btn btn-gold" style={{ padding: '10px 24px', fontSize: '14px' }}>
-                      🚀 Publish Degree Program Live
+                    <button type="submit" className="btn btn-gold" style={{ padding: '10px 24px', fontSize: '14px' }} disabled={isUploadingBrochure}>
+                      {isUploadingBrochure ? '⏳ Uploading Brochure...' : '🚀 Publish Degree Program Live'}
                     </button>
                   </div>
                 </form>
@@ -651,13 +684,28 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       <td style={{ color: '#34d399', fontWeight: 700 }}>{prog.tuition}</td>
                       <td style={{ fontSize: '12px' }}>{prog.duration}</td>
                       <td>
-                        <button 
-                          className="btn btn-outline" 
-                          onClick={() => handleDeleteProgram(prog.id)} 
-                          style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}
-                        >
-                          🗑️ Delete
-                        </button>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          {uploadingRowId === prog.id ? (
+                            <span style={{ fontSize: '11px', color: 'var(--gold-primary)', padding: '4px 0' }}>⏳ Uploading...</span>
+                          ) : (
+                            <label className="btn btn-outline" style={{ padding: '4px 10px', fontSize: '11px', cursor: 'pointer', margin: 0 }}>
+                              {prog.brochureUrl ? '📄 Replace PDF' : '📄 Upload PDF'}
+                              <input 
+                                type="file" 
+                                accept=".pdf" 
+                                style={{ display: 'none' }} 
+                                onChange={(e) => handleRowPdfUpload(e, prog.id)}
+                              />
+                            </label>
+                          )}
+                          <button 
+                            className="btn btn-outline" 
+                            onClick={() => handleDeleteProgram(prog.id)} 
+                            style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}
+                          >
+                            🗑️ Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -668,56 +716,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
         )}
 
 
-
-        {activeTab === 'pdf' && (
-          <div className="admin-panel">
-            <div className="admin-header">
-              <h2 className="section-title" style={{ fontSize: '24px' }}>📄 PDF Brochure Template</h2>
-              <button className="btn btn-maroon" onClick={handleSavePdf}>💾 Save Changes</button>
-            </div>
-            
-            <div className="form-group" style={{ marginBottom: '20px' }}>
-              <label className="form-label">University Name (Header)</label>
-              <input 
-                type="text" 
-                className="form-control" 
-                value={pdfFormData.universityName || ''}
-                onChange={(e) => setPdfFormData({...pdfFormData, universityName: e.target.value})}
-              />
-            </div>
-
-            <div className="form-group" style={{ marginBottom: '20px' }}>
-              <label className="form-label">Subheader Text</label>
-              <input 
-                type="text" 
-                className="form-control" 
-                value={pdfFormData.subHeader || ''}
-                onChange={(e) => setPdfFormData({...pdfFormData, subHeader: e.target.value})}
-              />
-            </div>
-
-            <div className="form-group" style={{ marginBottom: '20px' }}>
-              <label className="form-label">Footer Watermark Text</label>
-              <input 
-                type="text" 
-                className="form-control" 
-                value={pdfFormData.footerText || ''}
-                onChange={(e) => setPdfFormData({...pdfFormData, footerText: e.target.value})}
-              />
-            </div>
-
-            <div className="form-group" style={{ marginBottom: '20px' }}>
-              <label className="form-label">Primary Accent Color (Hex format, e.g. #d4af37)</label>
-              <input 
-                type="color" 
-                className="form-control" 
-                style={{ width: '80px', padding: '2px', height: '40px' }}
-                value={pdfFormData.primaryColor || '#d4af37'}
-                onChange={(e) => setPdfFormData({...pdfFormData, primaryColor: e.target.value})}
-              />
-            </div>
-          </div>
-        )}
 
         {/* HERO CONFIG TAB */}
         {activeTab === 'hero' && (

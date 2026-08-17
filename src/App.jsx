@@ -14,8 +14,8 @@ import LoadingScreen from './components/LoadingScreen';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_PDF_CONFIG } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, loadPdfConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, saveCMSConfigToStorage, saveContactConfigToStorage, loadAboutUsFromStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -70,11 +70,6 @@ export default function App() {
   const [heroConfig, setHeroConfig] = useState(() => {
     let saved = loadHeroConfigFromStorage();
     return saved ? saved : INITIAL_HERO_CONFIG;
-  });
-
-  const [pdfConfig, setPdfConfig] = useState(() => {
-    let saved = loadPdfConfigFromStorage();
-    return saved ? saved : INITIAL_PDF_CONFIG;
   });
 
   const [selectedProgramToApply, setSelectedProgramToApply] = useState('');
@@ -145,7 +140,7 @@ export default function App() {
             />
             
             <AboutUs aboutData={aboutData} />
-            <ProgramCatalog programs={programs} pdfConfig={pdfConfig} />
+            <ProgramCatalog programs={programs} />
             <CampusTour tourSlides={tourSlides} />
             <UpcomingEvents />
           </main>
@@ -173,8 +168,6 @@ export default function App() {
               onUpdateHero={setHeroConfig}
               aboutData={aboutData}
               onUpdateAbout={setAboutData}
-              pdfConfig={pdfConfig}
-              onUpdatePdf={setPdfConfig}
             />
         } />
       </Routes>

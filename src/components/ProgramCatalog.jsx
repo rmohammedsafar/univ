@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { jsPDF } from 'jspdf';
 
-export default function ProgramCatalog({ programs, pdfConfig, onSelectProgramToApply }) {
+export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -88,79 +88,62 @@ export default function ProgramCatalog({ programs, pdfConfig, onSelectProgramToA
     }
   });
 
-  const hexToRgb = (hex) => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? [
-      parseInt(result[1], 16),
-      parseInt(result[2], 16),
-      parseInt(result[3], 16)
-    ] : [212, 175, 55]; // fallback to gold
-  };
-
   const handleDownloadBrochure = (prog) => {
+    if (prog.brochureUrl) {
+      window.open(prog.brochureUrl, '_blank');
+      return;
+    }
+
     const doc = new jsPDF();
-    const primaryRgb = hexToRgb(pdfConfig?.primaryColor || '#d4af37');
     
     // Header
     doc.setFontSize(22);
-    doc.setTextColor(primaryRgb[0], primaryRgb[1], primaryRgb[2]);
-    doc.text(pdfConfig?.universityName || "UNIVERSITY OF EAST FLORIDA", 20, 20);
+    doc.setTextColor(212, 175, 55);
+    doc.text("UNIVERSITY OF EAST FLORIDA", 20, 20);
     
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
-    doc.text(pdfConfig?.subHeader || "OFFICIAL PROGRAM SYLLABUS & BROCHURE", 20, 28);
+    doc.text("OFFICIAL PROGRAM SYLLABUS & BROCHURE", 20, 28);
     
     // Line separator
-    doc.setDrawColor(primaryRgb[0], primaryRgb[1], primaryRgb[2]);
+    doc.setDrawColor(212, 175, 55);
     doc.setLineWidth(0.5);
     doc.line(20, 32, 190, 32);
     
     // Program Title
-    doc.setFontSize(18);
-    doc.setTextColor(0, 0, 0);
-    const titleLines = doc.splitTextToSize(`${prog.degree} in ${prog.title || prog.name}`, 170);
-    doc.text(titleLines, 20, 45);
+    doc.setFontSize(16);
+    doc.setTextColor(30, 41, 59);
+    doc.text(prog.title || prog.name, 20, 45);
     
-    const metaY = 45 + (titleLines.length * 8);
-
-    // Specs
     doc.setFontSize(12);
-    doc.setTextColor(50, 50, 50);
-    doc.text(`Duration: ${prog.duration}`, 20, metaY + 5);
-    doc.text(`Credits: ${prog.credits}`, 20, metaY + 12);
-    doc.text(`Tuition: ${prog.tuition}`, 20, metaY + 19);
-    doc.text(`Minimum Admission: ${prog.minGpa ? `${prog.minGpa} GPA (${prog.minPercent}%)` : '2.5 GPA (65%)'}`, 20, metaY + 26);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Degree: ${prog.degree}`, 20, 55);
+    doc.text(`Format: ${prog.format || '100% Online'}`, 20, 62);
     
-    // Description
+    // Overview
     doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0);
-    doc.text("Program Overview", 20, metaY + 40);
+    doc.setTextColor(212, 175, 55);
+    doc.text("Program Overview", 20, 80);
     
     doc.setFontSize(11);
-    doc.setTextColor(60, 60, 60);
-    const descLines = doc.splitTextToSize(prog.description, 170);
-    doc.text(descLines, 20, metaY + 48);
+    doc.setTextColor(50, 50, 50);
+    const splitDesc = doc.splitTextToSize(prog.description || "Detailed curriculum information currently under review by academic department.", 170);
+    doc.text(splitDesc, 20, 90);
     
-    let modulesY = metaY + 48 + (descLines.length * 6) + 10;
-
-    // Modules
-    if (prog.modules && prog.modules.length > 0) {
-      doc.setFontSize(14);
-      doc.setTextColor(0, 0, 0);
-      doc.text("Core Modules & Syllabus", 20, modulesY);
-      
-      doc.setFontSize(11);
-      doc.setTextColor(60, 60, 60);
-      prog.modules.forEach((mod, i) => {
-        const modLines = doc.splitTextToSize(`• ${mod}`, 160);
-        doc.text(modLines, 25, modulesY + 8 + (i * 7));
-      });
-    }
-
+    // Tuition
+    doc.setFontSize(14);
+    doc.setTextColor(212, 175, 55);
+    doc.text("Tuition & Fees", 20, 130);
+    
+    doc.setFontSize(11);
+    doc.setTextColor(50, 50, 50);
+    doc.text(`Total Tuition: ${prog.tuition}`, 20, 140);
+    doc.text(`Duration: ${prog.duration}`, 20, 147);
+    
     // Footer watermark
     doc.setFontSize(8);
     doc.setTextColor(200, 200, 200);
-    doc.text(pdfConfig?.footerText || "This document is an officially verified syllabus from University of East Florida.", 20, 280);
+    doc.text("This document is an officially verified syllabus from University of East Florida.", 20, 280);
 
     doc.save(`UEF_Brochure_${prog.id}.pdf`);
   };

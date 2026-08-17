@@ -201,36 +201,6 @@ export const loadHeroConfigFromStorage = () => {
   return null;
 };
 
-const LOCAL_PDF_KEY = 'uef_pdf_config';
-
-export const savePdfConfigToStorage = (pdfConfig) => {
-  try {
-    const configData = {
-      pdfConfig,
-      isCustomized: true,
-      updatedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LOCAL_PDF_KEY, JSON.stringify(configData));
-  } catch (e) {
-    console.warn("LocalStorage save warning (PDF):", e);
-  }
-};
-
-export const loadPdfConfigFromStorage = () => {
-  try {
-    const raw = localStorage.getItem(LOCAL_PDF_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.pdfConfig) {
-        return parsed.pdfConfig;
-      }
-    }
-  } catch (e) {
-    console.warn("LocalStorage load warning (PDF):", e);
-  }
-  return null;
-};
-
 const withTimeout = (promise, ms = 60000) => {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
