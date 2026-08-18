@@ -1801,14 +1801,24 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                         <textarea className="form-control" value={vidDesc} onChange={(e) => setVidDesc(e.target.value)} rows={4} />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Video URL (YouTube/Vimeo) *</label>
-                        <input className="form-control" placeholder="https://www.youtube.com/watch?v=..." value={vidUrl} onChange={(e) => setVidUrl(e.target.value)} required />
+                        <label className="form-label">Video URL (YouTube/Vimeo)</label>
+                        <input className="form-control" placeholder="https://www.youtube.com/watch?v=..." value={vidUrl} onChange={(e) => setVidUrl(e.target.value)} required={!vidFile} disabled={!!vidFile} />
                         <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>We will automatically format standard YouTube links to embed links.</span>
+                      </div>
+                      
+                      <div className="form-group" style={{ textAlign: 'center', margin: '20px 0', color: 'var(--text-muted)', fontWeight: 'bold' }}>OR</div>
+                      
+                      <div className="form-group">
+                        <label className="form-label">Upload Video File</label>
+                        <input type="file" accept="video/mp4,video/webm" className="form-control" onChange={(e) => setVidFile(e.target.files[0])} disabled={!!vidUrl} />
+                        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Upload MP4 or WebM files. Maximum 100MB recommended.</span>
                       </div>
 
                       <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
-                        <button type="submit" className="btn btn-gold">Save Video</button>
-                        <button type="button" className="btn btn-outline" onClick={() => setShowVidForm(false)}>Cancel</button>
+                        <button type="submit" className="btn btn-gold" disabled={isUploadingVid}>
+                          {isUploadingVid ? 'Uploading...' : 'Save Video'}
+                        </button>
+                        <button type="button" className="btn btn-outline" onClick={() => setShowVidForm(false)} disabled={isUploadingVid}>Cancel</button>
                       </div>
                     </form>
 
@@ -1818,13 +1828,27 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       
                       <div className="video-card" style={{ background: 'var(--bg-card)', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-gold)', boxShadow: '0 10px 25px rgba(0,0,0,0.2)', width: '100%', maxWidth: '380px' }}>
                         <div className="video-wrapper" style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
-                          <iframe 
-                            src={vidUrl.includes("watch?v=") ? vidUrl.replace("watch?v=", "embed/") : vidUrl.includes("youtu.be/") ? vidUrl.replace("youtu.be/", "www.youtube.com/embed/") : (vidUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ")} 
-                            title={vidTitle || "Preview Video"} 
-                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowFullScreen
-                          ></iframe>
+                          {(vidUrl.includes("youtube.com") || vidUrl.includes("youtu.be")) ? (
+                            <iframe 
+                              src={vidUrl.includes("watch?v=") ? vidUrl.replace("watch?v=", "embed/") : vidUrl.includes("youtu.be/") ? vidUrl.replace("youtu.be/", "www.youtube.com/embed/") : (vidUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ")} 
+                              title={vidTitle || "Preview Video"} 
+                              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                              allowFullScreen
+                            ></iframe>
+                          ) : (vidUrl || vidFile) ? (
+                            <video 
+                              src={vidFile ? URL.createObjectURL(vidFile) : vidUrl} 
+                              controls 
+                              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none', objectFit: 'cover' }}
+                            ></video>
+                          ) : (
+                            <iframe 
+                              src={"https://www.youtube.com/embed/dQw4w9WgXcQ"} 
+                              title="Preview Placeholder"
+                              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                            ></iframe>
+                          )}
                         </div>
                         <div className="video-info" style={{ padding: '20px' }}>
                           <h3 className="video-title" style={{ color: 'var(--gold-light)', fontSize: '18px', marginBottom: '10px', fontFamily: 'var(--font-serif)' }}>{vidTitle || 'Video Title'}</h3>
@@ -1854,7 +1878,11 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     <tr key={vid.id}>
                       <td style={{ width: '200px' }}>
                         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '8px' }}>
-                          <iframe src={vid.url} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} title={vid.title}></iframe>
+                          {vid.url.includes("youtube.com") ? (
+                            <iframe src={vid.url} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} title={vid.title}></iframe>
+                          ) : (
+                            <video src={vid.url} controls style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none', objectFit: 'cover' }}></video>
+                          )}
                         </div>
                       </td>
                       <td>
