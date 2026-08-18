@@ -130,11 +130,11 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
           <div className="footer-col">
             <h4>Online Programs</h4>
             <ul className="footer-links">
-              <li><a href="#programs">M.S. Computer Science &amp; AI</a></li>
-              <li><a href="#programs">M.S. Data Science</a></li>
-              <li><a href="#programs">Global MBA</a></li>
-              <li><a href="#programs">M.S. Cybersecurity Policy</a></li>
-              <li><a href="#programs">B.S. Software Engineering</a></li>
+              <li><a href="/#programs">M.S. Computer Science &amp; AI</a></li>
+              <li><a href="/#programs">M.S. Data Science</a></li>
+              <li><a href="/#programs">Global MBA</a></li>
+              <li><a href="/#programs">M.S. Cybersecurity Policy</a></li>
+              <li><a href="/#programs">B.S. Software Engineering</a></li>
             </ul>
           </div>
 
@@ -142,8 +142,8 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
           <div className="footer-col">
             <h4>Quick Links</h4>
             <ul className="footer-links">
-              <li><a href="/">About Us</a></li>
-              <li><a href="/">Campus Tour</a></li>
+              <li><a href="/#aboutUs">About Us</a></li>
+              <li><a href="/#campusTour">Campus Tour</a></li>
               <li><a href="/gallery">Gallery</a></li>
             </ul>
           </div>
@@ -152,8 +152,8 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
           <div className="footer-col">
             <h4>USA Office</h4>
             <ul className="footer-links">
-              <li><a href="#usaHeadquarters">1200 University Blvd, Suite 500</a></li>
-              <li><a href="#usaHeadquarters">Orlando, FL 32816, USA</a></li>
+              <li><a href="/#usaHeadquarters">1200 University Blvd, Suite 500</a></li>
+              <li><a href="/#usaHeadquarters">Orlando, FL 32816, USA</a></li>
               <li><a href="tel:+18005558331">+1 (800) 555-UEF1</a></li>
             </ul>
           </div>
