@@ -81,6 +81,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [vidDesc, setVidDesc] = useState('');
   const [vidUrl, setVidUrl] = useState('');
   const [showVidForm, setShowVidForm] = useState(false);
+  const [isUploadingVid, setIsUploadingVid] = useState(false);
+  const [vidFile, setVidFile] = useState(null);
 
   const [contactFormData, setContactFormData] = React.useState(contactInfo || {});
   
@@ -139,26 +141,46 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setShowEvtForm(true);
   };
 
-  const handleVidSubmit = (e) => {
+  const handleVidSubmit = async (e) => {
     e.preventDefault();
-    if (!vidTitle.trim() || !vidUrl.trim()) {
-      alert("Please enter a title and a video URL.");
+    if (!vidTitle.trim() || (!vidUrl.trim() && !vidFile)) {
+      alert("Please enter a title and either a video URL or upload a video file.");
       return;
     }
 
-    let embedUrl = vidUrl;
-    // Attempt to convert standard youtube links to embed links
-    if (embedUrl.includes("youtube.com/watch?v=")) {
-      embedUrl = embedUrl.replace("watch?v=", "embed/");
-    } else if (embedUrl.includes("youtu.be/")) {
-      embedUrl = embedUrl.replace("youtu.be/", "www.youtube.com/embed/");
+    setIsUploadingVid(true);
+    let finalUrl = vidUrl;
+
+    if (vidFile) {
+      try {
+        const uploadedUrl = await uploadDocument(vidFile, 'videos');
+        if (uploadedUrl) {
+          finalUrl = uploadedUrl;
+        } else {
+          alert("Failed to upload video file.");
+          setIsUploadingVid(false);
+          return;
+        }
+      } catch (err) {
+        console.error("Video upload error:", err);
+        alert("An error occurred during video upload.");
+        setIsUploadingVid(false);
+        return;
+      }
+    } else {
+      // Attempt to convert standard youtube links to embed links
+      if (finalUrl.includes("youtube.com/watch?v=")) {
+        finalUrl = finalUrl.replace("watch?v=", "embed/");
+      } else if (finalUrl.includes("youtu.be/")) {
+        finalUrl = finalUrl.replace("youtu.be/", "www.youtube.com/embed/");
+      }
     }
 
     const newVid = {
       id: editingVidId || ('vid-' + Math.floor(1000 + Math.random() * 9000)),
       title: vidTitle.trim(),
       desc: vidDesc.trim(),
-      url: embedUrl
+      url: finalUrl
     };
 
     if (editingVidId) {
@@ -172,9 +194,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setVidTitle('');
     setVidDesc('');
     setVidUrl('');
+    setVidFile(null);
     setEditingVidId(null);
     setShowVidForm(false);
+    setIsUploadingVid(false);
   };
+
 
   const handleVidEdit = (v) => {
     setEditingVidId(v.id);
