@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 export default function CampusVideos({ videos }) {
+  const scrollRef = useRef(null);
+
   if (!videos || videos.length === 0) return null;
+
+  const handleScrollRight = (e) => {
+    e.preventDefault();
+    if (scrollRef.current) {
+      // scroll by one card width + gap
+      scrollRef.current.scrollBy({ left: 370, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section id="campus-videos" className="section-padding" style={{ background: 'var(--bg-dark)' }}>
@@ -15,12 +25,12 @@ export default function CampusVideos({ videos }) {
               Explore insights, lectures, and inspiring classes from our esteemed faculty.
             </p>
           </div>
-          <a href="#campus-videos" className="btn btn-outline">
+          <button onClick={handleScrollRight} className="btn btn-outline" style={{ cursor: 'pointer' }}>
             See More →
-          </a>
+          </button>
         </div>
 
-        <div className="video-scroll-container" style={{ 
+        <div className="video-scroll-container" ref={scrollRef} style={{ 
           display: 'flex', 
           overflowX: 'auto', 
           gap: '30px', 
