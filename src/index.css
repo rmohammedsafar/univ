@@ -1141,7 +1141,7 @@ body.light-theme .accreditation-banner p {
   grid-template-columns: repeat(2, 1fr);
   gap: 10px 12px;
   margin-bottom: 16px;
-  height: 120px;
+  height: 145px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.3);
   padding: 10px 14px;
