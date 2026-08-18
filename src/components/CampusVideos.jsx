@@ -39,7 +39,7 @@ export default function CampusVideos({ videos }) {
           msOverflowStyle: "none"
         }}>
           {videos.map((vid, idx) => (
-            <div key={vid.id || idx} style={{ minWidth: "340px", maxWidth: "340px", flex: "0 0 auto", scrollSnapAlign: "start", display: "flex", flexDirection: "column" }} data-aos="fade-left" data-aos-delay={idx * 100}>
+            <div key={vid.id || idx} style={{ width: "min(340px, 85vw)", flex: "0 0 auto", scrollSnapAlign: "start", display: "flex", flexDirection: "column" }} data-aos="fade-left" data-aos-delay={idx * 100}>
               <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '12px', marginBottom: '20px' }}>
                 {vid.url.includes("youtube.com") || vid.url.includes("youtu.be") ? (
                   <iframe 

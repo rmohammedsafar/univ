@@ -23,7 +23,7 @@ export default function UpcomingEvents({ events = [] }) {
 
         <div ref={scrollRef} style={{ display: "flex", gap: "30px", overflowX: "auto", paddingBottom: "20px", scrollSnapType: "x mandatory", scrollbarWidth: "none", msOverflowStyle: "none" }} className="hide-scrollbar">
           {events.map((ev, idx) => (
-            <div key={ev.id} style={{ minWidth: "340px", maxWidth: "340px", flex: "0 0 auto", scrollSnapAlign: "start", display: "flex", flexDirection: "column" }} data-aos="fade-left" data-aos-delay={idx * 100}>
+            <div key={ev.id} style={{ width: "min(340px, 85vw)", flex: "0 0 auto", scrollSnapAlign: "start", display: "flex", flexDirection: "column" }} data-aos="fade-left" data-aos-delay={idx * 100}>
               <img src={ev.image} alt={ev.title} style={{ width: "100%", height: "220px", objectFit: "contain", borderRadius: "12px", marginBottom: "20px" }} />
               <h3 style={{ fontSize: "20px", fontWeight: "600", marginBottom: "10px", color: "var(--text-main)" }}>{ev.title}</h3>
               <p style={{ fontSize: "14px", lineHeight: "1.6", color: "var(--text-muted)", marginBottom: "25px", flex: 1 }}>{ev.desc}</p>
