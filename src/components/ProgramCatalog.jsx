@@ -54,12 +54,12 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
 
   const getCategoryColor = (cat) => {
     const colors = [
-      { primary: '#8b5cf6', rgb: '139, 92, 246', gradient: ['rgba(46, 16, 101, 0.92)', 'rgba(91, 33, 182, 0.92)'] },
-      { primary: '#ec4899', rgb: '236, 72, 153', gradient: ['rgba(80, 7, 36, 0.92)', 'rgba(157, 23, 77, 0.92)'] },
-      { primary: '#f97316', rgb: '249, 115, 22', gradient: ['rgba(67, 20, 7, 0.92)', 'rgba(154, 52, 18, 0.92)'] },
-      { primary: '#14b8a6', rgb: '20, 184, 166', gradient: ['rgba(4, 47, 46, 0.92)', 'rgba(17, 94, 89, 0.92)'] },
-      { primary: '#eab308', rgb: '234, 179, 8', gradient: ['rgba(66, 32, 6, 0.92)', 'rgba(133, 77, 14, 0.92)'] },
-      { primary: '#ef4444', rgb: '239, 68, 68', gradient: ['rgba(69, 10, 10, 0.92)', 'rgba(153, 27, 27, 0.92)'] },
+      { primary: '#c4b5fd', rgb: '196, 181, 253', gradient: ['rgba(46, 16, 101, 0.92)', 'rgba(91, 33, 182, 0.92)'] },
+      { primary: '#fbcfe8', rgb: '251, 207, 232', gradient: ['rgba(80, 7, 36, 0.92)', 'rgba(157, 23, 77, 0.92)'] },
+      { primary: '#fdba74', rgb: '253, 186, 116', gradient: ['rgba(67, 20, 7, 0.92)', 'rgba(154, 52, 18, 0.92)'] },
+      { primary: '#5eead4', rgb: '94, 234, 212', gradient: ['rgba(4, 47, 46, 0.92)', 'rgba(17, 94, 89, 0.92)'] },
+      { primary: '#fde047', rgb: '253, 224, 71', gradient: ['rgba(66, 32, 6, 0.92)', 'rgba(133, 77, 14, 0.92)'] },
+      { primary: '#fca5a5', rgb: '252, 165, 165', gradient: ['rgba(69, 10, 10, 0.92)', 'rgba(153, 27, 27, 0.92)'] },
     ];
     
     if (cat === 'technology' || cat === 'business' || cat === 'healthcare') return null;
