@@ -1168,6 +1168,7 @@ body.light-theme .accreditation-banner p {
 .card-actions {
   display: flex;
   gap: 8px;
+  margin-top: auto;
 }
 
 .card-actions .btn {
