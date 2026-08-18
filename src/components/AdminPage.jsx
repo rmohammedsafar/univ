@@ -6,21 +6,22 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPass, setAdminPass] = useState('');
+  const [loginError, setLoginError] = useState('');
 
   const handleAdminLoginSubmit = (e) => {
     e.preventDefault();
     if (!adminEmail || !adminPass) {
-      alert("Please enter both your Admin email and password.");
+      setLoginError("Please enter both your Admin email and password.");
       return;
     }
 
     if (adminEmail !== 'r.mohammedsafar@gmail.com' || adminPass !== 'Admin@2026') {
-      alert("Incorrect email or password. Access denied.");
+      setLoginError("Invalid username or password.");
       return;
     }
 
+    setLoginError('');
     setIsAdminLoggedIn(true);
-    alert(`🎉 Welcome back, Registrar Officer (${adminEmail})! Admin Portal loaded.`);
   };
 
   const handleAdminLogout = () => {
@@ -111,6 +112,11 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
                 style={{ padding: '10px 14px' }}
               />
             </div>
+            {loginError && (
+              <div style={{ color: '#ef4444', fontSize: '14px', marginTop: '16px', textAlign: 'center', fontWeight: 'bold' }}>
+                {loginError}
+              </div>
+            )}
           </div>
           <div className="modal-footer">
             <button type="submit" className="btn btn-gold" style={{ padding: '10px 20px', width: '100%' }}>
