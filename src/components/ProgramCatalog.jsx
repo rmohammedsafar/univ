@@ -5,7 +5,12 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(6);
   const gridRef = useRef(null);
+
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [categoryFilter, searchQuery]);
 
   const handleScroll = () => {
     if (window.innerWidth > 768 || !gridRef.current) return;
@@ -244,7 +249,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
           <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '40px', background: 'rgba(0,0,0,0.3)', borderRadius: '16px', border: '1px solid var(--border-gold)' }}>
             <p style={{ color: 'var(--gold-light)', fontSize: '16px' }}>No programs found matching "{searchQuery}".</p>
           </div>
-        ) : filteredPrograms.map((prog, idx) => (
+        ) : filteredPrograms.slice(0, visibleCount).map((prog, idx) => (
           <div 
             key={prog.id} 
             className={`program-card category-${(prog.category || 'default').replace(/[^a-zA-Z0-9-]/g, '')} program-${prog.id}`}
@@ -284,6 +289,17 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
           </div>
         ))}
       </div>
+
+      {visibleCount < filteredPrograms.length && (
+        <div style={{ textAlign: 'center', marginTop: '40px' }} data-aos="fade-up">
+          <button 
+            className="btn btn-outline" 
+            onClick={() => setVisibleCount(filteredPrograms.length)}
+          >
+            View More Programs ↓
+          </button>
+        </div>
+      )}
 
       {/* MOBILE PAGINATION DOTS */}
       {filteredPrograms.length > 0 && (
