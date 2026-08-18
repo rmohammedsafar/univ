@@ -14,46 +14,33 @@ export default function CampusVideos({ videos }) {
   };
 
   return (
-    <section id="campus-videos" className="section-padding" style={{ background: 'var(--bg-dark)' }}>
-      <div className="section-container">
+    <section style={{ backgroundColor: "var(--bg-dark)", padding: "80px 5%", fontFamily: "var(--font-body, sans-serif)", color: "var(--text-main)", borderTop: "1px solid var(--border-gold)" }}>
+      <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }} data-aos="fade-up">
-          <div className="section-header" style={{ marginBottom: 0, textAlign: 'left' }}>
-            <h2 className="section-title">Academic Classes</h2>
-            <div className="section-line" style={{ margin: '20px 0' }}></div>
-            <p className="section-subtitle" style={{ maxWidth: '600px', margin: 0 }}>
-              Explore insights, lectures, and inspiring classes from our esteemed faculty.
-            </p>
-          </div>
-          <button onClick={handleScrollRight} className="btn btn-outline" style={{ cursor: 'pointer' }}>
-            See More →
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }} data-aos="fade-up">
+          <h2 style={{ fontSize: "42px", fontFamily: "var(--font-serif, serif)", fontWeight: "normal", margin: 0, color: "var(--text-main)" }}>
+            Academic Classes
+          </h2>
+          <button
+            onClick={handleScrollRight}
+            style={{ background: "transparent", border: "none", fontSize: "14px", fontWeight: "600", letterSpacing: "1px", cursor: "pointer", color: "var(--text-main)", display: "flex", alignItems: "center", gap: "8px" }}
+          >
+            VIEW ALL <span>&#8594;</span>
           </button>
         </div>
 
-        <div className="video-scroll-container" ref={scrollRef} style={{ 
-          display: 'flex', 
-          overflowX: 'auto', 
-          gap: '30px', 
-          paddingBottom: '20px', 
-          scrollSnapType: 'x mandatory',
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'var(--gold-light) var(--bg-card)'
+        <div className="hide-scrollbar" ref={scrollRef} style={{ 
+          display: "flex", 
+          gap: "30px", 
+          overflowX: "auto", 
+          paddingBottom: "20px", 
+          scrollSnapType: "x mandatory", 
+          scrollbarWidth: "none", 
+          msOverflowStyle: "none"
         }}>
           {videos.map((vid, idx) => (
-            <div key={vid.id || idx} className="video-card" data-aos="fade-up" data-aos-delay={idx * 100} style={{ 
-              background: 'var(--bg-card)', 
-              borderRadius: '12px', 
-              overflow: 'hidden', 
-              border: '1px solid var(--border-gold)', 
-              boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
-              minWidth: '340px',
-              maxWidth: '340px',
-              flexShrink: 0,
-              scrollSnapAlign: 'start',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              <div className="video-wrapper" style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+            <div key={vid.id || idx} style={{ minWidth: "340px", maxWidth: "340px", flex: "0 0 auto", scrollSnapAlign: "start", display: "flex", flexDirection: "column" }} data-aos="fade-left" data-aos-delay={idx * 100}>
+              <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '12px', marginBottom: '20px' }}>
                 {vid.url.includes("youtube.com") || vid.url.includes("youtu.be") ? (
                   <iframe 
                     src={vid.url} 
@@ -70,10 +57,8 @@ export default function CampusVideos({ videos }) {
                   ></video>
                 )}
               </div>
-              <div className="video-info" style={{ padding: '20px', flexGrow: 1 }}>
-                <h3 className="video-title" style={{ color: 'var(--gold-light)', fontSize: '18px', marginBottom: '10px', fontFamily: 'var(--font-serif)' }}>{vid.title}</h3>
-                <p className="video-desc" style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: '1.6' }}>{vid.desc}</p>
-              </div>
+              <h3 style={{ fontSize: "20px", fontWeight: "600", marginBottom: "10px", color: "var(--text-main)" }}>{vid.title}</h3>
+              <p style={{ fontSize: "14px", lineHeight: "1.6", color: "var(--text-muted)", marginBottom: "25px", flex: 1 }}>{vid.desc}</p>
             </div>
           ))}
         </div>
