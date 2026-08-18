@@ -4,7 +4,7 @@ export default function EventsPage({ events = [] }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div style={{ backgroundColor: "var(--bg-main)", minHeight: "100vh", paddingTop: "100px", paddingBottom: "80px" }}>
+    <div style={{ backgroundColor: "var(--bg-dark)", minHeight: "100vh", paddingTop: "100px", paddingBottom: "80px" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 5%" }}>
 
         <div style={{ textAlign: "center", marginBottom: "60px" }}>

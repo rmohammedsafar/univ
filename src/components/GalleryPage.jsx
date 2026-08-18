@@ -21,11 +21,11 @@ export default function GalleryPage({ galleryImages }) {
   };
 
   return (
-    <div style={{ backgroundColor: '#f4ecd8', minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'var(--font-body, sans-serif)' }}>
+    <div style={{ backgroundColor: 'var(--bg-dark)', minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'var(--font-body, sans-serif)' }}>
 
 
       <main style={{ padding: '40px 40px 80px', maxWidth: '1200px', margin: '0 auto', width: '100%', flex: 1 }}>
-        <h1 style={{ fontSize: '48px', color: '#2c2a29', textAlign: 'left', marginBottom: '40px', fontFamily: 'var(--font-serif, serif)', fontWeight: 'normal' }}>Gallery</h1>
+        <h1 style={{ fontSize: '48px', color: 'var(--text-main)', textAlign: 'left', marginBottom: '40px', fontFamily: 'var(--font-serif, serif)', fontWeight: 'normal' }}>Gallery</h1>
         
         {/* Gallery Grid */}
         <div className="gallery-masonry">
@@ -56,8 +56,8 @@ export default function GalleryPage({ galleryImages }) {
               className="btn btn-gold"
               style={{ 
                 background: 'transparent', 
-                border: '1px solid #2c2a29', 
-                color: '#2c2a29', 
+                border: '1px solid var(--text-main)', 
+                color: 'var(--text-main)', 
                 padding: '16px 32px', 
                 borderRadius: '30px', 
                 fontSize: '16px', 
@@ -66,8 +66,8 @@ export default function GalleryPage({ galleryImages }) {
                 fontWeight: '600',
                 transition: 'all 0.2s'
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = '#2c2a29'; e.currentTarget.style.color = '#f4ecd8'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#2c2a29'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--text-main)'; e.currentTarget.style.color = 'var(--bg-dark)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-main)'; }}
             >
               VIEW ALL IMAGES →
             </button>
@@ -76,7 +76,7 @@ export default function GalleryPage({ galleryImages }) {
       </main>
       
       {/* Footer text */}
-      <div style={{ textAlign: 'center', padding: '25px', color: '#2c2a29', fontSize: '13px', marginTop: 'auto', opacity: 0.6 }}>
+      <div style={{ textAlign: 'center', padding: '25px', color: 'var(--text-main)', fontSize: '13px', marginTop: 'auto', opacity: 0.6 }}>
         © University of East Florida. All Rights Reserved.
       </div>
 

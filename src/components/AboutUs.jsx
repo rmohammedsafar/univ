@@ -5,9 +5,9 @@ export default function AboutUs({ aboutData }) {
 
   return (
     <section id="aboutUs" className="about-section" style={{ 
-      backgroundColor: '#f4ecd8', 
+      backgroundColor: 'var(--bg-dark)', 
       fontFamily: 'var(--font-body, sans-serif)',
-      color: '#2c2a29'
+      color: 'var(--text-main)'
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <h2 className="about-title" data-aos="fade-up">
@@ -68,18 +68,18 @@ export default function AboutUs({ aboutData }) {
           font-family: var(--font-serif, serif);
           font-weight: normal;
           margin-bottom: 50px;
-          color: #2c2a29;
+          color: var(--text-main);
         }
         .about-subtitle {
           font-size: 26px;
           font-weight: 500;
           margin-bottom: 20px;
-          color: #2c2a29;
+          color: var(--text-main);
         }
         .about-desc {
           font-size: 16px;
           line-height: 1.7;
-          color: #54504c;
+          color: var(--text-muted);
           margin-bottom: 40px;
           white-space: pre-wrap;
           text-align: justify;
@@ -96,7 +96,7 @@ export default function AboutUs({ aboutData }) {
           font-family: var(--font-serif, serif);
           line-height: 1.4;
           font-weight: 500;
-          color: #2c2a29;
+          color: var(--text-main);
         }
         @media (max-width: 900px) {
           .about-section {
