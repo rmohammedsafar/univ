@@ -206,7 +206,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
   return (
     <section className="section-wrapper" id="programs">
       <style>{customStyles.join('\n')}</style>
-      <div className="section-header">
+      <div className="section-header" data-aos="fade-up">
         <h2 className="section-title">100% ONLINE DEGREE CATALOG</h2>
         <p className="section-desc">
           Explore our curated non-practical theoretical &amp; digital programs. All courses are delivered via our secure Learning Management System (LMS) with 24/7 access to lecture notes, virtual research archives, and faculty guidance.
@@ -247,8 +247,9 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
         ) : filteredPrograms.map((prog, idx) => (
           <div 
             key={prog.id} 
-            className={`program-card category-${(prog.category || 'default').replace(/[^a-zA-Z0-9-]/g, '')} program-${prog.id} scroll-reveal`}
-            style={{ transitionDelay: `${(idx % 4) * 110}ms` }}
+            className={`program-card category-${(prog.category || 'default').replace(/[^a-zA-Z0-9-]/g, '')} program-${prog.id}`}
+            data-aos="fade-up"
+            data-aos-delay={(idx % 4) * 100}
           >
             <div className="card-header">
               <div className="program-degree">{prog.degree || 'Degree Program'}</div>

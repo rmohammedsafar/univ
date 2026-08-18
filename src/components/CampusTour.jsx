@@ -29,7 +29,7 @@ export default function CampusTour({ tourSlides = [] }) {
 
   return (
     <section className="section-wrapper" id="campusTour">
-      <div className="section-header">
+      <div className="section-header" data-aos="fade-up">
         <h2 className="section-title">VIRTUAL CAMPUS TOUR</h2>
         <p className="section-desc">
           Experience our state-of-the-art virtual university infrastructure. Explore the Digital Research Library, Virtual Lecture Halls, Student Portal, and USA Administration Offices.
@@ -55,6 +55,7 @@ export default function CampusTour({ tourSlides = [] }) {
         className="tour-carousel-container" 
         ref={carouselRef}
         onScroll={handleScroll}
+        data-aos="zoom-in-up"
       >
         {tourSlides.map(room => (
           <div key={room.id} className={`tour-slide ${activeTab === room.id ? 'active' : ''}`}>

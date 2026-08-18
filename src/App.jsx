@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -38,6 +40,14 @@ export default function App() {
       clearTimeout(fadeTimer);
       clearTimeout(removeTimer);
     };
+  }, []);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,
+      offset: 100,
+    });
   }, []);
 
   const [isLightTheme, setIsLightTheme] = useState(true);
@@ -90,35 +100,7 @@ export default function App() {
     }
   }, [isLightTheme]);
 
-  // Global Scroll Reveal Observer for Grid Cards
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          } else {
-            entry.target.classList.remove('visible');
-          }
-        });
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
-    );
-
-    const observeElements = () => {
-      const elements = document.querySelectorAll('.scroll-reveal');
-      elements.forEach((el) => observer.observe(el));
-    };
-
-    observeElements();
-    const timer = setTimeout(observeElements, 250);
-
-    return () => {
-      clearTimeout(timer);
-      const elements = document.querySelectorAll('.scroll-reveal');
-      elements.forEach((el) => observer.unobserve(el));
-    };
-  }, [location.pathname]);
+  // Global Scroll Reveal replaced by AOS
 
   // Handle hash routing scroll and scroll to top
   useEffect(() => {

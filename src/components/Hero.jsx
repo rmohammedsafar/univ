@@ -92,15 +92,15 @@ export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
 
   return (
     <section className="hero-section" style={customBgStyle}>
-      <div className="hero-badge">
+      <div className="hero-badge" data-aos="fade-down">
         <span>{heroConfig?.badge}</span>
       </div>
 
-      <h1 className="hero-title">
+      <h1 className="hero-title" data-aos="fade-up" data-aos-delay="100">
         {heroConfig?.title}
       </h1>
 
-      <div className="hero-cta-group">
+      <div className="hero-cta-group" data-aos="zoom-in" data-aos-delay="200">
         <a href="#programs" className="btn btn-gold" onClick={onExplorePrograms} style={{ padding: '14px 28px', fontSize: '15px', color: '#ffffff', fontWeight: 'bold', textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>
           📑 Explore Online Programs
         </a>
@@ -111,7 +111,7 @@ export default function Hero({ heroConfig, onExplorePrograms, onApplyNow }) {
 
       <div className="hero-stats-row">
         {heroConfig?.stats?.map((stat, idx) => (
-          <div className="stat-card" key={`hero-stat-${idx}`}>
+          <div className="stat-card" key={`hero-stat-${idx}`} data-aos="fade-up" data-aos-delay={300 + (idx * 100)}>
             <div className="stat-num"><AnimatedStat value={stat.num} /></div>
             <div className="stat-label">{stat.label}</div>
           </div>

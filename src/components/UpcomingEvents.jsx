@@ -9,7 +9,7 @@ export default function UpcomingEvents({ events = [] }) {
     <section style={{ backgroundColor: "#f4ecd8", padding: "80px 5%", fontFamily: "var(--font-body, sans-serif)", color: "#2c2a29", borderTop: "1px solid #e2d7c1" }}>
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }} className="scroll-reveal">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }} data-aos="fade-up">
           <h2 style={{ fontSize: "42px", fontFamily: "var(--font-serif, serif)", fontWeight: "normal", margin: 0 }}>
             Upcoming Events
           </h2>
@@ -21,9 +21,9 @@ export default function UpcomingEvents({ events = [] }) {
           </button>
         </div>
 
-        <div ref={scrollRef} style={{ display: "flex", gap: "30px", overflowX: "auto", paddingBottom: "20px", scrollSnapType: "x mandatory", scrollbarWidth: "none", msOverflowStyle: "none" }} className="hide-scrollbar scroll-reveal">
-          {events.map((ev) => (
-            <div key={ev.id} style={{ minWidth: "340px", maxWidth: "340px", flex: "0 0 auto", scrollSnapAlign: "start", display: "flex", flexDirection: "column" }}>
+        <div ref={scrollRef} style={{ display: "flex", gap: "30px", overflowX: "auto", paddingBottom: "20px", scrollSnapType: "x mandatory", scrollbarWidth: "none", msOverflowStyle: "none" }} className="hide-scrollbar">
+          {events.map((ev, idx) => (
+            <div key={ev.id} style={{ minWidth: "340px", maxWidth: "340px", flex: "0 0 auto", scrollSnapAlign: "start", display: "flex", flexDirection: "column" }} data-aos="fade-left" data-aos-delay={idx * 100}>
               <img src={ev.image} alt={ev.title} style={{ width: "100%", height: "220px", objectFit: "contain", borderRadius: "12px", marginBottom: "20px" }} />
               <h3 style={{ fontSize: "20px", fontWeight: "600", marginBottom: "10px", color: "#2c2a29" }}>{ev.title}</h3>
               <p style={{ fontSize: "14px", lineHeight: "1.6", color: "#54504c", marginBottom: "25px", flex: 1 }}>{ev.desc}</p>

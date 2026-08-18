@@ -10,7 +10,7 @@ export default function AboutUs({ aboutData }) {
       color: '#2c2a29'
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 className="about-title">
+        <h2 className="about-title" data-aos="fade-up">
           About Us
         </h2>
 
@@ -21,7 +21,7 @@ export default function AboutUs({ aboutData }) {
           alignItems: 'center'
         }} className="about-us-grid">
           {/* Left Column */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }} data-aos="fade-right">
             <img 
               src={aboutData.logoUrl || "/assets/logo.jpg"} 
               alt="University Logo" 
@@ -35,7 +35,7 @@ export default function AboutUs({ aboutData }) {
           </div>
 
           {/* Right Column */}
-          <div>
+          <div data-aos="fade-left">
             <h3 className="about-subtitle">{aboutData.title}</h3>
             <p className="about-desc">
               {aboutData.description}
