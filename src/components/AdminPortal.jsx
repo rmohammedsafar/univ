@@ -1267,10 +1267,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   </div>
                 </div>
 
-                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                  <label className="form-label">Footer Watermark / Security Banner</label>
-                  <input className="form-control" value={contactFormData.watermark || ''} onChange={e => setContactFormData({...contactFormData, watermark: e.target.value})} />
-                </div>
               </div>
             </div>
           </div>
