@@ -8,6 +8,7 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPass, setAdminPass] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
 
   const handleAdminLoginSubmit = (e) => {
@@ -104,15 +105,25 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
             </div>
             <div className="form-group">
               <label className="form-label">Password *</label>
-              <input 
-                type="password" 
-                className="form-control" 
-                placeholder="••••••••" 
-                value={adminPass}
-                onChange={(e) => setAdminPass(e.target.value)}
-                required 
-                style={{ padding: '10px 14px' }}
-              />
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  className="form-control" 
+                  placeholder="••••••••" 
+                  value={adminPass}
+                  onChange={(e) => setAdminPass(e.target.value)}
+                  required 
+                  style={{ padding: '10px 14px', paddingRight: '40px' }}
+                />
+                <button 
+                  type="button" 
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: 'var(--text-muted)' }}
+                  title={showPassword ? "Hide Password" : "Show Password"}
+                >
+                  {showPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
             </div>
             {loginError && (
               <div style={{ color: '#ef4444', fontSize: '14px', marginTop: '16px', textAlign: 'center', fontWeight: 'bold' }}>

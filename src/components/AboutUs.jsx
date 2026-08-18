@@ -45,12 +45,12 @@ export default function AboutUs({ aboutData }) {
               <img 
                 src={aboutData.image1} 
                 alt="About us visual 1" 
-                style={{ width: '100%', height: '340px', objectFit: 'cover', borderRadius: '16px' }} 
+                style={{ width: '100%', height: '340px', objectFit: 'contain', borderRadius: '16px' }} 
               />
               <img 
                 src={aboutData.image2} 
                 alt="About us visual 2" 
-                style={{ width: '100%', height: '340px', objectFit: 'cover', borderRadius: '16px' }} 
+                style={{ width: '100%', height: '340px', objectFit: 'contain', borderRadius: '16px' }} 
               />
             </div>
           </div>

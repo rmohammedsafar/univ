@@ -1044,7 +1044,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
               {galleryImages && galleryImages.map((imgUrl, idx) => (
                 <div key={idx} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
-                  <img src={imgUrl} alt={`Gallery ${idx}`} style={{ width: '100%', height: '150px', objectFit: 'cover', display: 'block' }} />
+                  <img src={imgUrl} alt={`Gallery ${idx}`} style={{ width: '100%', height: '150px', objectFit: 'contain', display: 'block' }} />
                   <button 
                     onClick={() => handleDeleteGalleryImage(idx)}
                     style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(239, 68, 68, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '28px', height: '28px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -1540,7 +1540,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     <tr><td colSpan="6" style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)' }}>No events found. Click "Add New Event" to create one.</td></tr>
                   ) : events.map(ev => (
                     <tr key={ev.id}>
-                      <td><img src={ev.image} alt={ev.title} style={{ width: '60px', height: '45px', objectFit: 'cover', borderRadius: '6px' }} /></td>
+                      <td><img src={ev.image} alt={ev.title} style={{ width: '60px', height: '45px', objectFit: 'contain', borderRadius: '6px' }} /></td>
                       <td style={{ fontWeight: 700 }}>{ev.title}</td>
                       <td>{ev.day} {ev.month}</td>
                       <td>{ev.location}</td>

@@ -114,7 +114,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
         customStyles.push(`
           body .program-card.category-${safeCat} { border: 2px solid rgba(${color.rgb}, 0.6) !important; }
           body .program-card.category-${safeCat}:hover { border-color: ${color.primary} !important; box-shadow: 0 14px 35px rgba(${color.rgb}, 0.3) !important; }
-          body .program-card.category-${safeCat} .card-header { background: linear-gradient(135deg, ${color.gradient[0]} 0%, ${color.gradient[1]} 100%), url('/assets/home-bg-3.png') center/cover !important; border-bottom: 2px solid ${color.primary}; }
+          body .program-card.category-${safeCat} .card-header { background: linear-gradient(135deg, ${color.gradient[0]} 0%, ${color.gradient[1]} 100%), url('/assets/home-bg-3.png') center/contain !important; border-bottom: 2px solid ${color.primary}; }
           body .program-card.category-${safeCat} .program-degree { color: ${color.primary} !important; background: rgba(${color.rgb}, 0.25); border: 1px solid rgba(${color.rgb}, 0.4); border-radius: 50px; padding: 4px 14px; display: inline-block; width: fit-content; text-transform: uppercase; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
           body .program-card.category-${safeCat} .program-name { text-transform: capitalize; margin-top: 8px; }
         `);
@@ -126,7 +126,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
       const bgImg = p.bgImage;
       
       customStyles.push(`
-        body .program-card.program-${p.id} .card-header { background: linear-gradient(135deg, rgba(${rgb}, 0.8) 0%, rgba(${rgb}, 0.6) 100%), url('${bgImg}') center/cover !important; }
+        body .program-card.program-${p.id} .card-header { background: linear-gradient(135deg, rgba(${rgb}, 0.8) 0%, rgba(${rgb}, 0.6) 100%), url('${bgImg}') center/contain !important; }
         body .program-card.program-${p.id} .program-degree { color: #ffffff !important; background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
         body .program-card.program-${p.id} .program-name { color: #ffffff !important; }
       `);

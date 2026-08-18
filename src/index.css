@@ -993,7 +993,7 @@ body.light-theme .accreditation-banner p {
   box-shadow: 0 14px 35px rgba(2, 132, 199, 0.3) !important;
 }
 .program-card.category-technology .card-header {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(3, 105, 161, 0.92) 100%), url('/assets/home-bg-3.png') center/cover !important;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(3, 105, 161, 0.92) 100%), url('/assets/home-bg-3.png') center/contain !important;
   border-bottom: 2px solid #0284c7;
 }
 .program-card.category-technology .program-degree {
@@ -1017,7 +1017,7 @@ body.light-theme .accreditation-banner p {
   box-shadow: 0 14px 35px rgba(212, 175, 55, 0.35) !important;
 }
 .program-card.category-business .card-header {
-  background: linear-gradient(135deg, rgba(74, 11, 19, 0.92) 0%, rgba(120, 53, 15, 0.92) 100%), url('/assets/home-bg-3.png') center/cover !important;
+  background: linear-gradient(135deg, rgba(74, 11, 19, 0.92) 0%, rgba(120, 53, 15, 0.92) 100%), url('/assets/home-bg-3.png') center/contain !important;
   border-bottom: 2px solid #d4af37;
 }
 .program-card.category-business .program-degree {
@@ -1041,7 +1041,7 @@ body.light-theme .accreditation-banner p {
   box-shadow: 0 14px 35px rgba(5, 150, 105, 0.3) !important;
 }
 .program-card.category-healthcare .card-header {
-  background: linear-gradient(135deg, rgba(6, 78, 59, 0.92) 0%, rgba(4, 120, 87, 0.92) 100%), url('/assets/home-bg-3.png') center/cover !important;
+  background: linear-gradient(135deg, rgba(6, 78, 59, 0.92) 0%, rgba(4, 120, 87, 0.92) 100%), url('/assets/home-bg-3.png') center/contain !important;
   border-bottom: 2px solid #059669;
 }
 .program-card.category-healthcare .program-degree {
@@ -1068,7 +1068,7 @@ body.light-theme .accreditation-banner p {
 }
 .program-card.category-arts .card-header,
 .program-card.category-default .card-header {
-  background: linear-gradient(135deg, rgba(107, 17, 28, 0.92) 0%, rgba(59, 6, 13, 0.92) 100%), url('/assets/home-bg-3.png') center/cover !important;
+  background: linear-gradient(135deg, rgba(107, 17, 28, 0.92) 0%, rgba(59, 6, 13, 0.92) 100%), url('/assets/home-bg-3.png') center/contain !important;
   border-bottom: 2px solid #d4af37;
 }
 
@@ -2142,7 +2142,7 @@ body.light-theme .modal-title {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0.85;
   transition: opacity 0.3s ease;
 }
@@ -2320,7 +2320,7 @@ body.light-theme .modal-title {
 .news-card-image {
   width: 100%;
   height: 180px;
-  object-fit: cover;
+  object-fit: contain;
   background: rgba(107, 17, 28, 0.4);
 }
 
@@ -3731,7 +3731,7 @@ body.light-theme .home-page-main {}
 
 .home-page-main .hero-section {
   background-image: linear-gradient(rgba(13, 9, 10, 0.65), rgba(13, 9, 10, 0.75)), var(--hero-bg-url, url('/assets/home-bg-3.png')) !important;
-  background-size: cover !important;
+  background-size: contain !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
   width: 100%;
@@ -3740,7 +3740,7 @@ body.light-theme .home-page-main {}
 
 body.light-theme .home-page-main .hero-section {
   background-image: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.45)), var(--hero-bg-url, url('/assets/home-bg-3.png')) !important;
-  background-size: cover !important;
+  background-size: contain !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
@@ -3823,7 +3823,7 @@ body.light-theme .home-page-main section {
 .loading-square-logo {
   width: 110px;
   height: 110px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 16px;
   border: 2px solid #d4af37;
   box-shadow: 0 14px 35px rgba(212, 175, 55, 0.3), 0 0 25px rgba(255, 255, 255, 0.9);

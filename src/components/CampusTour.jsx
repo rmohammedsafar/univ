@@ -103,7 +103,7 @@ export default function CampusTour({ tourSlides = [] }) {
                     style={{
                       width: '100%',
                       height: '320px',
-                      objectFit: 'cover',
+                      objectFit: 'contain',
                       borderRadius: '14px',
                       border: '1px solid var(--border-gold)',
                       transition: 'opacity 0.3s',

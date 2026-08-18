@@ -19,7 +19,7 @@ export default function EventsPage({ events = [] }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "40px" }}>
           {events.map(ev => (
             <div key={ev.id} style={{ background: "var(--bg-card)", borderRadius: "16px", overflow: "hidden", boxShadow: "0 10px 30px rgba(0,0,0,0.15)", display: "flex", flexDirection: "column", transition: "transform 0.3s ease" }} className="event-card-hover">
-              <img src={ev.image} alt={ev.title} style={{ width: "100%", height: "220px", objectFit: "cover" }} />
+              <img src={ev.image} alt={ev.title} style={{ width: "100%", height: "220px", objectFit: "contain" }} />
               <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
                 <h3 style={{ fontSize: "20px", color: "var(--text-main)", marginBottom: "12px", fontWeight: 600 }}>{ev.title}</h3>
                 <p style={{ fontSize: "14px", color: "var(--text-muted)", lineHeight: "1.6", flex: 1, marginBottom: "24px" }}>{ev.desc}</p>
