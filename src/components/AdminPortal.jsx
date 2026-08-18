@@ -270,6 +270,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [newProgTitle, setNewProgTitle] = useState('');
   const [newProgDegree, setNewProgDegree] = useState('Master of Science');
   const [newProgCategory, setNewProgCategory] = useState('technology');
+  const [newProgEmoji, setNewProgEmoji] = useState('🎓');
   const [newProgTuition, setNewProgTuition] = useState('14400');
   const [newProgColor, setNewProgColor] = useState('#8b5cf6');
   const [newProgTextColor, setNewProgTextColor] = useState('#ffffff');
@@ -348,6 +349,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       title: newProgTitle.trim(),
       degree: finalDegree,
       category: finalCategory,
+      emoji: newProgEmoji,
       tuition: `$${tuitionVal.toLocaleString()} USD`,
       numericFee: tuitionVal,
       duration: newProgDuration,
@@ -376,6 +378,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgTitle('');
     setNewProgDegree('Master of Science');
     setNewProgCategory('technology');
+    setNewProgEmoji('🎓');
     setNewProgTuition('14400');
     setNewProgDuration('1.5 Years (100% Online)');
     setNewProgDesc('');
@@ -414,6 +417,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       setCustomCategory(prog.category || '');
     }
 
+    setNewProgEmoji(prog.emoji || '🎓');
     setNewProgTuition(prog.numericFee ? prog.numericFee.toString() : (prog.tuition || '').replace(/\D/g, ''));
     setNewProgDuration(prog.duration || '');
     setNewProgDesc(prog.description || '');
@@ -823,6 +827,18 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                         />
                       )}
                     </div>
+
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Category Emoji</label>
+                      <input 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="e.g. 💻" 
+                        value={newProgEmoji}
+                        onChange={(e) => setNewProgEmoji(e.target.value)}
+                        style={{ padding: '10px 14px', fontSize: '14px' }}
+                      />
+                    </div>
                   </div>
 
                   <div className="form-grid-2">
@@ -920,7 +936,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     <tr key={prog.id}>
                       <td style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--gold-light)' }}>{prog.id}</td>
                       <td style={{ fontWeight: 700 }}>{prog.title || prog.name}</td>
-                      <td><span className="online-tag" style={{ position: 'static' }}>{prog.category}</span></td>
+                      <td><span className="online-tag" style={{ position: 'static' }}>{prog.emoji || '🎓'} {prog.category}</span></td>
                       <td style={{ color: '#34d399', fontWeight: 700 }}>{prog.tuition}</td>
                       <td style={{ fontSize: '12px' }}>{prog.duration}</td>
                       <td>

@@ -73,12 +73,18 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
 
   const getCategoryDisplayName = (cat) => {
     if (cat === 'all') return 'All Programs';
-    if (cat === 'technology') return '💻 Computer & Data Tech';
-    if (cat === 'business') return '📈 Business & FinTech';
-    if (cat === 'healthcare') return '⚕️ Health Informatics';
-    if (cat === 'default') return '🎓 General Studies';
+    
+    const progWithEmoji = programs.find(p => p.category === cat && p.emoji);
+    const customEmoji = progWithEmoji ? progWithEmoji.emoji : null;
+
+    if (cat === 'technology') return `${customEmoji || '💻'} Computer & Data Tech`;
+    if (cat === 'business') return `${customEmoji || '📈'} Business & FinTech`;
+    if (cat === 'healthcare') return `${customEmoji || '⚕️'} Health Informatics`;
+    if (cat === 'default') return `${customEmoji || '🎓'} General Studies`;
     
     let title = cat.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    if (customEmoji) return `${customEmoji} ${title}`;
+
     let emoji = '📚';
     const lower = cat.toLowerCase();
     if (lower.includes('art') || lower.includes('design')) emoji = '🎨';
