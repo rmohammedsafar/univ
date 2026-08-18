@@ -521,6 +521,18 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     doc.save("UEF_Applications.pdf");
   };
 
+  const editViewRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (showInlineAddPortal || editingElectiveId || showEvtForm) {
+      setTimeout(() => {
+        if (editViewRef.current) {
+          editViewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [showInlineAddPortal, editingElectiveId, showEvtForm]);
+
   return (
     <section className="section-wrapper" id="adminDashboardSection" style={{ display: 'block' }}>
       <div className="section-header">
@@ -743,7 +755,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
 
             {/* EMBEDDED DEGREE PROGRAM CREATION PORTAL FORM */}
             {showInlineAddPortal && (
-              <div style={{ background: 'var(--bg-card)', border: '1.5px solid var(--gold-primary)', borderRadius: '14px', padding: '24px', marginBottom: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+              <div ref={editViewRef} style={{ background: 'var(--bg-card)', border: '1.5px solid var(--gold-primary)', borderRadius: '14px', padding: '24px', marginBottom: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-gold)', paddingBottom: '12px' }}>
                   <h4 style={{ fontSize: '18px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>
                     ✨ {editingProgramId ? 'Edit Degree Program' : 'Create & Publish New Degree Program'}
@@ -1336,7 +1348,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
               </p>
             </div>
 
-            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
+            <div ref={editViewRef} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
               <form onSubmit={handleAddElectiveSubmit} style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
                 <div style={{ flex: 1 }}>
                   <label className="form-label">{editingElectiveId ? 'Edit Elective Name' : 'New Elective Track Name'}</label>
@@ -1416,7 +1428,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             </div>
 
             {showEvtForm && (
-              <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px', marginBottom: '28px' }}>
+              <div ref={editViewRef} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px', marginBottom: '28px' }}>
                 <h4 style={{ color: 'var(--gold-light)', marginBottom: '20px', fontFamily: 'var(--font-serif)' }}>{editingEventId ? '✏️ Edit Event' : '➕ Add New Event'}</h4>
                 <form onSubmit={handleEvtSubmit}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
