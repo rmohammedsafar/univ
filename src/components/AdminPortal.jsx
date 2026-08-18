@@ -3,12 +3,6 @@ import { saveCMSConfigToStorage, getApplicationRecords, getInquiryRecords, uploa
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
-import Hero from './Hero';
-import AboutUs from './AboutUs';
-import ProgramCatalog from './ProgramCatalog';
-import CampusTour from './CampusTour';
-import UpcomingEvents from './UpcomingEvents';
-import GalleryPage from './GalleryPage';
 
 const ImageUploadField = ({ label, value, onChange, folder, placeholder }) => {
   const [isUploading, setIsUploading] = useState(false);
@@ -82,15 +76,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [evtImageFile, setEvtImageFile] = useState(null);
 
   const [contactFormData, setContactFormData] = React.useState(contactInfo || {});
-  const [previewMode, setPreviewMode] = useState(false);
   
   React.useEffect(() => {
     if (contactInfo) setContactFormData(contactInfo);
   }, [contactInfo]);
-
-  useEffect(() => {
-    setPreviewMode(false);
-  }, [activeTab]);
 
   const handleSaveContact = () => {
     onUpdateContact(contactFormData);
@@ -806,25 +795,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   Add, edit, or remove degree programs. Tuition fees, course duration, and credit hours update live across the entire website!
                 </p>
               </div>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button className="btn btn-outline" style={{ background: 'transparent', border: '1px solid var(--border-gold)', color: 'var(--text-main)', padding: '10px 20px', borderRadius: '8px' }} onClick={() => setPreviewMode(!previewMode)}>
-                  {previewMode ? '📝 Edit Mode' : '👁️ Toggle Preview'}
-                </button>
-                <button 
-                  className="btn btn-gold" 
-                  onClick={() => setShowInlineAddPortal(!showInlineAddPortal)}
-                >
-                  {showInlineAddPortal ? '✕ Close Creation Portal' : '➕ Add New Degree Program'}
-                </button>
-              </div>
+              <button 
+                className="btn btn-gold" 
+                onClick={() => setShowInlineAddPortal(!showInlineAddPortal)}
+              >
+                {showInlineAddPortal ? '✕ Close Creation Portal' : '➕ Add New Degree Program'}
+              </button>
             </div>
-
-            {previewMode ? (
-              <div style={{ border: '2px dashed var(--border-gold)', borderRadius: '12px', overflow: 'hidden', pointerEvents: 'none' }}>
-                <ProgramCatalog programs={programs} />
-              </div>
-            ) : (
-              <>
 
             {/* EMBEDDED DEGREE PROGRAM CREATION PORTAL FORM */}
             {showInlineAddPortal && (
@@ -1041,9 +1018,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 </tbody>
               </table>
             </div>
-            </>
-          )}
-        </div>
+          </div>
         )}
 
         {/* GALLERY CMS TAB */}
@@ -1051,29 +1026,17 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           <div className="admin-panel">
             <div className="admin-header">
               <h2 className="section-title" style={{ fontSize: '24px' }}>🖼️ Gallery CMS</h2>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button className="btn btn-outline" style={{ background: 'transparent', border: '1px solid var(--border-gold)', color: 'var(--text-main)', padding: '10px 20px', borderRadius: '8px' }} onClick={() => setPreviewMode(!previewMode)}>
-                  {previewMode ? '📝 Edit Mode' : '👁️ Toggle Preview'}
-                </button>
-                <label className="btn btn-maroon" style={{ cursor: 'pointer', margin: 0 }}>
-                  {isUploadingGallery ? '⏳ Uploading...' : '➕ Upload New Image'}
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    style={{ display: 'none' }} 
-                    onChange={handleGalleryUpload}
-                    disabled={isUploadingGallery}
-                  />
-                </label>
-              </div>
+              <label className="btn btn-maroon" style={{ cursor: 'pointer', margin: 0 }}>
+                {isUploadingGallery ? '⏳ Uploading...' : '➕ Upload New Image'}
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  style={{ display: 'none' }} 
+                  onChange={handleGalleryUpload}
+                  disabled={isUploadingGallery}
+                />
+              </label>
             </div>
-
-            {previewMode ? (
-              <div style={{ border: '2px dashed var(--border-gold)', borderRadius: '12px', overflow: 'hidden', pointerEvents: 'none', marginBottom: '28px' }}>
-                <GalleryPage galleryImages={galleryImages} />
-              </div>
-            ) : (
-              <>
             <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
               Upload high-quality images directly to the interactive masonry gallery.
             </p>
@@ -1097,8 +1060,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 No images in gallery. Upload one to get started!
               </div>
             )}
-            </>
-            )}
           </div>
         )}
 
@@ -1107,22 +1068,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ color: 'var(--gold-light)' }}>Hero Section Configuration</h3>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button className="btn btn-outline" style={{ background: 'transparent', border: '1px solid var(--border-gold)', color: 'var(--text-main)', padding: '10px 20px', borderRadius: '8px' }} onClick={() => setPreviewMode(!previewMode)}>
-                  {previewMode ? '📝 Edit Mode' : '👁️ Toggle Preview'}
-                </button>
-                <button className="btn btn-gold" onClick={handleSaveHero}>
-                  💾 Save Changes
-                </button>
-              </div>
+              <button className="btn btn-gold" onClick={handleSaveHero}>
+                💾 Save Changes
+              </button>
             </div>
 
-            {previewMode ? (
-              <div style={{ border: '2px dashed var(--border-gold)', borderRadius: '12px', overflow: 'hidden', pointerEvents: 'none' }}>
-                <Hero heroConfig={heroFormData} />
-              </div>
-            ) : (
-              <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
+            <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                   <label className="form-label">Top Badge Text</label>
@@ -1170,8 +1121,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   </div>
                 </div>
               </div>
-              </div>
-            )}
+            </div>
           </div>
         )}
 
@@ -1180,23 +1130,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ color: 'var(--gold-light)' }}>Virtual Tour Slides</h3>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button className="btn btn-outline" style={{ background: 'transparent', border: '1px solid var(--border-gold)', color: 'var(--text-main)', padding: '10px 20px', borderRadius: '8px' }} onClick={() => setPreviewMode(!previewMode)}>
-                  {previewMode ? '📝 Edit Mode' : '👁️ Toggle Preview'}
-                </button>
-                <button className="btn btn-gold" onClick={() => handleEditSlide(-1)}>
-                  ➕ Add New Slide
-                </button>
-              </div>
+              <button className="btn btn-gold" onClick={() => handleEditSlide(-1)}>
+                ➕ Add New Slide
+              </button>
             </div>
 
-            {previewMode ? (
-              <div style={{ border: '2px dashed var(--border-gold)', borderRadius: '12px', overflow: 'hidden', pointerEvents: 'none' }}>
-                <CampusTour tourSlides={tourSlides} />
-              </div>
-            ) : (
-              <>
-              <div className="admin-table-container">
+            <div className="admin-table-container">
               <table className="admin-table">
                 <thead>
                   <tr style={{ background: 'rgba(212,175,55,0.2)' }}>
@@ -1311,10 +1250,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 </div>
               </div>
             )}
-            </>
-          )}
-        </div>
-      )}
+          </div>
+        )}
 
 
         {/* TAB 7: CONTACT INFO */}
@@ -1391,22 +1328,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ color: 'var(--gold-light)' }}>About Us Configuration</h3>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button className="btn btn-outline" style={{ background: 'transparent', border: '1px solid var(--border-gold)', color: 'var(--text-main)', padding: '10px 20px', borderRadius: '8px' }} onClick={() => setPreviewMode(!previewMode)}>
-                  {previewMode ? '📝 Edit Mode' : '👁️ Toggle Preview'}
-                </button>
-                <button className="btn btn-gold" onClick={handleSaveAbout}>
-                  💾 Save Changes
-                </button>
-              </div>
+              <button className="btn btn-gold" onClick={handleSaveAbout}>
+                💾 Save Changes
+              </button>
             </div>
 
-            {previewMode ? (
-              <div style={{ border: '2px dashed var(--border-gold)', borderRadius: '12px', overflow: 'hidden', pointerEvents: 'none' }}>
-                <AboutUs aboutData={aboutFormData} />
-              </div>
-            ) : (
-              <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
+            <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                   <label className="form-label">Main Title</label>
@@ -1447,8 +1374,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   placeholder="Image 2 URL or upload ->"
                 />
               </div>
-              </div>
-            )}
+            </div>
           </div>
         )}
         {/* TAB: REGISTRATION CMS */}
@@ -1537,22 +1463,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 <h3 style={{ fontSize: '20px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>📅 Events CMS</h3>
                 <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>Manage all upcoming events shown on the homepage and the Events page.</p>
               </div>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button className="btn btn-outline" style={{ background: 'transparent', border: '1px solid var(--border-gold)', color: 'var(--text-main)', padding: '10px 20px', borderRadius: '8px' }} onClick={() => setPreviewMode(!previewMode)}>
-                  {previewMode ? '📝 Edit Mode' : '👁️ Toggle Preview'}
-                </button>
-                <button className="btn btn-gold" onClick={() => { resetEvtForm(); setShowEvtForm(true); }} style={{ padding: '10px 20px', fontSize: '13px' }}>
-                  ➕ Add New Event
-                </button>
-              </div>
+              <button className="btn btn-gold" onClick={() => { resetEvtForm(); setShowEvtForm(true); }} style={{ padding: '10px 20px', fontSize: '13px' }}>
+                ➕ Add New Event
+              </button>
             </div>
-
-            {previewMode ? (
-              <div style={{ border: '2px dashed var(--border-gold)', borderRadius: '12px', overflow: 'hidden', pointerEvents: 'none', marginBottom: '28px' }}>
-                <UpcomingEvents events={events} />
-              </div>
-            ) : (
-              <>
 
             {showEvtForm && (
               <div ref={editViewRef} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px', marginBottom: '28px' }}>
@@ -1642,10 +1556,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 </tbody>
               </table>
             </div>
-            </>
-            )}
           </div>
         )}
+
+
       </div>
     </section>
   );
