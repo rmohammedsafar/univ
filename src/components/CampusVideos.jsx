@@ -7,10 +7,10 @@ export default function CampusVideos({ videos }) {
     <section id="campus-videos" className="section-padding" style={{ background: 'var(--bg-dark)' }}>
       <div className="section-container">
         <div className="section-header" data-aos="fade-up">
-          <h2 className="section-title">Campus Videos & TEDx Talks</h2>
+          <h2 className="section-title">Academic Classes</h2>
           <div className="section-line"></div>
           <p className="section-subtitle">
-            Explore insights, lectures, and inspiring talks from our esteemed faculty and guest speakers.
+            Explore insights, lectures, and inspiring classes from our esteemed faculty.
           </p>
         </div>
 

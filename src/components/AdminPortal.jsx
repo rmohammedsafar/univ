@@ -745,7 +745,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             className={`filter-pill ${activeTab === 'videos' ? 'active' : ''}`}
             onClick={() => setActiveTab('videos')}
           >
-            ▶️ Videos CMS
+            ▶️ Academic Classes CMS
           </button>
         </div>
 
@@ -1742,7 +1742,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
         {activeTab === 'videos' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h3 style={{ margin: 0 }}>▶️ Campus Videos & TEDx Talks</h3>
+              <h3 style={{ margin: 0 }}>▶️ Academic Classes</h3>
               <button className="btn btn-gold" onClick={() => {
                 setEditingVidId(null);
                 setVidTitle('');

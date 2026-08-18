@@ -398,8 +398,20 @@ export const INITIAL_EVENTS = [
 export const INITIAL_VIDEOS = [
   {
     id: "vid-1",
-    title: "The Future of AI in Education",
-    desc: "A TEDx talk by Dr. Alan Turing on how AI transforms remote learning.",
-    url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    title: "Introduction to Computer Science",
+    desc: "A comprehensive overview of computer science fundamentals, algorithms, and data structures.",
+    url: "https://www.youtube.com/embed/zDzVZ1J11h8"
+  },
+  {
+    id: "vid-2",
+    title: "Principles of Psychology",
+    desc: "An engaging introductory lecture exploring human behavior, cognition, and the mind.",
+    url: "https://www.youtube.com/embed/P3FzOhmkafo"
+  },
+  {
+    id: "vid-3",
+    title: "Advanced Linear Algebra",
+    desc: "Deep dive into vector spaces, eigenvalues, and mathematical foundations for engineering.",
+    url: "https://www.youtube.com/embed/ZK3O402wf1c"
   }
 ];
