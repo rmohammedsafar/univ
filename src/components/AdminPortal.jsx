@@ -323,6 +323,9 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [newProgDesc, setNewProgDesc] = useState('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
   const [customDegree, setCustomDegree] = useState('');
   const [customCategory, setCustomCategory] = useState('');
+  const [newProgCredits, setNewProgCredits] = useState('30');
+  const [newProgMinGpa, setNewProgMinGpa] = useState('2.5');
+  const [newProgMinPercent, setNewProgMinPercent] = useState('65');
   const [newProgBrochureFile, setNewProgBrochureFile] = useState(null);
   const [newProgBgImage, setNewProgBgImage] = useState(null);
   const [isUploadingBrochure, setIsUploadingBrochure] = useState(false);
@@ -390,7 +393,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     }
 
     const newProg = {
-      id: 'uef-prog-' + Math.floor(100 + Math.random() * 900),
+      id: editingProgramId || ('uef-prog-' + Math.floor(100 + Math.random() * 900)),
       name: newProgTitle.trim(),
       title: newProgTitle.trim(),
       degree: finalDegree,
@@ -401,7 +404,9 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       duration: newProgDuration,
       description: newProgDesc,
       format: "100% Remote / Asynchronous",
-      credits: "36 US Credit Hours (12 Core Modules)",
+      credits: `${newProgCredits} US Credit Hours`,
+      minGpa: newProgMinGpa,
+      minPercent: newProgMinPercent,
       brochureUrl: brochureUrl,
       themeColor: newProgColor,
       textColor: newProgTextColor,
@@ -426,11 +431,14 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgCategory('technology');
     setNewProgEmoji('🎓');
     setNewProgTuition('14400');
-    setNewProgDuration('1.5 Years (100% Online)');
-    setNewProgDesc('');
     setNewProgColor('#8b5cf6');
     setNewProgTextColor('#ffffff');
     setNewProgTitleColor('#ffffff');
+    setNewProgDuration('1.5 Years (100% Online)');
+    setNewProgDesc('Comprehensive 100% remote theoretical curriculum covering core principles, analytical modeling, and digital case studies.');
+    setNewProgCredits('30');
+    setNewProgMinGpa('2.5');
+    setNewProgMinPercent('65');
     setCustomDegree('');
     setCustomCategory('');
     setNewProgBrochureFile(null);
@@ -454,7 +462,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     }
 
     // Check if category is default
-    const defaultsCat = ['technology', 'business', 'healthcare'];
+    const defaultsCat = ['technology', 'business', 'healthcare', 'engineering', 'arts', 'health', 'law'];
     if (defaultsCat.includes(prog.category)) {
       setNewProgCategory(prog.category);
       setCustomCategory('');
@@ -467,6 +475,9 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgTuition(prog.numericFee ? prog.numericFee.toString() : (prog.tuition || '').replace(/\D/g, ''));
     setNewProgDuration(prog.duration || '');
     setNewProgDesc(prog.description || '');
+    setNewProgCredits(prog.credits ? prog.credits.replace(/\D/g, '') : '30');
+    setNewProgMinGpa(prog.minGpa || '2.5');
+    setNewProgMinPercent(prog.minPercent || '65');
     setNewProgColor(prog.themeColor || '#8b5cf6');
     setNewProgTextColor(prog.textColor || '#ffffff');
     setNewProgTitleColor(prog.titleColor || '#ffffff');
