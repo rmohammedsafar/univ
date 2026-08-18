@@ -22,6 +22,7 @@ export default function CampusVideos({ videos }) {
             Academic Classes
           </h2>
           <button
+            className="hide-on-mobile"
             onClick={handleScrollRight}
             style={{ background: "transparent", border: "none", fontSize: "14px", fontWeight: "600", letterSpacing: "1px", cursor: "pointer", color: "var(--text-main)", display: "flex", alignItems: "center", gap: "8px" }}
           >

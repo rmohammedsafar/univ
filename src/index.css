@@ -4063,3 +4063,13 @@ body.light-theme .home-page-main section {
     column-count: 2;
   }
 }
+
+.hide-on-mobile {
+  display: flex !important;
+}
+
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}

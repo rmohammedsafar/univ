@@ -14,6 +14,7 @@ export default function UpcomingEvents({ events = [] }) {
             Upcoming Events
           </h2>
           <button
+            className="hide-on-mobile"
             onClick={() => { window.scrollTo(0, 0); navigate("/events"); }}
             style={{ background: "transparent", border: "none", fontSize: "14px", fontWeight: "600", letterSpacing: "1px", cursor: "pointer", color: "var(--text-main)", display: "flex", alignItems: "center", gap: "8px" }}
           >
