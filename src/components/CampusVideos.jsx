@@ -14,7 +14,7 @@ export default function CampusVideos({ videos }) {
   };
 
   return (
-    <section style={{ backgroundColor: "var(--bg-dark)", padding: "80px 5%", fontFamily: "var(--font-body, sans-serif)", color: "var(--text-main)", borderTop: "1px solid var(--border-gold)" }}>
+    <section style={{ backgroundColor: "var(--bg-dark)", padding: "80px 5% 10px", fontFamily: "var(--font-body, sans-serif)", color: "var(--text-main)", borderTop: "1px solid var(--border-gold)" }}>
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px" }} data-aos="fade-up">
