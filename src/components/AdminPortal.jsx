@@ -863,39 +863,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Custom Theme Color (Grid & Badge Background)</label>
-                    <input 
-                      type="color" 
-                      className="form-control" 
-                      value={newProgColor}
-                      onChange={(e) => setNewProgColor(e.target.value)}
-                      style={{ padding: '4px', height: '40px', width: '100px', cursor: 'pointer' }}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Custom Heading Text Color (Card Title & Badge)</label>
-                    <input 
-                      type="color" 
-                      className="form-control" 
-                      value={newProgTitleColor}
-                      onChange={(e) => setNewProgTitleColor(e.target.value)}
-                      style={{ padding: '4px', height: '40px', width: '100px', cursor: 'pointer' }}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Custom Body Text Color (Description & Specs)</label>
-                    <input 
-                      type="color" 
-                      className="form-control" 
-                      value={newProgTextColor}
-                      onChange={(e) => setNewProgTextColor(e.target.value)}
-                      style={{ padding: '4px', height: '40px', width: '100px', cursor: 'pointer' }}
-                    />
-                  </div>
-
-                  <div className="form-group">
                     <label className="form-label">Upload Brochure PDF (Optional)</label>
                     <input 
                       type="file" 
