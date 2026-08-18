@@ -816,149 +816,194 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   }} style={{ padding: '4px 10px', fontSize: '12px' }}>✕ Close Form</button>
                 </div>
 
-                <form onSubmit={handleAddProgramSubmit}>
-                  <div className="form-group">
-                    <label className="form-label">Degree Title / Name *</label>
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      placeholder="e.g. Master of Science in Robotics & Autonomous Systems" 
-                      value={newProgTitle}
-                      onChange={(e) => setNewProgTitle(e.target.value)}
-                      required 
-                      style={{ padding: '10px 14px', fontSize: '14px' }}
-                    />
-                  </div>
-
-                  <div className="form-grid-2">
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
+                  <form onSubmit={handleAddProgramSubmit}>
                     <div className="form-group">
-                      <label className="form-label">Degree Level *</label>
-                      <select className="form-select" value={newProgDegree} onChange={(e) => setNewProgDegree(e.target.value)} style={{ padding: '10px 14px' }}>
-                        <option value="Master of Science">Master of Science (M.S.)</option>
-                        <option value="Bachelor of Science">Bachelor of Science (B.S.)</option>
-                        <option value="Master of Business Administration">Master of Business Administration (MBA)</option>
-                        <option value="Doctor of Philosophy">Doctor of Philosophy (Ph.D.)</option>
-                        <option value="Other">Other (Specify manually)</option>
-                      </select>
-                      {newProgDegree === 'Other' && (
-                        <input 
-                          type="text" 
-                          className="form-control" 
-                          placeholder="e.g. Master of Arts (M.A.)" 
-                          value={customDegree}
-                          onChange={(e) => setCustomDegree(e.target.value)}
-                          required 
-                          style={{ padding: '10px 14px', fontSize: '14px', marginTop: '10px' }}
-                        />
-                      )}
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label">Category *</label>
-                      <select className="form-select" value={newProgCategory} onChange={(e) => setNewProgCategory(e.target.value)} style={{ padding: '10px 14px' }}>
-                        <option value="technology">Computer & Data Tech</option>
-                        <option value="business">Business & FinTech</option>
-                        <option value="healthcare">Health Informatics</option>
-                        <option value="Other">Other (Specify manually)</option>
-                      </select>
-                      {newProgCategory === 'Other' && (
-                        <input 
-                          type="text" 
-                          className="form-control" 
-                          placeholder="e.g. Engineering & Applied Sciences" 
-                          value={customCategory}
-                          onChange={(e) => setCustomCategory(e.target.value)}
-                          required 
-                          style={{ padding: '10px 14px', fontSize: '14px', marginTop: '10px' }}
-                        />
-                      )}
-                    </div>
-
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label">Category Emoji</label>
+                      <label className="form-label">Degree Title / Name *</label>
                       <input 
                         type="text" 
                         className="form-control" 
-                        placeholder="e.g. 💻" 
-                        value={newProgEmoji}
-                        onChange={(e) => setNewProgEmoji(e.target.value)}
+                        placeholder="e.g. Master of Science in Robotics & Autonomous Systems" 
+                        value={newProgTitle}
+                        onChange={(e) => setNewProgTitle(e.target.value)}
+                        required 
                         style={{ padding: '10px 14px', fontSize: '14px' }}
                       />
                     </div>
-                  </div>
 
-                  <div className="form-grid-2">
+                    <div className="form-grid-2">
+                      <div className="form-group">
+                        <label className="form-label">Degree Level *</label>
+                        <select className="form-select" value={newProgDegree} onChange={(e) => setNewProgDegree(e.target.value)} style={{ padding: '10px 14px' }}>
+                          <option value="Master of Science">Master of Science (M.S.)</option>
+                          <option value="Bachelor of Science">Bachelor of Science (B.S.)</option>
+                          <option value="Master of Business Administration">Master of Business Administration (MBA)</option>
+                          <option value="Doctor of Philosophy">Doctor of Philosophy (Ph.D.)</option>
+                          <option value="Other">Other (Specify manually)</option>
+                        </select>
+                        {newProgDegree === 'Other' && (
+                          <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="e.g. Master of Arts (M.A.)" 
+                            value={customDegree}
+                            onChange={(e) => setCustomDegree(e.target.value)}
+                            required 
+                            style={{ padding: '10px 14px', marginTop: '10px' }}
+                          />
+                        )}
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Category Segment *</label>
+                        <select className="form-select" value={newProgCategory} onChange={(e) => setNewProgCategory(e.target.value)} style={{ padding: '10px 14px' }}>
+                          <option value="business">Business & Management</option>
+                          <option value="engineering">Engineering & Technology</option>
+                          <option value="arts">Arts & Humanities</option>
+                          <option value="health">Health & Sciences</option>
+                          <option value="law">Law & Policy</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="form-grid-2">
+                      <div className="form-group">
+                        <label className="form-label">Total Credits *</label>
+                        <input 
+                          type="number" 
+                          className="form-control" 
+                          value={newProgCredits}
+                          onChange={(e) => setNewProgCredits(e.target.value)}
+                          required 
+                          style={{ padding: '10px 14px', fontSize: '14px' }}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Emoji Icon (Optional)</label>
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          placeholder="e.g. 💻" 
+                          value={newProgEmoji}
+                          onChange={(e) => setNewProgEmoji(e.target.value)}
+                          style={{ padding: '10px 14px', fontSize: '14px' }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-grid-2">
+                      <div className="form-group">
+                        <label className="form-label">Total Tuition ($ USD) *</label>
+                        <input 
+                          type="number" 
+                          className="form-control" 
+                          value={newProgTuition}
+                          onChange={(e) => setNewProgTuition(e.target.value)}
+                          required 
+                          style={{ padding: '10px 14px', color: '#34d399', fontWeight: 'bold' }}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Duration *</label>
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          value={newProgDuration}
+                          onChange={(e) => setNewProgDuration(e.target.value)}
+                          required 
+                          style={{ padding: '10px 14px' }}
+                        />
+                      </div>
+                    </div>
+
                     <div className="form-group">
-                      <label className="form-label">Total Tuition ($ USD) *</label>
-                      <input 
-                        type="number" 
+                      <label className="form-label">Program Overview & Description</label>
+                      <textarea 
                         className="form-control" 
-                        value={newProgTuition}
-                        onChange={(e) => setNewProgTuition(e.target.value)}
-                        required 
-                        style={{ padding: '10px 14px', color: '#34d399', fontWeight: 'bold' }}
+                        rows="3" 
+                        value={newProgDesc}
+                        onChange={(e) => setNewProgDesc(e.target.value)}
+                        style={{ padding: '10px 14px', resize: 'vertical' }}
                       />
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">Duration *</label>
+                      <label className="form-label">Upload Brochure PDF (Optional)</label>
                       <input 
-                        type="text" 
+                        type="file" 
+                        accept=".pdf"
                         className="form-control" 
-                        value={newProgDuration}
-                        onChange={(e) => setNewProgDuration(e.target.value)}
-                        required 
+                        onChange={(e) => setNewProgBrochureFile(e.target.files[0])}
                         style={{ padding: '10px 14px' }}
                       />
+                      <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
+                        If provided, students will download this exact PDF instead of the auto-generated syllabus.
+                      </small>
+                    </div>
+
+                    <ImageUploadField 
+                      label="Grid Background Image URL (or upload)"
+                      value={typeof newProgBgImage === 'string' ? newProgBgImage : ''}
+                      onChange={(val) => setNewProgBgImage(val)}
+                      folder="program-bg"
+                      placeholder="Paste URL or upload image ->"
+                    />
+                    <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '-15px', marginBottom: '15px' }}>
+                      Replaces the default background pattern for this program's card on the Programs catalog.
+                    </small>
+
+                    <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '12px', marginTop: '20px' }}>
+                      <button type="submit" className="btn btn-gold" style={{ padding: '10px 24px', fontSize: '14px' }} disabled={isUploadingBrochure || isUploadingProgBg}>
+                        {isUploadingBrochure || isUploadingProgBg ? '⏳ Uploading...' : (editingProgramId ? '💾 Save Changes' : '🚀 Publish Degree Program Live')}
+                      </button>
+                      <button type="button" className="btn btn-outline" onClick={() => {
+                        setShowInlineAddPortal(false);
+                        setEditingProgramId(null);
+                      }}>Cancel</button>
+                    </div>
+                  </form>
+
+                  {/* LIVE PREVIEW CARD */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px' }}>
+                    <h5 style={{ color: 'var(--gold-light)', margin: '0 0 16px 0', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Preview</h5>
+                    <div style={{ width: '100%', maxWidth: '380px' }}>
+                      <div className={`program-card category-${(newProgCategory || 'default').replace(/[^a-zA-Z0-9-]/g, '')}`}>
+                        <div className="card-header" style={{ ...(typeof newProgBgImage === 'string' && newProgBgImage ? { backgroundImage: `url(${newProgBgImage})`, backgroundSize: 'cover' } : {}) }}>
+                          <div className="program-degree">{newProgDegree === 'Other' ? customDegree : newProgDegree || 'Degree Program'}</div>
+                          <div className="program-name">{newProgTitle || 'Degree Title'}</div>
+                        </div>
+                        <div className="card-body">
+                          <p className="program-desc">{newProgDesc || 'Description of the program will appear here...'}</p>
+                          <div className="program-specs">
+                            <div className="spec-item">
+                              <span className="spec-label">Duration</span>
+                              <span className="spec-val">{newProgDuration || '-'}</span>
+                            </div>
+                            <div className="spec-item">
+                              <span className="spec-label">Credits</span>
+                              <span className="spec-val">{newProgCredits || '-'} Credits</span>
+                            </div>
+                            <div className="spec-item">
+                              <span className="spec-label">Tuition</span>
+                              <span className="spec-val" style={{ color: '#34d399' }}>{newProgTuition ? `$${newProgTuition}` : '-'}</span>
+                            </div>
+                            <div className="spec-item">
+                              <span className="spec-label">Min Admission</span>
+                              <span className="spec-val">{newProgMinGpa ? `${newProgMinGpa} GPA (${newProgMinPercent}%)` : '2.5 GPA (65%)'}</span>
+                            </div>
+                          </div>
+                          <div className="card-actions">
+                            <button type="button" className="btn btn-maroon" style={{ width: '100%', pointerEvents: 'none' }}>
+                              Download PDF Brochure
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Program Overview & Description</label>
-                    <textarea 
-                      className="form-control" 
-                      rows="3" 
-                      value={newProgDesc}
-                      onChange={(e) => setNewProgDesc(e.target.value)}
-                      style={{ padding: '10px 14px', resize: 'vertical' }}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Upload Brochure PDF (Optional)</label>
-                    <input 
-                      type="file" 
-                      accept=".pdf"
-                      className="form-control" 
-                      onChange={(e) => setNewProgBrochureFile(e.target.files[0])}
-                      style={{ padding: '10px 14px' }}
-                    />
-                    <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
-                      If provided, students will download this exact PDF instead of the auto-generated syllabus.
-                    </small>
-                  </div>
-
-                  <ImageUploadField 
-                    label="Grid Background Image URL (or upload)"
-                    value={typeof newProgBgImage === 'string' ? newProgBgImage : ''}
-                    onChange={(val) => setNewProgBgImage(val)}
-                    folder="program-bg"
-                    placeholder="Paste URL or upload image ->"
-                  />
-                  <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '-15px', marginBottom: '15px' }}>
-                    Replaces the default background pattern for this program's card on the Programs catalog.
-                  </small>
-
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
-                    <button type="button" className="btn btn-outline" onClick={() => {
-                      setShowInlineAddPortal(false);
-                      setEditingProgramId(null);
-                    }}>Cancel</button>
-                    <button type="submit" className="btn btn-gold" style={{ padding: '10px 24px', fontSize: '14px' }} disabled={isUploadingBrochure || isUploadingProgBg}>
-                      {isUploadingBrochure || isUploadingProgBg ? '⏳ Uploading...' : (editingProgramId ? '💾 Save Changes' : '🚀 Publish Degree Program Live')}
-                    </button>
-                  </div>
-                </form>
+                </div>
               </div>
             )}
 
@@ -1172,80 +1217,111 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
                 background: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'
               }}>
-                <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', width: '100%', maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto' }}>
+                <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', width: '100%', maxWidth: '1300px', maxHeight: '90vh', overflowY: 'auto' }}>
                   <h3 style={{ color: 'var(--gold-light)', marginBottom: '20px' }}>
                     {editingSlideIndex === -1 ? 'Add New Virtual Tour Slide' : 'Edit Virtual Tour Slide'}
                   </h3>
                   
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <div className="form-group">
-                      <label className="form-label">Tab Label (e.g. 🏛️ Library)</label>
-                      <input className="form-control" value={slideFormData.label} onChange={e => setSlideFormData({...slideFormData, label: e.target.value})} />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Slide Title</label>
-                      <input className="form-control" value={slideFormData.title} onChange={e => setSlideFormData({...slideFormData, title: e.target.value})} />
-                    </div>
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label">Slide Description</label>
-                      <textarea className="form-control" value={slideFormData.desc} onChange={e => setSlideFormData({...slideFormData, desc: e.target.value})} rows={3} />
-                    </div>
-                    <ImageUploadField 
-                      label="Image URL (or upload)"
-                      value={slideFormData.img}
-                      onChange={(val) => setSlideFormData({...slideFormData, img: val})}
-                      folder="tour-slides"
-                      placeholder="/assets/campus-2.jpg or upload ->"
-                    />
-                    <div className="form-group">
-                      <label className="form-label">Call-To-Action (Label | URL)</label>
-                      <div style={{ display: 'flex', gap: '10px' }}>
-                        <input className="form-control" value={slideFormData.cta.label} onChange={e => setSlideFormData({...slideFormData, cta: {...slideFormData.cta, label: e.target.value}})} placeholder="Label" />
-                        <input className="form-control" value={slideFormData.cta.href} onChange={e => setSlideFormData({...slideFormData, cta: {...slideFormData.cta, href: e.target.value}})} placeholder="#link" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <h4 style={{ color: 'var(--gold-light)', marginTop: '20px', marginBottom: '10px' }}>Key Metrics (4 Required)</h4>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                    {slideFormData.stats.map((stat, sIdx) => (
-                      <div key={sIdx} style={{ background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '8px' }}>
-                        <label className="form-label">Metric {sIdx + 1}</label>
-                        <input className="form-control" style={{ marginBottom: '8px' }} value={stat.label} onChange={e => {
-                          const newStats = [...slideFormData.stats];
-                          newStats[sIdx].label = e.target.value;
-                          setSlideFormData({...slideFormData, stats: newStats});
-                        }} placeholder="Label (e.g. Licensed E-Books)" />
-                        
-                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                          <input className="form-control" value={stat.val} onChange={e => {
-                            const newStats = [...slideFormData.stats];
-                            newStats[sIdx].val = e.target.value;
-                            setSlideFormData({...slideFormData, stats: newStats});
-                          }} placeholder="Value (e.g. 500,000+)" style={{ flex: 1 }} />
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <input 
-                              type="color" 
-                              value={stat.color || (stat.green ? '#10b981' : '#ffffff')} 
-                              onChange={e => {
-                                const newStats = [...slideFormData.stats];
-                                newStats[sIdx].color = e.target.value;
-                                newStats[sIdx].green = false;
-                                setSlideFormData({...slideFormData, stats: newStats});
-                              }} 
-                              title="Select Metric Color" 
-                              style={{ padding: '0', height: '36px', width: '40px', borderRadius: '4px', cursor: 'pointer', border: '1px solid var(--border-gold)', background: 'none' }} 
-                            />
-                            <span style={{ fontSize: '13px', color: 'var(--text-main)' }}>Color</span>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '40px' }}>
+                    {/* LEFT: FORM */}
+                    <div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div className="form-group">
+                          <label className="form-label">Tab Label (e.g. 📚 Library)</label>
+                          <input className="form-control" value={slideFormData.label} onChange={e => setSlideFormData({...slideFormData, label: e.target.value})} />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label">Slide Title</label>
+                          <input className="form-control" value={slideFormData.title} onChange={e => setSlideFormData({...slideFormData, title: e.target.value})} />
+                        </div>
+                        <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                          <label className="form-label">Slide Description</label>
+                          <textarea className="form-control" value={slideFormData.desc} onChange={e => setSlideFormData({...slideFormData, desc: e.target.value})} rows={3} />
+                        </div>
+                        <ImageUploadField 
+                          label="Image URL (or upload)"
+                          value={typeof slideFormData.img === 'string' ? slideFormData.img : ''}
+                          onChange={(val) => setSlideFormData({...slideFormData, img: val})}
+                          folder="tour-slides"
+                          placeholder="/assets/campus-2.jpg or upload ->"
+                        />
+                        <div className="form-group">
+                          <label className="form-label">Call-To-Action (Label | URL)</label>
+                          <div style={{ display: 'flex', gap: '10px' }}>
+                            <input className="form-control" value={slideFormData.cta.label} onChange={e => setSlideFormData({...slideFormData, cta: {...slideFormData.cta, label: e.target.value}})} placeholder="Label" />
+                            <input className="form-control" value={slideFormData.cta.href} onChange={e => setSlideFormData({...slideFormData, cta: {...slideFormData.cta, href: e.target.value}})} placeholder="#link" />
                           </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
 
-                  <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
-                    <button className="btn btn-gold" onClick={handleSaveSlide}>Save Slide</button>
-                    <button className="btn btn-outline" onClick={() => setEditingSlideIndex(null)}>Cancel</button>
+                      <h4 style={{ color: 'var(--gold-light)', marginTop: '20px', marginBottom: '10px' }}>Key Metrics (4 Required)</h4>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                        {slideFormData.stats.map((stat, sIdx) => (
+                          <div key={sIdx} style={{ background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '8px' }}>
+                            <label className="form-label">Metric {sIdx + 1}</label>
+                            <input className="form-control" style={{ marginBottom: '8px' }} value={stat.label} onChange={e => {
+                              const newStats = [...slideFormData.stats];
+                              newStats[sIdx].label = e.target.value;
+                              setSlideFormData({...slideFormData, stats: newStats});
+                            }} placeholder="Label (e.g. Licensed E-Books)" />
+                            
+                            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                              <input className="form-control" value={stat.val} onChange={e => {
+                                const newStats = [...slideFormData.stats];
+                                newStats[sIdx].val = e.target.value;
+                                setSlideFormData({...slideFormData, stats: newStats});
+                              }} placeholder="Value (e.g. 500,000+)" style={{ flex: 1 }} />
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <input 
+                                  type="color" 
+                                  value={stat.color || (stat.green ? '#10b981' : '#ffffff')} 
+                                  onChange={e => {
+                                    const newStats = [...slideFormData.stats];
+                                    newStats[sIdx].color = e.target.value;
+                                    newStats[sIdx].green = false;
+                                    setSlideFormData({...slideFormData, stats: newStats});
+                                  }} 
+                                  title="Select Metric Color" 
+                                  style={{ padding: '0', height: '36px', width: '40px', borderRadius: '4px', cursor: 'pointer', border: '1px solid var(--border-gold)', background: 'none' }} 
+                                />
+                                <span style={{ fontSize: '13px', color: 'var(--text-main)' }}>Color</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
+                        <button className="btn btn-gold" onClick={handleSaveSlide}>Save Slide</button>
+                        <button className="btn btn-outline" onClick={() => setEditingSlideIndex(null)}>Cancel</button>
+                      </div>
+                    </div>
+
+                    {/* RIGHT: PREVIEW */}
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px' }}>
+                      <h5 style={{ color: 'var(--gold-light)', margin: '0 0 16px 0', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Preview</h5>
+                      <div style={{ width: '100%', position: 'relative', height: '450px', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-gold)' }}>
+                        <img src={typeof slideFormData.img === 'string' && slideFormData.img ? slideFormData.img : 'https://via.placeholder.com/800x450?text=Tour+Slide'} alt={slideFormData.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.1) 100%)', display: 'flex', alignItems: 'center', padding: '40px' }}>
+                          <div style={{ maxWidth: '500px', color: 'white' }}>
+                            <div style={{ display: 'inline-block', padding: '6px 14px', background: 'rgba(212,175,55,0.2)', border: '1px solid var(--gold-primary)', color: 'var(--gold-light)', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px', borderRadius: '4px', marginBottom: '16px' }}>{slideFormData.label || 'Tab Label'}</div>
+                            <h3 style={{ fontSize: '32px', fontFamily: 'var(--font-serif)', marginBottom: '16px', color: 'white' }}>{slideFormData.title || 'Slide Title'}</h3>
+                            <p style={{ fontSize: '16px', color: '#ccc', lineHeight: '1.6', marginBottom: '30px' }}>{slideFormData.desc || 'Slide description will appear here...'}</p>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
+                              {slideFormData.stats.map((st, sIdx) => (
+                                <div key={sIdx}>
+                                  <div style={{ fontSize: '24px', fontFamily: 'var(--font-serif)', fontWeight: 'bold', color: st.color || (st.green ? 'var(--gold-light)' : 'var(--text-main)') }}>{st.val || '0'}</div>
+                                  <div style={{ fontSize: '12px', textTransform: 'uppercase', color: '#aaa', letterSpacing: '1px', marginTop: '4px' }}>{st.label || 'Metric'}</div>
+                                </div>
+                              ))}
+                            </div>
+                            {slideFormData.cta && slideFormData.cta.label && (
+                              <button className="btn btn-outline" style={{ pointerEvents: 'none' }}>{slideFormData.cta.label}</button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1471,55 +1547,81 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             {showEvtForm && (
               <div ref={editViewRef} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px', marginBottom: '28px' }}>
                 <h4 style={{ color: 'var(--gold-light)', marginBottom: '20px', fontFamily: 'var(--font-serif)' }}>{editingEventId ? '✏️ Edit Event' : '➕ Add New Event'}</h4>
-                <form onSubmit={handleEvtSubmit}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label">Event Title *</label>
-                      <input className="form-control" required value={evtTitle} onChange={e => setEvtTitle(e.target.value)} placeholder="e.g. Global Scholars Symposium" />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
+                  <form onSubmit={handleEvtSubmit}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                        <label className="form-label">Event Title *</label>
+                        <input className="form-control" required value={evtTitle} onChange={e => setEvtTitle(e.target.value)} placeholder="e.g. Global Scholars Symposium" />
+                      </div>
+                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                        <label className="form-label">Description *</label>
+                        <textarea className="form-control" required rows={3} value={evtDesc} onChange={e => setEvtDesc(e.target.value)} placeholder="Event description..." style={{ resize: 'vertical' }} />
+                      </div>
+                      <ImageUploadField 
+                        label="Image URL (or upload)"
+                        value={typeof evtImage === 'string' ? evtImage : ''}
+                        onChange={(val) => setEvtImage(val)}
+                        folder="event-images"
+                        placeholder="Paste URL or upload image ->"
+                      />
+                      <div className="form-group">
+                        <label className="form-label">Day (e.g. 28) *</label>
+                        <input className="form-control" required value={evtDay} onChange={e => setEvtDay(e.target.value)} placeholder="28" />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Month (e.g. Sept) *</label>
+                        <input className="form-control" required value={evtMonth} onChange={e => setEvtMonth(e.target.value)} placeholder="Sept" />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Location *</label>
+                        <input className="form-control" required value={evtLocation} onChange={e => setEvtLocation(e.target.value)} placeholder="Virtual Conference Hall" />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Time *</label>
+                        <input className="form-control" required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="6:00 PM - 9:00 PM EST" />
+                      </div>
+                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                        <label className="form-label">Know More Link URL</label>
+                        <input className="form-control" value={evtLink} onChange={e => setEvtLink(e.target.value)} placeholder="https://example.com" />
+                      </div>
+                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                        <label className="form-label">Button Label (e.g. KNOW MORE, REGISTER)</label>
+                        <input className="form-control" value={evtButtonLabel} onChange={e => setEvtButtonLabel(e.target.value)} placeholder="KNOW MORE" />
+                      </div>
                     </div>
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label">Description *</label>
-                      <textarea className="form-control" required rows={3} value={evtDesc} onChange={e => setEvtDesc(e.target.value)} placeholder="Event description..." style={{ resize: 'vertical' }} />
+                    <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '12px', marginTop: '20px' }}>
+                      <button type="submit" className="btn btn-gold" disabled={isUploadingEvtImg}>
+                        {isUploadingEvtImg ? '⏳ Uploading...' : (editingEventId ? '💾 Save Changes' : '🚀 Publish Event')}
+                      </button>
+                      <button type="button" className="btn btn-outline" onClick={resetEvtForm}>Cancel</button>
                     </div>
-                    <ImageUploadField 
-                      label="Image URL (or upload)"
-                      value={evtImage}
-                      onChange={(val) => setEvtImage(val)}
-                      folder="event-images"
-                      placeholder="Paste URL or upload image ->"
-                    />
-                    <div className="form-group">
-                      <label className="form-label">Day (e.g. 28) *</label>
-                      <input className="form-control" required value={evtDay} onChange={e => setEvtDay(e.target.value)} placeholder="28" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Month (e.g. Sept) *</label>
-                      <input className="form-control" required value={evtMonth} onChange={e => setEvtMonth(e.target.value)} placeholder="Sept" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Location *</label>
-                      <input className="form-control" required value={evtLocation} onChange={e => setEvtLocation(e.target.value)} placeholder="Virtual Conference Hall" />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Time *</label>
-                      <input className="form-control" required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="6:00 PM - 9:00 PM EST" />
-                    </div>
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label">Know More Link URL</label>
-                      <input className="form-control" value={evtLink} onChange={e => setEvtLink(e.target.value)} placeholder="https://example.com" />
-                    </div>
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label">Button Label (e.g. KNOW MORE, REGISTER)</label>
-                      <input className="form-control" value={evtButtonLabel} onChange={e => setEvtButtonLabel(e.target.value)} placeholder="KNOW MORE" />
+                  </form>
+
+                  {/* LIVE PREVIEW CARD */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px' }}>
+                    <h5 style={{ color: 'var(--gold-light)', margin: '0 0 16px 0', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Preview</h5>
+                    <div style={{ width: '100%', maxWidth: '340px', background: 'var(--bg-dark)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '20px', display: 'flex', flexDirection: 'column' }}>
+                      <img src={typeof evtImage === 'string' && evtImage ? evtImage : 'https://via.placeholder.com/340x220?text=Event+Image'} alt={evtTitle || 'Event'} style={{ width: '100%', height: '220px', objectFit: 'contain', borderRadius: '12px', marginBottom: '20px' }} />
+                      <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px', color: 'var(--text-main)', fontFamily: 'var(--font-body)' }}>{evtTitle || 'Event Title'}</h3>
+                      <p style={{ fontSize: '14px', lineHeight: '1.6', color: 'var(--text-muted)', marginBottom: '25px' }}>{evtDesc || 'Event description will appear here...'}</p>
+                      <div style={{ display: 'flex', gap: '20px', marginBottom: '16px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <span style={{ fontSize: '36px', fontFamily: 'var(--font-serif, serif)' }}>{evtDay || '28'}</span>
+                          <span style={{ fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase' }}>{evtMonth || 'Sept'}</span>
+                        </div>
+                        <div style={{ width: '1px', height: '30px', backgroundColor: 'var(--border-gold)' }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                          <div>📍 {evtLocation || 'Location'}</div>
+                          <div>🕒 {evtTime || 'Time'}</div>
+                        </div>
+                      </div>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '600', letterSpacing: '1px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                        {evtButtonLabel || 'KNOW MORE'} <span style={{ fontSize: '16px' }}>↓</span>
+                      </span>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
-                    <button type="button" className="btn btn-outline" onClick={resetEvtForm}>Cancel</button>
-                    <button type="submit" className="btn btn-gold" disabled={isUploadingEvtImg}>
-                      {isUploadingEvtImg ? '⏳ Uploading...' : (editingEventId ? '💾 Save Changes' : '🚀 Publish Event')}
-                    </button>
-                  </div>
-                </form>
+                </div>
               </div>
             )}
 
