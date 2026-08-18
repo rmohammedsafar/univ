@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminPortal from './AdminPortal';
 import { saveCMSConfigToStorage, saveTourConfigToStorage, saveContactConfigToStorage, saveHeroConfigToStorage, saveAboutUsToStorage, saveGalleryToStorage, saveElectivesToStorage, saveEventsToStorage } from '../services/firebase';
 
 export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents }) {
+  const navigate = useNavigate();
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPass, setAdminPass] = useState('');
@@ -26,7 +28,7 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
 
   const handleAdminLogout = () => {
     setIsAdminLoggedIn(false);
-    alert("Signed out of Admin Portal.");
+    navigate('/');
   };
 
   if (isAdminLoggedIn) {
