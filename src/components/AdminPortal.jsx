@@ -48,7 +48,7 @@ const ImageUploadField = ({ label, value, onChange, folder, placeholder }) => {
   );
 };
 
-export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents, onLogout }) {
+export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents, videos, onUpdateVideos, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [editingProgramId, setEditingProgramId] = useState(null);
@@ -74,6 +74,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [showEvtForm, setShowEvtForm] = useState(false);
   const [isUploadingEvtImg, setIsUploadingEvtImg] = useState(false);
   const [evtImageFile, setEvtImageFile] = useState(null);
+
+  // Videos CMS state
+  const [editingVidId, setEditingVidId] = useState(null);
+  const [vidTitle, setVidTitle] = useState('');
+  const [vidDesc, setVidDesc] = useState('');
+  const [vidUrl, setVidUrl] = useState('');
+  const [showVidForm, setShowVidForm] = useState(false);
 
   const [contactFormData, setContactFormData] = React.useState(contactInfo || {});
   
@@ -130,6 +137,58 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setEvtButtonLabel(ev.buttonLabel || 'KNOW MORE');
     setEvtImageFile(null);
     setShowEvtForm(true);
+  };
+
+  const handleVidSubmit = (e) => {
+    e.preventDefault();
+    if (!vidTitle.trim() || !vidUrl.trim()) {
+      alert("Please enter a title and a video URL.");
+      return;
+    }
+
+    let embedUrl = vidUrl;
+    // Attempt to convert standard youtube links to embed links
+    if (embedUrl.includes("youtube.com/watch?v=")) {
+      embedUrl = embedUrl.replace("watch?v=", "embed/");
+    } else if (embedUrl.includes("youtu.be/")) {
+      embedUrl = embedUrl.replace("youtu.be/", "www.youtube.com/embed/");
+    }
+
+    const newVid = {
+      id: editingVidId || ('vid-' + Math.floor(1000 + Math.random() * 9000)),
+      title: vidTitle.trim(),
+      desc: vidDesc.trim(),
+      url: embedUrl
+    };
+
+    if (editingVidId) {
+      const updated = videos.map(v => v.id === editingVidId ? newVid : v);
+      onUpdateVideos(updated);
+    } else {
+      const updated = [...(videos || []), newVid];
+      onUpdateVideos(updated);
+    }
+
+    setVidTitle('');
+    setVidDesc('');
+    setVidUrl('');
+    setEditingVidId(null);
+    setShowVidForm(false);
+  };
+
+  const handleVidEdit = (v) => {
+    setEditingVidId(v.id);
+    setVidTitle(v.title || '');
+    setVidDesc(v.desc || '');
+    setVidUrl(v.url || '');
+    setShowVidForm(true);
+  };
+
+  const handleVidDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this video?')) {
+      const updated = videos.filter(v => v.id !== id);
+      onUpdateVideos(updated);
+    }
   };
 
   const handleEvtSubmit = async (e) => {
@@ -681,6 +740,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             onClick={() => setActiveTab('registration')}
           >
             📝 Registration CMS
+          </button>
+          <button 
+            className={`filter-pill ${activeTab === 'videos' ? 'active' : ''}`}
+            onClick={() => setActiveTab('videos')}
+          >
+            ▶️ Videos CMS
           </button>
         </div>
 
@@ -1672,6 +1737,118 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           </div>
         )}
 
+
+        {/* TAB 9: VIDEOS CMS */}
+        {activeTab === 'videos' && (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ margin: 0 }}>▶️ Campus Videos & TEDx Talks</h3>
+              <button className="btn btn-gold" onClick={() => {
+                setEditingVidId(null);
+                setVidTitle('');
+                setVidDesc('');
+                setVidUrl('');
+                setShowVidForm(true);
+              }}>
+                + Add New Video
+              </button>
+            </div>
+
+            {showVidForm && (
+              <div style={{
+                position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+                background: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'
+              }}>
+                <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', width: '100%', maxWidth: '1000px', maxHeight: '90vh', overflowY: 'auto' }}>
+                  <h3 style={{ color: 'var(--gold-light)', marginBottom: '20px' }}>
+                    {editingVidId ? 'Edit Video' : 'Add New Video'}
+                  </h3>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
+                    {/* LEFT: FORM */}
+                    <form onSubmit={handleVidSubmit}>
+                      <div className="form-group">
+                        <label className="form-label">Video Title *</label>
+                        <input className="form-control" value={vidTitle} onChange={(e) => setVidTitle(e.target.value)} required />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Description</label>
+                        <textarea className="form-control" value={vidDesc} onChange={(e) => setVidDesc(e.target.value)} rows={4} />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Video URL (YouTube/Vimeo) *</label>
+                        <input className="form-control" placeholder="https://www.youtube.com/watch?v=..." value={vidUrl} onChange={(e) => setVidUrl(e.target.value)} required />
+                        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>We will automatically format standard YouTube links to embed links.</span>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
+                        <button type="submit" className="btn btn-gold">Save Video</button>
+                        <button type="button" className="btn btn-outline" onClick={() => setShowVidForm(false)}>Cancel</button>
+                      </div>
+                    </form>
+
+                    {/* RIGHT: PREVIEW */}
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px' }}>
+                      <h5 style={{ color: 'var(--gold-light)', margin: '0 0 16px 0', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Preview</h5>
+                      
+                      <div className="video-card" style={{ background: 'var(--bg-card)', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-gold)', boxShadow: '0 10px 25px rgba(0,0,0,0.2)', width: '100%', maxWidth: '380px' }}>
+                        <div className="video-wrapper" style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+                          <iframe 
+                            src={vidUrl.includes("watch?v=") ? vidUrl.replace("watch?v=", "embed/") : vidUrl.includes("youtu.be/") ? vidUrl.replace("youtu.be/", "www.youtube.com/embed/") : (vidUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ")} 
+                            title={vidTitle || "Preview Video"} 
+                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                        <div className="video-info" style={{ padding: '20px' }}>
+                          <h3 className="video-title" style={{ color: 'var(--gold-light)', fontSize: '18px', marginBottom: '10px', fontFamily: 'var(--font-serif)' }}>{vidTitle || 'Video Title'}</h3>
+                          <p className="video-desc" style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: '1.6' }}>{vidDesc || 'Description of the video will appear here...'}</p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>Video Preview</th>
+                    <th>Title & Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(!videos || videos.length === 0) ? (
+                    <tr><td colSpan="3" style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)' }}>No videos found. Click "Add New Video" to create one.</td></tr>
+                  ) : videos.map(vid => (
+                    <tr key={vid.id}>
+                      <td style={{ width: '200px' }}>
+                        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '8px' }}>
+                          <iframe src={vid.url} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} title={vid.title}></iframe>
+                        </div>
+                      </td>
+                      <td>
+                        <div style={{ fontWeight: 700, color: 'var(--gold-light)', marginBottom: '8px' }}>{vid.title}</div>
+                        <div style={{ fontSize: '13px', color: 'var(--text-muted)', whiteSpace: 'pre-wrap' }}>{vid.desc}</div>
+                      </td>
+                      <td style={{ width: '150px' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button className="btn btn-outline" onClick={() => handleVidEdit(vid)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}>✏️ Edit</button>
+                          <button className="btn btn-outline" onClick={() => handleVidDelete(vid.id)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}>🗑️ Delete</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
       </div>
     </section>

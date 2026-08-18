@@ -14,11 +14,12 @@ import EventsPage from './components/EventsPage';
 import AdminPage from './components/AdminPage';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
+import CampusVideos from './components/CampusVideos';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES, INITIAL_ELECTIVES, INITIAL_EVENTS } from './data/initialData';
-import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage, loadEventsFromStorage } from './services/firebase';
+import { INITIAL_DEGREE_PROGRAMS, INITIAL_TOUR_SLIDES, INITIAL_CONTACT_INFO, INITIAL_HERO_CONFIG, INITIAL_ABOUT_US, INITIAL_GALLERY_IMAGES, INITIAL_ELECTIVES, INITIAL_EVENTS, INITIAL_VIDEOS } from './data/initialData';
+import { loadCMSConfigFromStorage, loadTourConfigFromStorage, loadContactConfigFromStorage, loadHeroConfigFromStorage, loadAboutUsFromStorage, loadGalleryFromStorage, loadElectivesFromStorage, loadEventsFromStorage, loadVideosFromStorage } from './services/firebase';
 
 export default function App() {
   const location = useLocation();
@@ -59,11 +60,12 @@ export default function App() {
   const [galleryImages, setGalleryImages] = useState(INITIAL_GALLERY_IMAGES);
   const [electives, setElectives] = useState(INITIAL_ELECTIVES);
   const [events, setEvents] = useState(INITIAL_EVENTS);
+  const [videos, setVideos] = useState(INITIAL_VIDEOS);
 
   useEffect(() => {
     const loadAllCMS = async () => {
       try {
-        const [savedPrograms, savedTour, savedContact, savedHero, savedAbout, savedGallery, savedElectives, savedEvents] = await Promise.all([
+        const [savedPrograms, savedTour, savedContact, savedHero, savedAbout, savedGallery, savedElectives, savedEvents, savedVideos] = await Promise.all([
           loadCMSConfigFromStorage(),
           loadTourConfigFromStorage(),
           loadContactConfigFromStorage(),
@@ -71,7 +73,8 @@ export default function App() {
           loadAboutUsFromStorage(),
           loadGalleryFromStorage(),
           loadElectivesFromStorage(),
-          loadEventsFromStorage()
+          loadEventsFromStorage(),
+          loadVideosFromStorage()
         ]);
         
         if (savedPrograms && savedPrograms.length > 0) setPrograms(savedPrograms);
@@ -82,6 +85,7 @@ export default function App() {
         if (savedGallery && savedGallery.length > 0) setGalleryImages(savedGallery);
         if (savedElectives && savedElectives.length > 0) setElectives(savedElectives);
         if (savedEvents && savedEvents.length > 0) setEvents(savedEvents);
+        if (savedVideos && savedVideos.length > 0) setVideos(savedVideos);
       } catch (e) {
         console.error("Failed to load CMS data:", e);
       }
@@ -144,6 +148,7 @@ export default function App() {
             />
             
             <AboutUs aboutData={aboutData} />
+            <CampusVideos videos={videos} />
             <ProgramCatalog programs={programs} />
             <CampusTour tourSlides={tourSlides} />
             <UpcomingEvents events={events} />
@@ -175,6 +180,8 @@ export default function App() {
               onUpdateElectives={setElectives}
               events={events}
               onUpdateEvents={setEvents}
+              videos={videos}
+              onUpdateVideos={setVideos}
             />
         } />
       </Routes>

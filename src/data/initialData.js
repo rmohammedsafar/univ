@@ -394,3 +394,12 @@ export const INITIAL_EVENTS = [
     link: 'https://www.culturalsurvival.org/'
   }
 ];
+
+export const INITIAL_VIDEOS = [
+  {
+    id: "vid-1",
+    title: "The Future of AI in Education",
+    desc: "A TEDx talk by Dr. Alan Turing on how AI transforms remote learning.",
+    url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  }
+];

@@ -234,3 +234,19 @@ export const getInquiryRecords = async () => {
     return [];
   }
 };
+
+export const loadVideosFromStorage = async () => {
+  try {
+    const docRef = doc(db, "cms_config", "videos");
+    const docSnap = await withTimeout(getDoc(docRef));
+    if (docSnap.exists()) return docSnap.data().videos || null;
+  } catch (e) { console.error("Firestore get error:", e); }
+  return null;
+};
+
+export const saveVideosToStorage = async (data) => {
+  try {
+    const docRef = doc(db, "cms_config", "videos");
+    await withTimeout(setDoc(docRef, { videos: data }, { merge: true }));
+  } catch (e) { console.error("Firestore save error:", e); throw e; }
+};
