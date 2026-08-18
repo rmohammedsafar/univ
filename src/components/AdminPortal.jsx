@@ -1179,13 +1179,21 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                             newStats[sIdx].val = e.target.value;
                             setSlideFormData({...slideFormData, stats: newStats});
                           }} placeholder="Value (e.g. 500,000+)" style={{ flex: 1 }} />
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-main)', fontSize: '13px' }}>
-                            <input type="checkbox" checked={stat.green} onChange={e => {
-                              const newStats = [...slideFormData.stats];
-                              newStats[sIdx].green = e.target.checked;
-                              setSlideFormData({...slideFormData, stats: newStats});
-                            }} /> Green
-                          </label>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <input 
+                              type="color" 
+                              value={stat.color || (stat.green ? '#10b981' : '#ffffff')} 
+                              onChange={e => {
+                                const newStats = [...slideFormData.stats];
+                                newStats[sIdx].color = e.target.value;
+                                newStats[sIdx].green = false;
+                                setSlideFormData({...slideFormData, stats: newStats});
+                              }} 
+                              title="Select Metric Color" 
+                              style={{ padding: '0', height: '36px', width: '40px', borderRadius: '4px', cursor: 'pointer', border: '1px solid var(--border-gold)', background: 'none' }} 
+                            />
+                            <span style={{ fontSize: '13px', color: 'var(--text-main)' }}>Color</span>
+                          </div>
                         </div>
                       </div>
                     ))}
