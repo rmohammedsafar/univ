@@ -4,6 +4,50 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
+const ImageUploadField = ({ label, value, onChange, folder, placeholder }) => {
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setIsUploading(true);
+    try {
+      const url = await uploadDocument(file, folder);
+      onChange(url);
+    } catch (err) {
+      alert("Upload failed: " + err.message);
+    }
+    setIsUploading(false);
+  };
+
+  return (
+    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+      <label className="form-label">{label}</label>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <input 
+          className="form-control" 
+          value={value || ''} 
+          onChange={e => onChange(e.target.value)} 
+          placeholder={placeholder || "Paste URL here"} 
+          style={{ flex: 1, padding: '10px 14px' }}
+        />
+        <div style={{ position: 'relative', overflow: 'hidden', display: 'inline-block' }}>
+          <button type="button" className="btn btn-outline" style={{ margin: 0, height: '100%', padding: '0 20px', whiteSpace: 'nowrap' }} disabled={isUploading}>
+            {isUploading ? '⏳...' : '📁 Upload'}
+          </button>
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleUpload} 
+            style={{ position: 'absolute', top: 0, right: 0, minWidth: '100%', minHeight: '100%', fontSize: '100px', textAlign: 'right', filter: 'alpha(opacity=0)', opacity: 0, outline: 'none', background: 'white', cursor: 'pointer', display: 'block' }} 
+            disabled={isUploading}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, onUpdateTour, contactInfo, onUpdateContact, heroConfig, onUpdateHero, aboutData, onUpdateAbout, galleryImages, onUpdateGallery, electives, onUpdateElectives, events, onUpdateEvents, onLogout }) {
   const [activeTab, setActiveTab] = useState('admissions');
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
@@ -341,6 +385,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
         return;
       }
       setIsUploadingProgBg(false);
+    } else if (typeof newProgBgImage === 'string') {
+      finalBgImage = newProgBgImage;
     }
 
     const newProg = {
@@ -892,19 +938,16 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     </small>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Upload Grid Background Image (Optional)</label>
-                    <input 
-                      type="file" 
-                      accept="image/*"
-                      className="form-control" 
-                      onChange={(e) => setNewProgBgImage(e.target.files[0])}
-                      style={{ padding: '10px 14px' }}
-                    />
-                    <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
-                      Replaces the default background pattern for this program's card on the Programs catalog.
-                    </small>
-                  </div>
+                  <ImageUploadField 
+                    label="Grid Background Image URL (or upload)"
+                    value={typeof newProgBgImage === 'string' ? newProgBgImage : ''}
+                    onChange={(val) => setNewProgBgImage(val)}
+                    folder="program-bg"
+                    placeholder="Paste URL or upload image ->"
+                  />
+                  <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '-15px', marginBottom: '15px' }}>
+                    Replaces the default background pattern for this program's card on the Programs catalog.
+                  </small>
 
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
                     <button type="button" className="btn btn-outline" onClick={() => {
@@ -1042,10 +1085,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   <input className="form-control" value={heroFormData.title || ''} onChange={e => setHeroFormData({...heroFormData, title: e.target.value})} />
                 </div>
 
-                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                  <label className="form-label">Background Image URL</label>
-                  <input className="form-control" value={heroFormData.backgroundImage || ''} onChange={e => setHeroFormData({...heroFormData, backgroundImage: e.target.value})} placeholder="e.g. /assets/campus-bg.jpg or https://images.unsplash.com/..." />
-                </div>
+                <ImageUploadField 
+                  label="Background Image URL (or upload)"
+                  value={heroFormData.backgroundImage}
+                  onChange={(val) => setHeroFormData({...heroFormData, backgroundImage: val})}
+                  folder="hero-bg"
+                  placeholder="e.g. /assets/campus-bg.jpg or upload ->"
+                />
 
                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                   <label className="form-label">Four Key Statistics</label>
@@ -1144,10 +1190,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       <label className="form-label">Slide Description</label>
                       <textarea className="form-control" value={slideFormData.desc} onChange={e => setSlideFormData({...slideFormData, desc: e.target.value})} rows={3} />
                     </div>
-                    <div className="form-group">
-                      <label className="form-label">Image URL</label>
-                      <input className="form-control" value={slideFormData.img} onChange={e => setSlideFormData({...slideFormData, img: e.target.value})} />
-                    </div>
+                    <ImageUploadField 
+                      label="Image URL (or upload)"
+                      value={slideFormData.img}
+                      onChange={(val) => setSlideFormData({...slideFormData, img: val})}
+                      folder="tour-slides"
+                      placeholder="/assets/campus-2.jpg or upload ->"
+                    />
                     <div className="form-group">
                       <label className="form-label">Call-To-Action (Label | URL)</label>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -1301,20 +1350,29 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   <textarea className="form-control" value={aboutFormData.description || ''} onChange={e => setAboutFormData({...aboutFormData, description: e.target.value})} rows={5} />
                 </div>
 
-                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                  <label className="form-label">Logo Image URL</label>
-                  <input className="form-control" value={aboutFormData.logoUrl || ''} onChange={e => setAboutFormData({...aboutFormData, logoUrl: e.target.value})} placeholder="/assets/logo.jpg" />
-                </div>
+                <ImageUploadField 
+                  label="Logo Image URL (or upload)"
+                  value={aboutFormData.logoUrl}
+                  onChange={(val) => setAboutFormData({...aboutFormData, logoUrl: val})}
+                  folder="about-images"
+                  placeholder="/assets/logo.jpg or upload ->"
+                />
 
-                <div className="form-group">
-                  <label className="form-label">Image 1 URL</label>
-                  <input className="form-control" value={aboutFormData.image1 || ''} onChange={e => setAboutFormData({...aboutFormData, image1: e.target.value})} />
-                </div>
+                <ImageUploadField 
+                  label="Image 1 URL (or upload)"
+                  value={aboutFormData.image1}
+                  onChange={(val) => setAboutFormData({...aboutFormData, image1: val})}
+                  folder="about-images"
+                  placeholder="Image 1 URL or upload ->"
+                />
 
-                <div className="form-group">
-                  <label className="form-label">Image 2 URL</label>
-                  <input className="form-control" value={aboutFormData.image2 || ''} onChange={e => setAboutFormData({...aboutFormData, image2: e.target.value})} />
-                </div>
+                <ImageUploadField 
+                  label="Image 2 URL (or upload)"
+                  value={aboutFormData.image2}
+                  onChange={(val) => setAboutFormData({...aboutFormData, image2: val})}
+                  folder="about-images"
+                  placeholder="Image 2 URL or upload ->"
+                />
               </div>
             </div>
           </div>
@@ -1423,14 +1481,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       <label className="form-label">Description *</label>
                       <textarea className="form-control" required rows={3} value={evtDesc} onChange={e => setEvtDesc(e.target.value)} placeholder="Event description..." style={{ resize: 'vertical' }} />
                     </div>
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label">Image URL (or upload below)</label>
-                      <input className="form-control" value={evtImage} onChange={e => setEvtImage(e.target.value)} placeholder="https://images.unsplash.com/..." />
-                    </div>
-                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                      <label className="form-label">Upload New Image (optional)</label>
-                      <input type="file" accept="image/*" className="form-control" onChange={e => setEvtImageFile(e.target.files[0])} style={{ padding: '10px 14px' }} />
-                    </div>
+                    <ImageUploadField 
+                      label="Image URL (or upload)"
+                      value={evtImage}
+                      onChange={(val) => setEvtImage(val)}
+                      folder="event-images"
+                      placeholder="Paste URL or upload image ->"
+                    />
                     <div className="form-group">
                       <label className="form-label">Day (e.g. 28) *</label>
                       <input className="form-control" required value={evtDay} onChange={e => setEvtDay(e.target.value)} placeholder="28" />
