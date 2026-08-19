@@ -248,7 +248,7 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
                     >
                       {GLOBAL_COUNTRIES.map(c => (
                         <option key={c.code} value={c.phoneCode}>
-                          {c.flag} {c.phoneCode} ({c.code})
+                          {c.phoneCode.replace('+', '')} {c.flag} {c.code}
                         </option>
                       ))}
                     </select>
