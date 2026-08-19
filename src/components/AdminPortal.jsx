@@ -1752,21 +1752,22 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                         <label className="form-label">Location *</label>
                         <input className="form-control" required value={evtLocation} onChange={e => setEvtLocation(e.target.value)} placeholder="Virtual Conference Hall" />
                       </div>
-                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                        <label className="form-label">Time & Timezone (e.g. 6:00 PM - 9:00 PM) *</label>
-                        <div style={{ display: 'flex', gap: '10px' }}>
-                          <input className="form-control" style={{ flex: 1 }} required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="" />
-                          <select className="form-control" style={{ width: '120px' }} value={evtTimezone} onChange={e => setEvtTimezone(e.target.value)}>
-                            <option value="EST">EST</option>
-                            <option value="PST">PST</option>
-                            <option value="CST">CST</option>
-                            <option value="MST">MST</option>
-                            <option value="GMT">GMT</option>
-                            <option value="UTC">UTC</option>
-                            <option value="IST">IST</option>
-                            <option value="CET">CET</option>
-                          </select>
-                        </div>
+                      <div className="form-group">
+                        <label className="form-label">Time (e.g. 6:00 PM - 9:00 PM) *</label>
+                        <input className="form-control" required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="" />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Timezone *</label>
+                        <select className="form-control" value={evtTimezone} onChange={e => setEvtTimezone(e.target.value)}>
+                          <option value="EST">EST</option>
+                          <option value="PST">PST</option>
+                          <option value="CST">CST</option>
+                          <option value="MST">MST</option>
+                          <option value="GMT">GMT</option>
+                          <option value="UTC">UTC</option>
+                          <option value="IST">IST</option>
+                          <option value="CET">CET</option>
+                        </select>
                       </div>
                       <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                         <label className="form-label">Know More Link URL</label>
