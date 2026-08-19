@@ -234,10 +234,17 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
 
   return (
     <section className="section-wrapper" id="programs">
+      <style>{`
+        @media (max-width: 768px) {
+          .catalog-desc {
+            text-align: justify;
+          }
+        }
+      `}</style>
       <style>{customStyles.join('\n')}</style>
       <div className="section-header" data-aos="fade-up">
         <h2 className="section-title">100% ONLINE DEGREE CATALOG</h2>
-        <p className="section-desc">
+        <p className="section-desc catalog-desc">
           Explore our curated non-practical theoretical &amp; digital programs. All courses are delivered via our secure Learning Management System (LMS) with 24/7 access to lecture notes, virtual research archives, and faculty guidance.
         </p>
       </div>
