@@ -1,16 +1,15 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function CampusVideos({ videos }) {
   const scrollRef = useRef(null);
+  const navigate = useNavigate();
 
   if (!videos || videos.length === 0) return null;
 
-  const handleScrollRight = (e) => {
+  const handleViewAll = (e) => {
     e.preventDefault();
-    if (scrollRef.current) {
-      // scroll by one card width + gap
-      scrollRef.current.scrollBy({ left: 370, behavior: 'smooth' });
-    }
+    navigate('/videos');
   };
 
   return (
@@ -23,7 +22,7 @@ export default function CampusVideos({ videos }) {
           </h2>
           <button
             className="hide-on-mobile"
-            onClick={handleScrollRight}
+            onClick={handleViewAll}
             style={{ background: "transparent", border: "none", fontSize: "14px", fontWeight: "600", letterSpacing: "1px", cursor: "pointer", color: "var(--text-main)", display: "flex", alignItems: "center", gap: "8px" }}
           >
             VIEW ALL <span>&#8594;</span>

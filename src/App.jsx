@@ -11,6 +11,7 @@ import UpcomingEvents from './components/UpcomingEvents';
 import RegistrationPage from './components/RegistrationPage';
 import GalleryPage from './components/GalleryPage';
 import EventsPage from './components/EventsPage';
+import VideosPage from './components/VideosPage';
 import AdminPage from './components/AdminPage';
 import Footer from './components/Footer';
 import ContactSection from './components/ContactSection';
@@ -161,6 +162,8 @@ export default function App() {
         <Route path="/gallery" element={<GalleryPage galleryImages={galleryImages} />} />
         
         <Route path="/events" element={<EventsPage events={events} />} />
+
+        <Route path="/videos" element={<VideosPage videos={videos} />} />
 
         <Route path="/apply" element={<RegistrationPage programs={programs} electives={electives} />} />
         
