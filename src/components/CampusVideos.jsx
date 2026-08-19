@@ -9,7 +9,14 @@ export default function CampusVideos({ videos }) {
 
   const handleViewAll = (e) => {
     e.preventDefault();
-    navigate('/videos');
+    if (window.innerWidth > 768) {
+      if (scrollRef.current) {
+        scrollRef.current.scrollBy({ left: 370, behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo(0, 0);
+      navigate('/videos');
+    }
   };
 
   return (
@@ -21,7 +28,6 @@ export default function CampusVideos({ videos }) {
             Academic Classes
           </h2>
           <button
-            className="hide-on-mobile"
             onClick={handleViewAll}
             style={{ background: "transparent", border: "none", fontSize: "14px", fontWeight: "600", letterSpacing: "1px", cursor: "pointer", color: "var(--text-main)", display: "flex", alignItems: "center", gap: "8px" }}
           >
