@@ -9,14 +9,8 @@ export default function CampusVideos({ videos }) {
 
   const handleViewAll = (e) => {
     e.preventDefault();
-    if (window.innerWidth > 768) {
-      if (scrollRef.current) {
-        scrollRef.current.scrollBy({ left: 370, behavior: 'smooth' });
-      }
-    } else {
-      window.scrollTo(0, 0);
-      navigate('/videos');
-    }
+    window.scrollTo(0, 0);
+    navigate('/videos');
   };
 
   return (
