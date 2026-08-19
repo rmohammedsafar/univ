@@ -1741,19 +1741,19 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       />
                       <div className="form-group">
                         <label className="form-label">Day (e.g. 28) *</label>
-                        <input className="form-control" required value={evtDay} onChange={e => setEvtDay(e.target.value)} placeholder="28" />
+                        <input className="form-control" required value={evtDay} onChange={e => setEvtDay(e.target.value)} placeholder="" />
                       </div>
                       <div className="form-group">
                         <label className="form-label">Month (e.g. Sept) *</label>
-                        <input className="form-control" required value={evtMonth} onChange={e => setEvtMonth(e.target.value)} placeholder="Sept" />
+                        <input className="form-control" required value={evtMonth} onChange={e => setEvtMonth(e.target.value)} placeholder="" />
                       </div>
                       <div className="form-group">
                         <label className="form-label">Location *</label>
                         <input className="form-control" required value={evtLocation} onChange={e => setEvtLocation(e.target.value)} placeholder="Virtual Conference Hall" />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Time *</label>
-                        <input className="form-control" required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="6:00 PM - 9:00 PM EST" />
+                        <label className="form-label">Time (e.g. 6:00 PM - 9:00 PM EST) *</label>
+                        <input className="form-control" required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="" />
                       </div>
                       <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                         <label className="form-label">Know More Link URL</label>
