@@ -67,6 +67,37 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
     }
   };
 
+  const getPhoneMaxLength = (phoneCode) => {
+    const lengths = {
+      '+1': 10,   // US, Canada
+      '+91': 10,  // India
+      '+44': 10,  // UK
+      '+61': 9,   // Australia
+      '+971': 9,  // UAE
+      '+49': 11,  // Germany
+      '+234': 10, // Nigeria
+      '+966': 9,  // Saudi Arabia
+      '+92': 10,  // Pakistan
+      '+880': 10, // Bangladesh
+      '+65': 8,   // Singapore
+      '+60': 10,  // Malaysia
+      '+63': 10,  // Philippines
+      '+27': 9,   // South Africa
+      '+254': 9,  // Kenya
+      '+20': 10,  // Egypt
+      '+33': 9,   // France
+      '+39': 10,  // Italy
+      '+34': 9,   // Spain
+      '+81': 11,  // Japan
+      '+86': 11,  // China
+      '+82': 10,  // South Korea
+      '+55': 11,  // Brazil
+      '+52': 10,  // Mexico
+      '+7': 10,   // Russia
+    };
+    return lengths[phoneCode] || 15;
+  };
+
   return (
     <>
       {/* ── ANIMATED LIVE WORLD CLOCKS MARQUEE TICKER ─────────────────────── */}
@@ -256,10 +287,15 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
                       type="tel"
                       placeholder="Phone Number"
                       required
+                      maxLength={getPhoneMaxLength(enquiryPhoneCode)}
                       className="enquiry-input"
                       style={{ flex: 1 }}
                       value={enquiryPhone}
-                      onChange={(e) => setEnquiryPhone(e.target.value)}
+                      onChange={(e) => {
+                        // Only allow numbers
+                        const val = e.target.value.replace(/\D/g, '');
+                        setEnquiryPhone(val);
+                      }}
                     />
                   </div>
                   <select
