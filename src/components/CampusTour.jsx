@@ -29,9 +29,21 @@ export default function CampusTour({ tourSlides = [] }) {
 
   return (
     <section className="section-wrapper" id="campusTour">
+      <style>{`
+        .tour-desc {
+          max-width: 800px;
+          margin: 0 auto 40px;
+          color: var(--text-muted);
+        }
+        @media (max-width: 768px) {
+          .tour-desc {
+            text-align: justify;
+          }
+        }
+      `}</style>
       <div className="section-header" data-aos="fade-up">
         <h2 className="section-title">VIRTUAL CAMPUS TOUR</h2>
-        <p className="section-desc">
+        <p className="section-desc tour-desc">
           Experience our state-of-the-art virtual university infrastructure. Explore the Digital Research Library, Virtual Lecture Halls, Student Portal, and USA Administration Offices.
         </p>
       </div>
