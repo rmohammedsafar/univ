@@ -193,15 +193,33 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
     doc.save(`UEF_Brochure_${prog.id}.pdf`);
   };
 
-  const filteredPrograms = programs.filter(p => {
-    const matchCategory = categoryFilter === 'all' || p.category === categoryFilter;
-    const titleStr = (p.title || p.name || '').toLowerCase();
-    const degreeStr = (p.degree || '').toLowerCase();
-    const descStr = (p.description || '').toLowerCase();
-    const q = searchQuery.toLowerCase().trim();
-    const matchSearch = !q || titleStr.includes(q) || degreeStr.includes(q) || descStr.includes(q);
-    return matchCategory && matchSearch;
-  });
+  const filteredPrograms = programs
+    .filter(p => {
+      const matchCategory = categoryFilter === 'all' || p.category === categoryFilter;
+      const titleStr = (p.title || p.name || '').toLowerCase();
+      const degreeStr = (p.degree || '').toLowerCase();
+      const descStr = (p.description || '').toLowerCase();
+      const catStr = (p.category || '').toLowerCase();
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch = !q || titleStr.includes(q) || degreeStr.includes(q) || descStr.includes(q) || catStr.includes(q);
+      return matchCategory && matchSearch;
+    })
+    .sort((a, b) => {
+      const q = searchQuery.toLowerCase().trim();
+      if (!q) return 0;
+      
+      const aTitle = (a.title || a.name || '').toLowerCase();
+      const bTitle = (b.title || b.name || '').toLowerCase();
+      const aCat = (a.category || '').toLowerCase();
+      const bCat = (b.category || '').toLowerCase();
+
+      const aStartsWith = aTitle.startsWith(q) || aCat.startsWith(q);
+      const bStartsWith = bTitle.startsWith(q) || bCat.startsWith(q);
+
+      if (aStartsWith && !bStartsWith) return -1;
+      if (!aStartsWith && bStartsWith) return 1;
+      return 0;
+    });
 
   return (
     <section className="section-wrapper" id="programs">
@@ -237,14 +255,6 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
           ))}
         </div>
       </div>
-
-      {searchQuery && filteredPrograms.length > 0 && (
-        <div style={{ textAlign: 'center', marginBottom: '20px' }} data-aos="fade-in">
-          <h3 style={{ color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', fontSize: '24px', margin: 0 }}>
-            Search Results for: "{searchQuery}"
-          </h3>
-        </div>
-      )}
 
       {/* PROGRAMS GRID */}
       <div className="programs-grid" ref={gridRef} onScroll={handleScroll}>
