@@ -1559,7 +1559,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       </div>
                     ))}
                     <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <label style={{ fontSize: '11px', color: 'var(--text-muted)', minWidth: '120px' }}>Timezone</label>
+                        <label style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--text-muted)', minWidth: '120px' }}>Timezone</label>
                         <select className="form-control" value={contactFormData.timezone || 'EST'} onChange={e => setContactFormData({...contactFormData, timezone: e.target.value})} style={{ maxWidth: '200px' }}>
                           <option value="EST">EST</option>
                           <option value="PST">PST</option>
