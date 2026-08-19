@@ -4048,21 +4048,22 @@ body.light-theme .home-page-main section {
 }
 
 .gallery-masonry {
-  column-count: 3;
-  column-gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
   margin-bottom: 60px;
 }
 
 @media (max-width: 768px) {
   .gallery-masonry {
-    column-count: 2;
-    column-gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .gallery-masonry {
-    column-count: 2;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
 

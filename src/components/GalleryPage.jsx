@@ -34,17 +34,16 @@ export default function GalleryPage({ galleryImages }) {
               key={idx} 
               onClick={() => openLightbox(idx)}
               style={{ 
-                breakInside: 'avoid', 
-                marginBottom: '20px', 
                 borderRadius: '6px', 
                 overflow: 'hidden',
                 cursor: 'pointer',
                 transition: 'transform 0.2s',
+                aspectRatio: '1 / 1',
               }}
               onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <img src={src} alt={`Gallery image ${idx + 1}`} style={{ width: '100%', display: 'block', objectFit: 'contain' }} />
+              <img src={src} alt={`Gallery image ${idx + 1}`} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
             </div>
           ))}
         </div>
