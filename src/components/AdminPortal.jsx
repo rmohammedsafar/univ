@@ -392,6 +392,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   };
 
   const handleSaveSlide = () => {
+    if (!slideFormData.label || !slideFormData.title || !slideFormData.img) {
+      alert('Please fill out the required fields (Label, Title, and Image) before saving.');
+      return;
+    }
     const updated = [...(tourSlides || [])];
     if (editingSlideIndex === -1) {
       updated.push(slideFormData);
@@ -1951,4 +1955,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     </section>
   );
 }
+
+
 
