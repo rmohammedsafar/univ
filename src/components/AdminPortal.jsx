@@ -580,10 +580,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     }
 
     setNewProgEmoji(prog.emoji || '🎓');
-    setNewProgTuition(prog.numericFee ? prog.numericFee.toString() : (prog.tuition || '').replace(/\D/g, ''));
+    setNewProgTuition(prog.numericFee ? prog.numericFee.toString() : String(prog.tuition || '').replace(/\D/g, ''));
     setNewProgDuration(prog.duration || '');
     setNewProgDesc(prog.description || '');
-    setNewProgCredits(prog.credits ? prog.credits.replace(/\D/g, '') : '30');
+    setNewProgCredits(prog.credits ? String(prog.credits).replace(/\D/g, '') : '30');
     setNewProgMinGpa(prog.minGpa || '2.5');
     setNewProgMinPercent(prog.minPercent || '65');
     setNewProgColor(prog.themeColor || '#8b5cf6');
