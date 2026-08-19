@@ -77,7 +77,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
         <ul className="nav-links">
           <li><Link to="/#programs" className="nav-link">Program</Link></li>
           <li><Link to="/gallery" className="nav-link">Gallery</Link></li>
-          <li><a href="#usaHeadquarters"     className="nav-link">Contact</a></li>
+          <li><Link to="/#usaHeadquarters" className="nav-link">Contact</Link></li>
           <li><a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setEnquiryOpen(true); }}>Enquire</a></li>
           <li><Link to="/apply" className="nav-link">Enroll Now</Link></li>
         </ul>
@@ -120,7 +120,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
             <ul className="mobile-nav-links">
               <li><Link to="/#programs" onClick={closeMobile}>Program</Link></li>
               <li><Link to="/gallery" onClick={closeMobile}>Gallery</Link></li>
-              <li><a href="#usaHeadquarters" onClick={closeMobile}>Contact</a></li>
+              <li><Link to="/#usaHeadquarters" onClick={closeMobile}>Contact</Link></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); closeMobile(); setEnquiryOpen(true); }}>Enquire</a></li>
               <li><Link to="/apply" onClick={closeMobile}>Enroll Now</Link></li>
               
