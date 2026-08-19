@@ -260,6 +260,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                     onChange={(e) => setElective(e.target.value)}
                     required
                   >
+                    <option value="" style={{ color: '#000' }}>Select Track</option>
                     {electives.map(e => (
                       <option key={e.id} value={e.id} style={{ color: '#000' }}>{e.name}</option>
                     ))}
