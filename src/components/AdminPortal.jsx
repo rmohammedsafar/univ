@@ -367,8 +367,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
 
   const [editingSlideIndex, setEditingSlideIndex] = useState(null);
   const [slideFormData, setSlideFormData] = useState(null);
+  const [tourSaveError, setTourSaveError] = useState('');
 
   const handleEditSlide = (index) => {
+    setTourSaveError('');
     setEditingSlideIndex(index);
     if (index === -1) {
       setSlideFormData({
@@ -393,9 +395,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
 
   const handleSaveSlide = () => {
     if (!slideFormData.label || !slideFormData.title || !slideFormData.img) {
-      alert("Please fill out the required fields (Label, Title, and Image) before saving.");
+      setTourSaveError("Please fill out the required fields (Label, Title, and Image) before saving.");
       return;
     }
+    setTourSaveError('');
     const updated = [...(tourSlides || [])];
     if (editingSlideIndex === -1) {
       updated.push(slideFormData);
@@ -1392,11 +1395,11 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     <div>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                         <div className="form-group">
-                          <label className="form-label">Tab Label (e.g. 📚 Library)</label>
+                          <label className="form-label">Tab Label (e.g. 📚 Library) <span style={{ color: '#ef4444' }}>*</span></label>
                           <input className="form-control" value={slideFormData.label} onChange={e => setSlideFormData({...slideFormData, label: e.target.value})} />
                         </div>
                         <div className="form-group">
-                          <label className="form-label">Slide Title</label>
+                          <label className="form-label">Slide Title <span style={{ color: '#ef4444' }}>*</span></label>
                           <input className="form-control" value={slideFormData.title} onChange={e => setSlideFormData({...slideFormData, title: e.target.value})} />
                         </div>
                         <div className="form-group" style={{ gridColumn: '1 / -1' }}>
@@ -1404,7 +1407,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                           <textarea className="form-control" value={slideFormData.desc} onChange={e => setSlideFormData({...slideFormData, desc: e.target.value})} rows={3} />
                         </div>
                         <ImageUploadField 
-                          label="Image URL (or upload)"
+                          label={<>Image URL (or upload) <span style={{ color: '#ef4444' }}>*</span></>}
                           value={typeof slideFormData.img === 'string' ? slideFormData.img : ''}
                           onChange={(val) => setSlideFormData({...slideFormData, img: val})}
                           folder="tour-slides"
@@ -1456,17 +1459,18 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                         ))}
                       </div>
 
-                      <div style={{ display: 'flex', gap: '10px', marginTop: '30px' }}>
+                      <div style={{ display: 'flex', gap: '10px', marginTop: '30px', alignItems: 'center' }}>
                         <button className="btn btn-gold" onClick={handleSaveSlide}>Save Slide</button>
                         <button className="btn btn-outline" onClick={() => setEditingSlideIndex(null)}>Cancel</button>
+                        {tourSaveError && <span style={{ color: '#ef4444', fontSize: '13px', fontWeight: 'bold' }}>{tourSaveError}</span>}
                       </div>
                     </div>
 
                     {/* RIGHT: PREVIEW */}
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px' }}>
                       <h5 style={{ color: 'var(--gold-light)', margin: '0 0 16px 0', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Preview</h5>
-                      <div style={{ width: '100%', position: 'relative', height: '450px', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-gold)' }}>
-                        <img src={typeof slideFormData.img === 'string' && slideFormData.img ? slideFormData.img : 'https://via.placeholder.com/800x450?text=Tour+Slide'} alt={slideFormData.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ width: '100%', position: 'relative', height: '550px', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-gold)' }}>
+                        <img src={typeof slideFormData.img === 'string' && slideFormData.img ? slideFormData.img : 'https://via.placeholder.com/800x550?text=Tour+Slide'} alt={slideFormData.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.1) 100%)', display: 'flex', alignItems: 'center', padding: '40px' }}>
                           <div style={{ maxWidth: '500px', color: 'white' }}>
                             <div style={{ display: 'inline-block', padding: '6px 14px', background: 'rgba(212,175,55,0.2)', border: '1px solid var(--gold-primary)', color: 'var(--gold-light)', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px', borderRadius: '4px', marginBottom: '16px' }}>{slideFormData.label || 'Tab Label'}</div>
