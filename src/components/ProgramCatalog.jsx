@@ -5,6 +5,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showAllPrograms, setShowAllPrograms] = useState(false);
   const gridRef = useRef(null);
 
   const handleScroll = () => {
@@ -13,7 +14,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
     const itemWidth = child ? child.offsetWidth : (window.innerWidth * 0.85);
     const gap = 16;
     const index = Math.round(gridRef.current.scrollLeft / (itemWidth + gap));
-    if (index !== activeIndex && index >= 0 && index < filteredPrograms.length) {
+    if (index !== activeIndex && index >= 0 && index < displayedPrograms.length) {
       setActiveIndex(index);
     }
   };
@@ -229,6 +230,8 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
       return 0;
     });
 
+  const displayedPrograms = showAllPrograms ? filteredPrograms : filteredPrograms.slice(0, 6);
+
   return (
     <section className="section-wrapper" id="programs">
       <style>{customStyles.join('\n')}</style>
@@ -256,7 +259,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
             <button
               key={cat}
               className={`filter-pill${categoryFilter === cat ? ' active' : ''}`}
-              onClick={() => setCategoryFilter(cat)}
+              onClick={() => { setCategoryFilter(cat); setShowAllPrograms(false); }}
             >
               {getCategoryDisplayName(cat)}
             </button>
@@ -266,11 +269,11 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
 
       {/* PROGRAMS GRID */}
       <div className="programs-grid" ref={gridRef} onScroll={handleScroll}>
-        {filteredPrograms.length === 0 ? (
+        {displayedPrograms.length === 0 ? (
           <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '40px', background: 'rgba(0,0,0,0.3)', borderRadius: '16px', border: '1px solid var(--border-gold)' }}>
             <p style={{ color: 'var(--gold-light)', fontSize: '16px' }}>No programs found matching "{searchQuery}".</p>
           </div>
-        ) : filteredPrograms.map((prog, idx) => (
+        ) : displayedPrograms.map((prog, idx) => (
           <div 
             key={prog.id} 
             className={`program-card category-${(prog.category || 'default').replace(/[^a-zA-Z0-9-]/g, '')} program-${prog.id}`}
@@ -312,9 +315,9 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
       </div>
 
       {/* MOBILE PAGINATION DOTS */}
-      {filteredPrograms.length > 0 && (
+      {displayedPrograms.length > 0 && (
         <div className="tour-dots-mobile" style={{ flexWrap: 'wrap', marginTop: '24px' }}>
-          {filteredPrograms.map((prog, idx) => (
+          {displayedPrograms.map((prog, idx) => (
             <button 
               key={prog.id} 
               className={`tour-dot ${activeIndex === idx ? 'active' : ''}`}
@@ -325,6 +328,34 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
         </div>
       )}
 
+      {/* VIEW MORE BUTTON */}
+      {!showAllPrograms && filteredPrograms.length > 6 && (
+        <div style={{ textAlign: 'center', marginTop: '40px', display: 'flex', justifyContent: 'center' }} data-aos="fade-up">
+          <button 
+            className="btn btn-gold" 
+            onClick={() => setShowAllPrograms(true)}
+            style={{ 
+              background: 'transparent', 
+              border: '1px solid var(--text-main)', 
+              color: 'var(--text-main)', 
+              padding: '16px 32px', 
+              borderRadius: '30px', 
+              fontSize: '16px', 
+              letterSpacing: '1px', 
+              cursor: 'pointer',
+              fontWeight: '600',
+              transition: 'all 0.2s',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--text-main)'; e.currentTarget.style.color = 'var(--bg-dark)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-main)'; }}
+          >
+            VIEW ALL PROGRAMS <span>&#8595;</span>
+          </button>
+        </div>
+      )}
 
     </section>
   );
