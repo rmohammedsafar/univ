@@ -66,7 +66,7 @@ export default function Footer({ contactInfo, onOpenAdminLogin }) {
 
         {/* Footer Bottom Bar */}
         <div className="footer-bottom">
-          <div>Veritas • Sapientia • Virtus.</div>
+          <div>© {new Date().getFullYear()} University of East Florida. All Rights Reserved. Veritas • Sapientia • Virtus.</div>
           <div>100% Online Distance Learning • Orlando, Florida, USA</div>
         </div>
       </footer>
