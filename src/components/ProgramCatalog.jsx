@@ -238,6 +238,14 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
         </div>
       </div>
 
+      {searchQuery && filteredPrograms.length > 0 && (
+        <div style={{ textAlign: 'center', marginBottom: '20px' }} data-aos="fade-in">
+          <h3 style={{ color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', fontSize: '24px', margin: 0 }}>
+            Search Results for: "{searchQuery}"
+          </h3>
+        </div>
+      )}
+
       {/* PROGRAMS GRID */}
       <div className="programs-grid" ref={gridRef} onScroll={handleScroll}>
         {filteredPrograms.length === 0 ? (
