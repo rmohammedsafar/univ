@@ -13,6 +13,7 @@ import GalleryPage from './components/GalleryPage';
 import EventsPage from './components/EventsPage';
 import AdminPage from './components/AdminPage';
 import Footer from './components/Footer';
+import ContactSection from './components/ContactSection';
 import LoadingScreen from './components/LoadingScreen';
 import CampusVideos from './components/CampusVideos';
 
@@ -187,7 +188,12 @@ export default function App() {
       </Routes>
 
       {/* Footer & Accreditation */}
-      {!isStandalonePage && <Footer contactInfo={contactInfo} />}
+      {!isStandalonePage && (
+        <>
+          <ContactSection contactInfo={contactInfo} />
+          <Footer contactInfo={contactInfo} />
+        </>
+      )}
     </div>
   );
 }
