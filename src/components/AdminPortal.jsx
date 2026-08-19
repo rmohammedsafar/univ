@@ -397,7 +397,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   // New Program Form State
   const [newProgTitle, setNewProgTitle] = useState('');
   const [newProgDegree, setNewProgDegree] = useState('Master of Science');
-  const [newProgCategory, setNewProgCategory] = useState('technology');
+  const [newProgCategory, setNewProgCategory] = useState('business');
   const [newProgEmoji, setNewProgEmoji] = useState('🎓');
   const [newProgTuition, setNewProgTuition] = useState('14400');
   const [newProgColor, setNewProgColor] = useState('#8b5cf6');
@@ -512,7 +512,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     // Reset Form
     setNewProgTitle('');
     setNewProgDegree('Master of Science');
-    setNewProgCategory('technology');
+    setNewProgCategory('business');
     setNewProgEmoji('🎓');
     setNewProgTuition('14400');
     setNewProgColor('#8b5cf6');
@@ -546,7 +546,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     }
 
     // Check if category is default
-    const defaultsCat = ['technology', 'business', 'healthcare', 'engineering', 'arts', 'health', 'law'];
+    const defaultsCat = ['business', 'engineering', 'arts', 'health', 'law'];
     if (defaultsCat.includes(prog.category)) {
       setNewProgCategory(prog.category);
       setCustomCategory('');
@@ -963,7 +963,19 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                           <option value="arts">Arts & Humanities</option>
                           <option value="health">Health & Sciences</option>
                           <option value="law">Law & Policy</option>
+                          <option value="Other">Other (Specify manually)</option>
                         </select>
+                        {newProgCategory === 'Other' && (
+                          <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="e.g. Data Science" 
+                            value={customCategory}
+                            onChange={(e) => setCustomCategory(e.target.value)}
+                            required 
+                            style={{ padding: '10px 14px', marginTop: '10px' }}
+                          />
+                        )}
                       </div>
                     </div>
 
