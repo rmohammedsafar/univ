@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { INITIAL_CONTACT_INFO } from '../data/initialData';
 import { GLOBAL_COUNTRIES } from '../data/countryStateData';
 import { saveApplicationRecord } from '../services/firebase';
@@ -98,7 +98,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                   setProgram('');
                 }}
               >
-                Register Another Student →
+                Register Another Student â†’
               </button>
 
               <button 
@@ -123,7 +123,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                   window.location.href = '/';
                 }}
               >
-                🏠 Return to Main Home Page
+                ðŸ  Return to Main Home Page
               </button>
             </div>
           ) : (
@@ -238,7 +238,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                   >
                     <option value="" style={{ color: '#000' }}>Select Program</option>
                     {programs.map(p => (
-                      <option key={p.id} value={p.id} style={{ color: '#000' }}>{p.name ? p.name : `${p.degree} in ${p.title}`}</option>
+                      <option key={p.id} value={p.id} style={{ color: '#000', fontWeight: 'bold' }}>{p.name ? p.name : `${p.degree} in ${p.title}`}</option>
                     ))}
                   </select>
                 </div>
@@ -270,7 +270,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                     disabled={isSubmitting}
                     style={{ width: '100%', padding: '16px', background: 'var(--gold-primary)', color: '#000', border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer', boxShadow: '0 0 15px var(--gold-glow)', boxSizing: 'border-box' }}
                   >
-                    {isSubmitting ? 'Sending Confirmation Email...' : 'Submit Registration →'}
+                    {isSubmitting ? 'Sending Confirmation Email...' : 'Submit Registration â†’'}
                   </button>
                 </div>
               </form>
@@ -283,3 +283,4 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
     </div>
   );
 }
+
