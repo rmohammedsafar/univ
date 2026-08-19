@@ -153,6 +153,7 @@ export default function App() {
             <ProgramCatalog programs={programs} />
             <CampusTour tourSlides={tourSlides} />
             <UpcomingEvents events={events} />
+            <ContactSection contactInfo={contactInfo} />
           </main>
         } />
 
@@ -190,7 +191,6 @@ export default function App() {
       {/* Footer & Accreditation */}
       {!isStandalonePage && (
         <>
-          <ContactSection contactInfo={contactInfo} />
           <Footer contactInfo={contactInfo} />
         </>
       )}
