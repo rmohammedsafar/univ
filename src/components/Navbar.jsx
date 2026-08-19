@@ -46,6 +46,16 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
     }).catch(err => console.error("Background inquiry record error:", err));
   };
 
+  const handleNavClick = (e, id) => {
+    // If we are already on the homepage, manually scroll to it
+    if (window.location.pathname === '/') {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <>
       {/* ── ANIMATED LIVE WORLD CLOCKS MARQUEE TICKER ─────────────────────── */}
@@ -75,9 +85,9 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
         {/* Desktop Nav Links */}
         <ul className="nav-links">
-          <li><Link to="/#programs" className="nav-link">Program</Link></li>
+          <li><Link to="/#programs" className="nav-link" onClick={(e) => handleNavClick(e, 'programs')}>Program</Link></li>
           <li><Link to="/gallery" className="nav-link">Gallery</Link></li>
-          <li><Link to="/#usaHeadquarters" className="nav-link">Contact</Link></li>
+          <li><Link to="/#usaHeadquarters" className="nav-link" onClick={(e) => handleNavClick(e, 'usaHeadquarters')}>Contact</Link></li>
           <li><a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setEnquiryOpen(true); }}>Enquire</a></li>
           <li><Link to="/apply" className="nav-link">Enroll Now</Link></li>
         </ul>
@@ -118,9 +128,9 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
               </svg>
             </button>
             <ul className="mobile-nav-links">
-              <li><Link to="/#programs" onClick={closeMobile}>Program</Link></li>
+              <li><Link to="/#programs" onClick={(e) => { closeMobile(); handleNavClick(e, 'programs'); }}>Program</Link></li>
               <li><Link to="/gallery" onClick={closeMobile}>Gallery</Link></li>
-              <li><Link to="/#usaHeadquarters" onClick={closeMobile}>Contact</Link></li>
+              <li><Link to="/#usaHeadquarters" onClick={(e) => { closeMobile(); handleNavClick(e, 'usaHeadquarters'); }}>Contact</Link></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); closeMobile(); setEnquiryOpen(true); }}>Enquire</a></li>
               <li><Link to="/apply" onClick={closeMobile}>Enroll Now</Link></li>
               
