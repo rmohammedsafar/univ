@@ -337,7 +337,7 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
 
       {/* VIEW MORE BUTTON */}
       {!showAllPrograms && filteredPrograms.length > 6 && (
-        <div style={{ textAlign: 'center', marginTop: '40px', display: 'flex', justifyContent: 'center' }} data-aos="fade-up">
+        <div className="hide-on-mobile" style={{ textAlign: 'center', marginTop: '40px', display: 'flex', justifyContent: 'center' }} data-aos="fade-up">
           <button 
             className="btn btn-gold" 
             onClick={() => setShowAllPrograms(true)}
