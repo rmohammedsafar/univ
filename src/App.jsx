@@ -135,6 +135,7 @@ export default function App() {
         <Navbar 
           isLightTheme={isLightTheme} 
           toggleTheme={toggleTheme}
+          programs={programs}
         />
       )}
 

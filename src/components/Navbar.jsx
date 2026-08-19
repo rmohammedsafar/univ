@@ -5,7 +5,7 @@ import { sendInquiryEmailAsync } from '../services/emailService';
 import { saveInquiryRecord } from '../services/firebase';
 import { GLOBAL_COUNTRIES } from '../data/countryStateData';
 
-export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, isAdminLoggedIn, onOpenAdminPortal, onLogout }) {
+export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdminLogin, isAdminLoggedIn, onOpenAdminPortal, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
 
@@ -269,7 +269,7 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
                     onChange={(e) => setEnquiryProgram(e.target.value)}
                   >
                     <option value="">Select Program</option>
-                    {INITIAL_DEGREE_PROGRAMS.map(prog => (
+                    {(programs || INITIAL_DEGREE_PROGRAMS).map(prog => (
                       <option key={prog.id} value={prog.name || prog.title}>
                         {prog.degree} in {prog.name || prog.title}
                       </option>
