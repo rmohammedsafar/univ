@@ -704,7 +704,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   }, [showInlineAddPortal, editingElectiveId, showEvtForm]);
 
   return (
-    <section className="section-wrapper" id="adminDashboardSection" style={{ display: 'block' }}>
+    <section className="section-wrapper" id="adminDashboardSection" style={{ display: 'block', position: 'relative' }}>
+      <div style={{ position: 'absolute', top: '40px', right: '40px', zIndex: 100 }}>
+        <button className="btn btn-outline" onClick={onLogout} style={{ borderColor: '#ef4444', color: '#f87171', padding: '8px 16px', fontSize: '13px', fontWeight: 'bold' }}>
+          🔓 Logout Admin
+        </button>
+      </div>
       <div className="section-header">
         <span className="section-tag" style={{ color: '#34d399' }}>🔑 Administrative Portal</span>
         <h2 className="section-title">Official Student Application & Document Manager</h2>
@@ -727,9 +732,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             </button>
             <button className="btn btn-maroon" onClick={handleExportPDF} style={{ padding: '8px 14px', fontSize: '13px' }}>
               📑 Export PDF
-            </button>
-            <button className="btn btn-outline" onClick={onLogout} style={{ borderColor: '#ef4444', color: '#f87171', padding: '8px 14px', fontSize: '13px' }}>
-              🔒 Logout Admin
             </button>
           </div>
         </div>
