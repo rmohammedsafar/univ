@@ -260,7 +260,10 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
                     required
                     className="enquiry-input"
                     value={enquiryName}
-                    onChange={(e) => setEnquiryName(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^a-zA-Z\s\-']/g, '');
+                      setEnquiryName(val);
+                    }}
                   />
                   <input
                     type="email"

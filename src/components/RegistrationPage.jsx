@@ -140,7 +140,10 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                     placeholder="Enter your first name" 
                     style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box' }} 
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^a-zA-Z\s\-']/g, '');
+                      setFirstName(val);
+                    }}
                     required 
                   />
                 </div>
@@ -151,7 +154,10 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                     placeholder="Enter your last name" 
                     style={{ padding: '12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', background: 'transparent', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box' }} 
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/[^a-zA-Z\s\-']/g, '');
+                      setLastName(val);
+                    }}
                     required 
                   />
                 </div>
@@ -187,7 +193,10 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                       placeholder="Phone number"
                       style={{ padding: '12px', border: 'none', flex: 1, minWidth: 0, width: '100%', outline: 'none', background: 'transparent', color: 'var(--text-main)', boxSizing: 'border-box' }} 
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, '');
+                        setPhone(val);
+                      }}
                       required 
                     />
                   </div>
