@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { saveCMSConfigToStorage, getApplicationRecords, getInquiryRecords, uploadDocument } from '../services/firebase';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -34,7 +34,7 @@ const ImageUploadField = ({ label, value, onChange, folder, placeholder }) => {
         />
         <div style={{ position: 'relative', overflow: 'hidden', display: 'inline-block' }}>
           <button type="button" className="btn btn-outline" style={{ margin: 0, height: '100%', padding: '0 20px', whiteSpace: 'nowrap' }} disabled={isUploading}>
-            {isUploading ? 'â³...' : 'ðŸ“ Upload'}
+            {isUploading ? '⏳...' : '📁 Upload'}
           </button>
           <input 
             type="file" 
@@ -393,7 +393,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
 
   const handleSaveSlide = () => {
     if (!slideFormData.label || !slideFormData.title || !slideFormData.img) {
-      alert('Please fill out the required fields (Label, Title, and Image) before saving.');
+      alert("Please fill out the required fields (Label, Title, and Image) before saving.");
       return;
     }
     const updated = [...(tourSlides || [])];
@@ -419,7 +419,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [newProgTitle, setNewProgTitle] = useState('');
   const [newProgDegree, setNewProgDegree] = useState('Master of Science');
   const [newProgCategory, setNewProgCategory] = useState('business');
-  const [newProgEmoji, setNewProgEmoji] = useState('ðŸŽ“');
+  const [newProgEmoji, setNewProgEmoji] = useState('🎓');
   const [newProgTuition, setNewProgTuition] = useState('14400');
   const [newProgColor, setNewProgColor] = useState('#8b5cf6');
   const [newProgTextColor, setNewProgTextColor] = useState('#ffffff');
@@ -534,7 +534,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgTitle('');
     setNewProgDegree('Master of Science');
     setNewProgCategory('business');
-    setNewProgEmoji('ðŸŽ“');
+    setNewProgEmoji('🎓');
     setNewProgTuition('14400');
     setNewProgColor('#8b5cf6');
     setNewProgTextColor('#ffffff');
@@ -549,7 +549,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setNewProgBrochureFile(null);
     setNewProgBgImage(null);
     setShowInlineAddPortal(false);
-    alert(`ðŸŽ‰ Success! Degree program '${newProgTitle}' has been saved successfully!`);
+    alert(`🎉 Success! Degree program '${newProgTitle}' has been saved successfully!`);
   };
 
   const handleEditProgram = (prog) => {
@@ -576,7 +576,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       setCustomCategory(prog.category || '');
     }
 
-    setNewProgEmoji(prog.emoji || 'ðŸŽ“');
+    setNewProgEmoji(prog.emoji || '🎓');
     setNewProgTuition(prog.numericFee ? prog.numericFee.toString() : (prog.tuition || '').replace(/\D/g, ''));
     setNewProgDuration(prog.duration || '');
     setNewProgDesc(prog.description || '');
@@ -702,7 +702,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   return (
     <section className="section-wrapper" id="adminDashboardSection" style={{ display: 'block' }}>
       <div className="section-header">
-        <span className="section-tag" style={{ color: '#34d399' }}>ðŸ”‘ Administrative Portal</span>
+        <span className="section-tag" style={{ color: '#34d399' }}>🔑 Administrative Portal</span>
         <h2 className="section-title">Official Student Application & Document Manager</h2>
         <p className="section-desc">
           Logged in as Registrar Officer (<strong style={{ color: 'var(--gold-light)' }}>r.mohammedsafar@gmail.com</strong>). View student profiles, inspect attached marksheets, update admission decisions, and export student roster data.
@@ -714,18 +714,18 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
         <div className="admin-header-row" style={{ marginBottom: '24px' }}>
           <div>
             <h3 style={{ fontSize: '24px', color: '#fff', fontFamily: 'var(--font-serif)', margin: 0 }}>
-              ðŸ“Š Admissions Overview & Student Records
+              📊 Admissions Overview & Student Records
             </h3>
           </div>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
             <button className="btn btn-gold" onClick={handleExportExcel} style={{ padding: '8px 14px', fontSize: '13px' }}>
-              ðŸ“Š Export Excel
+              📊 Export Excel
             </button>
             <button className="btn btn-maroon" onClick={handleExportPDF} style={{ padding: '8px 14px', fontSize: '13px' }}>
-              ðŸ“‘ Export PDF
+              📑 Export PDF
             </button>
             <button className="btn btn-outline" onClick={onLogout} style={{ borderColor: '#ef4444', color: '#f87171', padding: '8px 14px', fontSize: '13px' }}>
-              ðŸ”’ Logout Admin
+              🔒 Logout Admin
             </button>
           </div>
         </div>
@@ -736,62 +736,62 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             className={`filter-pill ${activeTab === 'admissions' ? 'active' : ''}`}
             onClick={() => setActiveTab('admissions')}
           >
-            ðŸ“‹ Admissions & Leads
+            📋 Admissions & Leads
           </button>
 
           <button 
             className={`filter-pill ${activeTab === 'hero' ? 'active' : ''}`}
             onClick={() => setActiveTab('hero')}
           >
-            ðŸ–¼ï¸ Hero Config
+            🖼️ Hero Config
           </button>
           <button 
             className={`filter-pill ${activeTab === 'about' ? 'active' : ''}`}
             onClick={() => setActiveTab('about')}
           >
-            ðŸ¢ About Us
+            🏢 About Us
           </button>
           <button 
             className={`filter-pill ${activeTab === 'courses' ? 'active' : ''}`}
             onClick={() => setActiveTab('courses')}
           >
-            ðŸ“š Courses & Tuition CMS
+            📚 Courses & Tuition CMS
           </button>
           <button 
             className={`filter-pill ${activeTab === 'tour' ? 'active' : ''}`}
             onClick={() => setActiveTab('tour')}
           >
-            ðŸ›ï¸ Virtual Tour
+            🏛️ Virtual Tour
           </button>
           <button 
             className={`filter-pill ${activeTab === 'events' ? 'active' : ''}`}
             onClick={() => setActiveTab('events')}
           >
-            ðŸ“… Events CMS
+            📅 Events CMS
           </button>
           <button 
             className={`filter-pill ${activeTab === 'contact' ? 'active' : ''}`}
             onClick={() => setActiveTab('contact')}
           >
-            ðŸ“ž Contact Info
+            📞 Contact Info
           </button>
           <button 
             className={`filter-pill ${activeTab === 'gallery' ? 'active' : ''}`}
             onClick={() => setActiveTab('gallery')}
           >
-            ðŸ–¼ï¸ Gallery CMS
+            🖼️ Gallery CMS
           </button>
           <button 
             className={`filter-pill ${activeTab === 'registration' ? 'active' : ''}`}
             onClick={() => setActiveTab('registration')}
           >
-            ðŸ“ Registration CMS
+            📝 Registration CMS
           </button>
           <button 
             className={`filter-pill ${activeTab === 'videos' ? 'active' : ''}`}
             onClick={() => setActiveTab('videos')}
           >
-            â–¶ï¸ Academic Classes CMS
+            ▶️ Academic Classes CMS
           </button>
         </div>
 
@@ -800,21 +800,21 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           <div>
             <div className="admin-kpi-grid">
               <div className="admin-kpi-card">
-                <div className="kpi-icon">ðŸ“‹</div>
+                <div className="kpi-icon">📋</div>
                 <div>
                   <div className="kpi-val">{applications.length}</div>
                   <div className="kpi-lbl">Total Student Applications</div>
                 </div>
               </div>
               <div className="admin-kpi-card">
-                <div className="kpi-icon">ðŸ’¬</div>
+                <div className="kpi-icon">💬</div>
                 <div>
                   <div className="kpi-val">{inquiries ? inquiries.length : 0}</div>
                   <div className="kpi-lbl">General Inquiries</div>
                 </div>
               </div>
               <div className="admin-kpi-card">
-                <div className="kpi-icon">ðŸŽ“</div>
+                <div className="kpi-icon">🎓</div>
                 <div>
                   <div className="kpi-val">{programs ? programs.length : 0}</div>
                   <div className="kpi-lbl">Active Programs</div>
@@ -827,13 +827,13 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 className={`filter-pill ${admissionsSubTab === 'applications' ? 'active' : ''}`}
                 onClick={() => setAdmissionsSubTab('applications')}
               >
-                ðŸ“‹ Student Applications
+                📋 Student Applications
               </button>
               <button 
                 className={`filter-pill ${admissionsSubTab === 'inquiries' ? 'active' : ''}`}
                 onClick={() => setAdmissionsSubTab('inquiries')}
               >
-                ðŸ“§ General Inquiries
+                📧 General Inquiries
               </button>
             </div>
 
@@ -911,7 +911,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
               <div>
                 <h3 style={{ color: 'var(--gold-primary)', fontFamily: 'var(--font-serif)', margin: 0, fontSize: '22px' }}>
-                  ðŸ“š Degree Program Catalog & Pricing Manager
+                  📚 Degree Program Catalog & Pricing Manager
                 </h3>
                 <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
                   Add, edit, or remove degree programs. Tuition fees, course duration, and credit hours update live across the entire website!
@@ -921,7 +921,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 className="btn btn-gold" 
                 onClick={() => setShowInlineAddPortal(!showInlineAddPortal)}
               >
-                {showInlineAddPortal ? 'âœ• Close Creation Portal' : 'âž• Add New Degree Program'}
+                {showInlineAddPortal ? '✕ Close Creation Portal' : '➕ Add New Degree Program'}
               </button>
             </div>
 
@@ -930,12 +930,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
               <div ref={editViewRef} style={{ background: 'var(--bg-card)', border: '1.5px solid var(--gold-primary)', borderRadius: '14px', padding: '24px', marginBottom: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-gold)', paddingBottom: '12px' }}>
                   <h4 style={{ fontSize: '18px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>
-                    âœ¨ {editingProgramId ? 'Edit Degree Program' : 'Create & Publish New Degree Program'}
+                    ✨ {editingProgramId ? 'Edit Degree Program' : 'Create & Publish New Degree Program'}
                   </h4>
                   <button className="btn btn-outline" onClick={() => {
                     setShowInlineAddPortal(false);
                     setEditingProgramId(null);
-                  }} style={{ padding: '4px 10px', fontSize: '12px' }}>âœ• Close Form</button>
+                  }} style={{ padding: '4px 10px', fontSize: '12px' }}>✕ Close Form</button>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
@@ -1018,7 +1018,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                         <input 
                           type="text" 
                           className="form-control" 
-                          placeholder="e.g. ðŸ’»" 
+                          placeholder="e.g. 💻" 
                           value={newProgEmoji}
                           onChange={(e) => setNewProgEmoji(e.target.value)}
                           style={{ padding: '10px 14px', fontSize: '14px' }}
@@ -1052,13 +1052,34 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       </div>
                     </div>
 
+                    <div className="form-grid-2">
+                      <div className="form-group">
+                        <label className="form-label">Minimum GPA *</label>
+                        <input 
+                          type="number"
+                          step="0.1"
+                          className="form-control" 
+                          value={newProgMinGpa}
+                          onChange={(e) => setNewProgMinGpa(e.target.value)}
+                          required 
+                          style={{ padding: '10px 14px' }}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Minimum Percent (%) *</label>
+                        <input 
+                          type="number" 
+                          className="form-control" 
+                          value={newProgMinPercent}
+                          onChange={(e) => setNewProgMinPercent(e.target.value)}
+                          required 
+                          style={{ padding: '10px 14px' }}
+                        />
+                      </div>
+                    </div>
+
                     <div className="form-group">
-                      <label className="form-label">Minimum GPA & Percent *</label>
-<div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
-  <input type="number" step="0.1" className="form-control" value={newProgMinGpa} onChange={(e) => setNewProgMinGpa(e.target.value)} required placeholder="Min GPA (e.g. 2.5)" style={{ padding: "10px 14px", flex: 1 }} />
-  <input type="number" className="form-control" value={newProgMinPercent} onChange={(e) => setNewProgMinPercent(e.target.value)} required placeholder="Min Percent (e.g. 65)" style={{ padding: "10px 14px", flex: 1 }} />
-</div>
-<label className="form-label">Program Overview & Description</label>
+                      <label className="form-label">Program Overview & Description</label>
                       <textarea 
                         className="form-control" 
                         rows="3" 
@@ -1095,7 +1116,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
 
                     <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '12px', marginTop: '20px' }}>
                       <button type="submit" className="btn btn-gold" style={{ padding: '10px 24px', fontSize: '14px' }} disabled={isUploadingBrochure || isUploadingProgBg}>
-                        {isUploadingBrochure || isUploadingProgBg ? 'â³ Uploading...' : (editingProgramId ? 'ðŸ’¾ Save Changes' : 'ðŸš€ Publish Degree Program Live')}
+                        {isUploadingBrochure || isUploadingProgBg ? '⏳ Uploading...' : (editingProgramId ? '💾 Save Changes' : '🚀 Publish Degree Program Live')}
                       </button>
                       <button type="button" className="btn btn-outline" onClick={() => {
                         setShowInlineAddPortal(false);
@@ -1163,16 +1184,16 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     <tr key={prog.id}>
                       <td style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--gold-light)' }}>{prog.id}</td>
                       <td style={{ fontWeight: 700 }}>{prog.title || prog.name}</td>
-                      <td><span className="online-tag" style={{ position: 'static' }}>{prog.emoji || 'ðŸŽ“'} {prog.category}</span></td>
+                      <td><span className="online-tag" style={{ position: 'static' }}>{prog.emoji || '🎓'} {prog.category}</span></td>
                       <td style={{ color: '#34d399', fontWeight: 700 }}>{prog.tuition}</td>
                       <td style={{ fontSize: '12px' }}>{prog.duration}</td>
                       <td>
                         <div style={{ display: 'flex', gap: '8px' }}>
                           {uploadingRowId === prog.id ? (
-                            <span style={{ fontSize: '11px', color: 'var(--gold-primary)', padding: '4px 0' }}>â³ Uploading...</span>
+                            <span style={{ fontSize: '11px', color: 'var(--gold-primary)', padding: '4px 0' }}>⏳ Uploading...</span>
                           ) : (
                             <label className="btn btn-outline" style={{ padding: '4px 10px', fontSize: '11px', cursor: 'pointer', margin: 0 }}>
-                              {prog.brochureUrl ? 'ðŸ“„ Replace PDF' : 'ðŸ“„ Upload PDF'}
+                              {prog.brochureUrl ? '📄 Replace PDF' : '📄 Upload PDF'}
                               <input 
                                 type="file" 
                                 accept=".pdf" 
@@ -1186,14 +1207,14 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                             onClick={() => handleEditProgram(prog)} 
                             style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}
                           >
-                            âœï¸ Edit
+                            ✏️ Edit
                           </button>
                           <button 
                             className="btn btn-outline" 
                             onClick={() => handleDeleteProgram(prog.id)} 
                             style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}
                           >
-                            ðŸ—‘ï¸ Delete
+                            🗑️ Delete
                           </button>
                         </div>
                       </td>
@@ -1209,9 +1230,9 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
         {activeTab === 'gallery' && (
           <div className="admin-panel">
             <div className="admin-header">
-              <h2 className="section-title" style={{ fontSize: '24px' }}>ðŸ–¼ï¸ Gallery CMS</h2>
+              <h2 className="section-title" style={{ fontSize: '24px' }}>🖼️ Gallery CMS</h2>
               <label className="btn btn-maroon" style={{ cursor: 'pointer', margin: 0 }}>
-                {isUploadingGallery ? 'â³ Uploading...' : 'âž• Upload New Image'}
+                {isUploadingGallery ? '⏳ Uploading...' : '➕ Upload New Image'}
                 <input 
                   type="file" 
                   accept="image/*" 
@@ -1234,7 +1255,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(239, 68, 68, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '28px', height: '28px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     title="Delete Image"
                   >
-                    ðŸ—‘ï¸
+                    🗑️
                   </button>
                 </div>
               ))}
@@ -1254,10 +1275,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
               <h3 style={{ color: 'var(--gold-light)' }}>Hero Section Configuration</h3>
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button className="btn btn-outline" onClick={handleResetHero} style={{ borderColor: '#ef4444', color: '#f87171' }}>
-                  ðŸ”„ Reset to Default
+                  🔄 Reset to Default
                 </button>
                 <button className="btn btn-gold" onClick={handleSaveHero}>
-                  ðŸ’¾ Save Changes
+                  💾 Save Changes
                 </button>
               </div>
             </div>
@@ -1320,7 +1341,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ color: 'var(--gold-light)' }}>Virtual Tour Slides</h3>
               <button className="btn btn-gold" onClick={() => handleEditSlide(-1)}>
-                âž• Add New Slide
+                ➕ Add New Slide
               </button>
             </div>
 
@@ -1371,7 +1392,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     <div>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                         <div className="form-group">
-                          <label className="form-label">Tab Label (e.g. ðŸ“š Library)</label>
+                          <label className="form-label">Tab Label (e.g. 📚 Library)</label>
                           <input className="form-control" value={slideFormData.label} onChange={e => setSlideFormData({...slideFormData, label: e.target.value})} />
                         </div>
                         <div className="form-group">
@@ -1480,7 +1501,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ color: 'var(--gold-light)' }}>Global Contact Information</h3>
               <button className="btn btn-gold" onClick={handleSaveContact}>
-                ðŸ’¾ Save Changes
+                💾 Save Changes
               </button>
             </div>
 
@@ -1550,10 +1571,10 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
               <h3 style={{ color: 'var(--gold-light)' }}>About Us Configuration</h3>
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button className="btn btn-outline" onClick={handleResetAbout} style={{ borderColor: '#ef4444', color: '#f87171' }}>
-                  ðŸ”„ Reset to Default
+                  🔄 Reset to Default
                 </button>
                 <button className="btn btn-gold" onClick={handleSaveAbout}>
-                  ðŸ’¾ Save Changes
+                  💾 Save Changes
                 </button>
               </div>
             </div>
@@ -1607,7 +1628,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           <div>
             <div style={{ marginBottom: '24px' }}>
               <h3 style={{ fontSize: '20px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>
-                ðŸ“ Registration Form Configuration
+                📝 Registration Form Configuration
               </h3>
               <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
                 Manage the "Elective Tracks" that appear in the student Enrollment Application form. Degree Programs are automatically synced from the Courses & Tuition CMS.
@@ -1628,7 +1649,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                   />
                 </div>
                 <button type="submit" className="btn btn-gold" style={{ height: '42px', padding: '0 24px' }}>
-                  {editingElectiveId ? 'ðŸ’¾ Save Changes' : 'âž• Add Elective'}
+                  {editingElectiveId ? '💾 Save Changes' : '➕ Add Elective'}
                 </button>
                 {editingElectiveId && (
                   <button type="button" className="btn btn-outline" onClick={() => { setEditingElectiveId(null); setNewElectiveName(''); }} style={{ height: '42px', padding: '0 16px' }}>
@@ -1661,14 +1682,14 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                             onClick={() => { setEditingElectiveId(el.id); setNewElectiveName(el.name); }} 
                             style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}
                           >
-                            âœï¸ Edit
+                            ✏️ Edit
                           </button>
                           <button 
                             className="btn btn-outline" 
                             onClick={() => handleDeleteElective(el.id)} 
                             style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}
                           >
-                            ðŸ—‘ï¸ Delete
+                            🗑️ Delete
                           </button>
                         </div>
                       </td>
@@ -1685,17 +1706,17 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
               <div>
-                <h3 style={{ fontSize: '20px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>ðŸ“… Events CMS</h3>
+                <h3 style={{ fontSize: '20px', color: 'var(--gold-light)', fontFamily: 'var(--font-serif)', margin: 0 }}>📅 Events CMS</h3>
                 <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>Manage all upcoming events shown on the homepage and the Events page.</p>
               </div>
               <button className="btn btn-gold" onClick={() => { resetEvtForm(); setShowEvtForm(true); }} style={{ padding: '10px 20px', fontSize: '13px' }}>
-                âž• Add New Event
+                ➕ Add New Event
               </button>
             </div>
 
             {showEvtForm && (
               <div ref={editViewRef} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: '12px', padding: '24px', marginBottom: '28px' }}>
-                <h4 style={{ color: 'var(--gold-light)', marginBottom: '20px', fontFamily: 'var(--font-serif)' }}>{editingEventId ? 'âœï¸ Edit Event' : 'âž• Add New Event'}</h4>
+                <h4 style={{ color: 'var(--gold-light)', marginBottom: '20px', fontFamily: 'var(--font-serif)' }}>{editingEventId ? '✏️ Edit Event' : '➕ Add New Event'}</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
                   <form onSubmit={handleEvtSubmit}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
@@ -1741,7 +1762,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '12px', marginTop: '20px' }}>
                       <button type="submit" className="btn btn-gold" disabled={isUploadingEvtImg}>
-                        {isUploadingEvtImg ? 'â³ Uploading...' : (editingEventId ? 'ðŸ’¾ Save Changes' : 'ðŸš€ Publish Event')}
+                        {isUploadingEvtImg ? '⏳ Uploading...' : (editingEventId ? '💾 Save Changes' : '🚀 Publish Event')}
                       </button>
                       <button type="button" className="btn btn-outline" onClick={resetEvtForm}>Cancel</button>
                     </div>
@@ -1761,12 +1782,12 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                         </div>
                         <div style={{ width: '1px', height: '30px', backgroundColor: 'var(--border-gold)' }}></div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px', color: 'var(--text-muted)' }}>
-                          <div>ðŸ“ {evtLocation || 'Location'}</div>
-                          <div>ðŸ•’ {evtTime || 'Time'}</div>
+                          <div>📍 {evtLocation || 'Location'}</div>
+                          <div>🕒 {evtTime || 'Time'}</div>
                         </div>
                       </div>
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '600', letterSpacing: '1px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                        {evtButtonLabel || 'KNOW MORE'} <span style={{ fontSize: '16px' }}>â†“</span>
+                        {evtButtonLabel || 'KNOW MORE'} <span style={{ fontSize: '16px' }}>↓</span>
                       </span>
                     </div>
                   </div>
@@ -1798,8 +1819,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       <td><span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{ev.buttonLabel || 'KNOW MORE'}</span></td>
                       <td>
                         <div style={{ display: 'flex', gap: '8px' }}>
-                          <button className="btn btn-outline" onClick={() => handleEvtEdit(ev)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}>âœï¸ Edit</button>
-                          <button className="btn btn-outline" onClick={() => handleEvtDelete(ev.id)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}>ðŸ—‘ï¸ Delete</button>
+                          <button className="btn btn-outline" onClick={() => handleEvtEdit(ev)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}>✏️ Edit</button>
+                          <button className="btn btn-outline" onClick={() => handleEvtDelete(ev.id)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}>🗑️ Delete</button>
                         </div>
                       </td>
                     </tr>
@@ -1815,7 +1836,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
         {activeTab === 'videos' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h3 style={{ margin: 0 }}>â–¶ï¸ Academic Classes</h3>
+              <h3 style={{ margin: 0 }}>▶️ Academic Classes</h3>
               <button className="btn btn-gold" onClick={() => {
                 setEditingVidId(null);
                 setVidTitle('');
@@ -1939,8 +1960,8 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                       </td>
                       <td style={{ width: '150px' }}>
                         <div style={{ display: 'flex', gap: '8px' }}>
-                          <button className="btn btn-outline" onClick={() => handleVidEdit(vid)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}>âœï¸ Edit</button>
-                          <button className="btn btn-outline" onClick={() => handleVidDelete(vid.id)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}>ðŸ—‘ï¸ Delete</button>
+                          <button className="btn btn-outline" onClick={() => handleVidEdit(vid)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#3b82f6', color: '#60a5fa' }}>✏️ Edit</button>
+                          <button className="btn btn-outline" onClick={() => handleVidDelete(vid.id)} style={{ padding: '4px 10px', fontSize: '11px', borderColor: '#ef4444', color: '#f87171' }}>🗑️ Delete</button>
                         </div>
                       </td>
                     </tr>
@@ -1955,6 +1976,3 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     </section>
   );
 }
-
-
-

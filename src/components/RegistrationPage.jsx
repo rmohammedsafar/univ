@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { INITIAL_CONTACT_INFO } from '../data/initialData';
 import { GLOBAL_COUNTRIES } from '../data/countryStateData';
 import { saveApplicationRecord } from '../services/firebase';
@@ -98,7 +98,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                   setProgram('');
                 }}
               >
-                Register Another Student â†’
+                Register Another Student →
               </button>
 
               <button 
@@ -123,7 +123,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                   window.location.href = '/';
                 }}
               >
-                ðŸ  Return to Main Home Page
+                🏠 Return to Main Home Page
               </button>
             </div>
           ) : (
@@ -231,7 +231,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                 <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Degree Program <span style={{ color: '#ef4444' }}>*</span></label>
                   <select 
-                    style={{ padding: '12px 30px 12px 12px', border: '1px solid var(--gold-primary)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    style={{ fontWeight: program ? 'bold' : 'normal', padding: '12px 30px 12px 12px', border: '1px solid var(--gold-primary)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
                     value={program}
                     onChange={(e) => setProgram(e.target.value)}
                     required
@@ -270,7 +270,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                     disabled={isSubmitting}
                     style={{ width: '100%', padding: '16px', background: 'var(--gold-primary)', color: '#000', border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer', boxShadow: '0 0 15px var(--gold-glow)', boxSizing: 'border-box' }}
                   >
-                    {isSubmitting ? 'Sending Confirmation Email...' : 'Submit Registration â†’'}
+                    {isSubmitting ? 'Sending Confirmation Email...' : 'Submit Registration →'}
                   </button>
                 </div>
               </form>
@@ -283,4 +283,3 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
     </div>
   );
 }
-

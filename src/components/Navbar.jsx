@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { INITIAL_DEGREE_PROGRAMS } from '../data/initialData';
 import { sendInquiryEmailAsync } from '../services/emailService';
@@ -100,7 +100,7 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
 
   return (
     <>
-      {/* â”€â”€ ANIMATED LIVE WORLD CLOCKS MARQUEE TICKER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── ANIMATED LIVE WORLD CLOCKS MARQUEE TICKER ─────────────────────── */}
       <div className="time-marquee-ticker">
         <div className="time-marquee-track">
           <MarqueeClocks />
@@ -108,7 +108,7 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
         </div>
       </div>
 
-      {/* â”€â”€ STICKY MAIN NAV HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── STICKY MAIN NAV HEADER ─────────────────────────────────────────── */}
       <header className="app-header">
         <Link to="/" className="brand-container" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
           <img
@@ -116,12 +116,12 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
             alt="University of East Florida Emblem"
             className="brand-logo-img"
             onError={(e) => {
-              e.target.src = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%236b111c' stroke='%23d4af37' stroke-width='5'/><text x='50' y='58' font-size='35' text-anchor='middle' fill='%23d4af37'>ðŸ›ï¸</text></svg>`;
+              e.target.src = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%236b111c' stroke='%23d4af37' stroke-width='5'/><text x='50' y='58' font-size='35' text-anchor='middle' fill='%23d4af37'>🏛️</text></svg>`;
             }}
           />
           <div className="brand-title-group">
             <h1 className="brand-font">UNIVERSITY OF EAST FLORIDA</h1>
-            <p>100% Online Global Campus â€¢ Orlando, USA</p>
+            <p>100% Online Global Campus • Orlando, USA</p>
           </div>
         </Link>
 
@@ -154,12 +154,12 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
             title="Toggle Light / Dark Mode"
             style={{ padding: '5px 10px', fontSize: '11.5px' }}
           >
-            {isLightTheme ? 'ðŸŒ™ Dark Mode' : 'â˜€ï¸ Light Mode'}
+            {isLightTheme ? '🌙 Dark Mode' : '☀️ Light Mode'}
           </button>
         </div>
       </header>
 
-      {/* â”€â”€ MOBILE MENU OVERLAY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── MOBILE MENU OVERLAY ────────────────────────────────────────────── */}
       {mobileMenuOpen && (
         <div className="mobile-menu-overlay">
           <div className="mobile-menu-content">
@@ -194,7 +194,7 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
                     cursor: 'pointer'
                   }}
                 >
-                  {isLightTheme ? 'ðŸŒ™ Switch to Dark Mode' : 'â˜€ï¸ Switch to Light Mode'}
+                  {isLightTheme ? '🌙 Switch to Dark Mode' : '☀️ Switch to Light Mode'}
                 </button>
               </li>
             </ul>
@@ -202,7 +202,7 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
         </div>
       )}
 
-      {/* â”€â”€ ENQUIRY MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── ENQUIRY MODAL ────────────────────────────────────────────── */}
       {enquiryOpen && (
         <div className="enquiry-modal-overlay">
           <div className="enquiry-modal-content">
@@ -301,18 +301,19 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
                   <select
                     required
                     className="enquiry-input"
+                    style={enquiryProgram ? { fontWeight: 'bold' } : {}}
                     value={enquiryProgram}
                     onChange={(e) => setEnquiryProgram(e.target.value)}
                   >
                     <option value="">Select Program</option>
                     {(programs || INITIAL_DEGREE_PROGRAMS).map(prog => (
-                      <option key={prog.id} value={prog.name || prog.title} style={{ fontWeight: "bold" }}>
+                      <option key={prog.id} value={prog.name || prog.title} style={{ fontWeight: 'bold' }}>
                         {prog.degree} in {prog.name || prog.title}
                       </option>
                     ))}
                   </select>
                   <button type="submit" className="enquiry-submit-btn" disabled={isSubmittingEnquiry}>
-                    {isSubmittingEnquiry ? 'Sending Confirmation Email...' : 'Submit Enquiry'} <span>â†’</span>
+                    {isSubmittingEnquiry ? 'Sending Confirmation Email...' : 'Submit Enquiry'} <span>→</span>
                   </button>
                 </form>
               </>
@@ -324,7 +325,7 @@ export default function Navbar({ isLightTheme, toggleTheme, programs, onOpenAdmi
   );
 }
 
-/* â”€â”€ HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── HELPERS ──────────────────────────────────────────────────────────────── */
 
 function ClockWidget({ timezone, label }) {
   const [time, setTime] = useState('Loading...');
@@ -339,10 +340,10 @@ function ClockWidget({ timezone, label }) {
 
 function MarqueeClocks() {
   const zones = [
-    { tz: 'America/New_York', label: 'ðŸ“ USA (Orlando/EST)' },
-    { tz: 'Europe/London',    label: 'ðŸŒ UK (London/GMT)' },
-    { tz: 'Asia/Tokyo',       label: 'ðŸŒ Japan (Tokyo/JST)' },
-    { tz: 'Asia/Kolkata',     label: 'ðŸŒ India (New Delhi/IST)' },
+    { tz: 'America/New_York', label: '📍 USA (Orlando/EST)' },
+    { tz: 'Europe/London',    label: '🌐 UK (London/GMT)' },
+    { tz: 'Asia/Tokyo',       label: '🌐 Japan (Tokyo/JST)' },
+    { tz: 'Asia/Kolkata',     label: '🌐 India (New Delhi/IST)' },
   ];
   const [times, setTimes] = useState({});
   useEffect(() => {
@@ -361,7 +362,7 @@ function MarqueeClocks() {
 
   return (
     <>
-      <span className="time-marquee-badge">âš¡ LIVE WORLD CLOCKS</span>
+      <span className="time-marquee-badge">⚡ LIVE WORLD CLOCKS</span>
       {zones.map(z => (
         <span key={z.tz} className="time-marquee-item">
           {z.label}: {times[z.tz] || '...'}
@@ -370,4 +371,3 @@ function MarqueeClocks() {
     </>
   );
 }
-
