@@ -31,7 +31,7 @@ export default function EventsPage({ events = [] }) {
                   <div style={{ width: "1px", height: "30px", backgroundColor: "var(--border-gold)" }}></div>
                   <div style={{ fontSize: "12px", color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: "4px" }}>
                     <span>&#128205; {ev.location}</span>
-                    <span>&#128338; {ev.time}</span>
+                    <span>&#128338; {ev.time} {ev.timezone || ''}</span>
                   </div>
                 </div>
                 {ev.link && (

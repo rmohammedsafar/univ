@@ -70,6 +70,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const [evtMonth, setEvtMonth] = useState('');
   const [evtLocation, setEvtLocation] = useState('');
   const [evtTime, setEvtTime] = useState('');
+  const [evtTimezone, setEvtTimezone] = useState('EST');
   const [evtLink, setEvtLink] = useState('');
   const [evtButtonLabel, setEvtButtonLabel] = useState('KNOW MORE');
   const [showEvtForm, setShowEvtForm] = useState(false);
@@ -126,7 +127,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setEditingEventId(null);
     setEvtTitle(''); setEvtDesc(''); setEvtImage('');
     setEvtDay(''); setEvtMonth(''); setEvtLocation('');
-    setEvtTime(''); setEvtLink(''); setEvtButtonLabel('KNOW MORE');
+    setEvtTime(''); setEvtTimezone('EST'); setEvtLink(''); setEvtButtonLabel('KNOW MORE');
     setEvtImageFile(null);
     setShowEvtForm(false);
   };
@@ -136,7 +137,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
     setEvtTitle(ev.title || ''); setEvtDesc(ev.desc || '');
     setEvtImage(ev.image || ''); setEvtDay(ev.day || '');
     setEvtMonth(ev.month || ''); setEvtLocation(ev.location || '');
-    setEvtTime(ev.time || ''); setEvtLink(ev.link || '');
+    setEvtTime(ev.time || ''); setEvtTimezone(ev.timezone || 'EST'); setEvtLink(ev.link || '');
     setEvtButtonLabel(ev.buttonLabel || 'KNOW MORE');
     setEvtImageFile(null);
     setShowEvtForm(true);
@@ -230,7 +231,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
       id: editingEventId || ('evt-' + Date.now()),
       title: evtTitle.trim(), desc: evtDesc.trim(), image: finalImage,
       day: evtDay.trim(), month: evtMonth.trim(), location: evtLocation.trim(),
-      time: evtTime.trim(), link: evtLink.trim(), buttonLabel: evtButtonLabel.trim()
+      time: evtTime.trim(), timezone: evtTimezone, link: evtLink.trim(), buttonLabel: evtButtonLabel.trim()
     };
     if (editingEventId) {
       onUpdateEvents((events || []).map(ev => ev.id === editingEventId ? evtData : ev));
@@ -1751,9 +1752,21 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                         <label className="form-label">Location *</label>
                         <input className="form-control" required value={evtLocation} onChange={e => setEvtLocation(e.target.value)} placeholder="Virtual Conference Hall" />
                       </div>
-                      <div className="form-group">
-                        <label className="form-label">Time (e.g. 6:00 PM - 9:00 PM EST) *</label>
-                        <input className="form-control" required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="" />
+                      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                        <label className="form-label">Time & Timezone (e.g. 6:00 PM - 9:00 PM) *</label>
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                          <input className="form-control" style={{ flex: 1 }} required value={evtTime} onChange={e => setEvtTime(e.target.value)} placeholder="" />
+                          <select className="form-control" style={{ width: '120px' }} value={evtTimezone} onChange={e => setEvtTimezone(e.target.value)}>
+                            <option value="EST">EST</option>
+                            <option value="PST">PST</option>
+                            <option value="CST">CST</option>
+                            <option value="MST">MST</option>
+                            <option value="GMT">GMT</option>
+                            <option value="UTC">UTC</option>
+                            <option value="IST">IST</option>
+                            <option value="CET">CET</option>
+                          </select>
+                        </div>
                       </div>
                       <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                         <label className="form-label">Know More Link URL</label>
@@ -1787,7 +1800,7 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                         <div style={{ width: '1px', height: '30px', backgroundColor: 'var(--border-gold)' }}></div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px', color: 'var(--text-muted)' }}>
                           <div>📍 {evtLocation || 'Location'}</div>
-                          <div>🕒 {evtTime || 'Time'}</div>
+                          <div>🕒 {evtTime || 'Time'} {evtTimezone}</div>
                         </div>
                       </div>
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '600', letterSpacing: '1px', color: 'var(--text-muted)', marginTop: '4px' }}>
