@@ -1246,9 +1246,6 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
                 />
               </label>
             </div>
-            <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
-              Upload high-quality images directly to the interactive masonry gallery.
-            </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
               {galleryImages && galleryImages.map((imgUrl, idx) => (
