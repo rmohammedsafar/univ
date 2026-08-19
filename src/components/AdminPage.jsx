@@ -101,7 +101,7 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
               <input 
                 type="email" 
                 className="form-control" 
-                placeholder="r.mohammedsafar@gmail.com"
+                placeholder=""
                 value={adminEmail}
                 onChange={(e) => setAdminEmail(e.target.value)}
                 required 
@@ -114,7 +114,7 @@ export default function AdminPage({ programs, onUpdatePrograms, tourSlides, onUp
                 <input 
                   type={showPassword ? "text" : "password"} 
                   className="form-control" 
-                  placeholder="••••••••" 
+                  placeholder="" 
                   value={adminPass}
                   onChange={(e) => setAdminPass(e.target.value)}
                   required 
