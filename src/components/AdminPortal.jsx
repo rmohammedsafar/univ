@@ -3,7 +3,7 @@ import { saveCMSConfigToStorage, getApplicationRecords, getInquiryRecords, uploa
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
-import { INITIAL_HERO_CONFIG } from '../data/initialData';
+import { INITIAL_HERO_CONFIG, INITIAL_ABOUT_US } from '../data/initialData';
 
 const ImageUploadField = ({ label, value, onChange, folder, placeholder }) => {
   const [isUploading, setIsUploading] = useState(false);
@@ -274,6 +274,14 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
   const handleSaveAbout = () => {
     onUpdateAbout(aboutFormData);
     alert('About Us section updated successfully!');
+  };
+
+  const handleResetAbout = () => {
+    if (window.confirm("Are you sure you want to reset the About Us configuration to its default values?")) {
+      setAboutFormData(INITIAL_ABOUT_US);
+      onUpdateAbout(INITIAL_ABOUT_US);
+      alert('About Us section has been reset to defaults!');
+    }
   };
 
   const [editingNewsIndex, setEditingNewsIndex] = useState(null);
@@ -1531,9 +1539,14 @@ export default function AdminPortal({ programs, onUpdatePrograms, tourSlides, on
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ color: 'var(--gold-light)' }}>About Us Configuration</h3>
-              <button className="btn btn-gold" onClick={handleSaveAbout}>
-                💾 Save Changes
-              </button>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button className="btn btn-outline" onClick={handleResetAbout} style={{ borderColor: '#ef4444', color: '#f87171' }}>
+                  🔄 Reset to Default
+                </button>
+                <button className="btn btn-gold" onClick={handleSaveAbout}>
+                  💾 Save Changes
+                </button>
+              </div>
             </div>
 
             <div style={{ background: 'var(--bg-card)', padding: '30px', borderRadius: '12px', border: '1px solid var(--border-gold)' }}>
