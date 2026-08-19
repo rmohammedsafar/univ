@@ -201,7 +201,15 @@ export default function ProgramCatalog({ programs, onSelectProgramToApply }) {
       const descStr = (p.description || '').toLowerCase();
       const catStr = (p.category || '').toLowerCase();
       const q = searchQuery.toLowerCase().trim();
-      const matchSearch = !q || titleStr.includes(q) || degreeStr.includes(q) || descStr.includes(q) || catStr.includes(q);
+      
+      let matchSearch = true;
+      if (q) {
+        if (q.length === 1) {
+          matchSearch = titleStr.startsWith(q) || catStr.startsWith(q);
+        } else {
+          matchSearch = titleStr.includes(q) || degreeStr.includes(q) || descStr.includes(q) || catStr.includes(q);
+        }
+      }
       return matchCategory && matchSearch;
     })
     .sort((a, b) => {
