@@ -75,10 +75,7 @@ export default function GalleryPage({ galleryImages }) {
         )}
       </main>
       
-      {/* Footer text */}
-      <div style={{ textAlign: 'center', padding: '25px', color: 'var(--text-main)', fontSize: '13px', marginTop: 'auto', opacity: 0.6 }}>
-        © University of East Florida. All Rights Reserved.
-      </div>
+
 
       {/* Lightbox Modal */}
       {lightboxIndex !== null && (

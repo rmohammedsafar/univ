@@ -279,10 +279,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
         </div>
       </div>
       
-      {/* Footer text */}
-      <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-muted)', fontSize: '13px', fontFamily: 'var(--font-body)' }}>
-        © University of East Florida. All Rights Reserved.
-      </div>
+
     </div>
   );
 }
