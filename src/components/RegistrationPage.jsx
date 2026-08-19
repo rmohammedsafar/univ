@@ -240,7 +240,7 @@ export default function RegistrationPage({ programs = [], electives = [] }) {
                 <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, boxSizing: 'border-box' }}>
                   <label style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>Degree Program <span style={{ color: '#ef4444' }}>*</span></label>
                   <select 
-                    style={{ fontWeight: program ? 'bold' : 'normal', padding: '12px 30px 12px 12px', border: '1px solid var(--gold-primary)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
+                    style={{ padding: '12px 30px 12px 12px', border: '1px solid var(--border-gold)', borderRadius: '6px', outline: 'none', color: 'var(--text-main)', width: '100%', boxSizing: 'border-box', appearance: 'none', background: 'transparent url("data:image/svg+xml;utf8,<svg fill=\'%23d4af37\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>") no-repeat right 10px center/16px' }} 
                     value={program}
                     onChange={(e) => setProgram(e.target.value)}
                     required
