@@ -10,9 +10,16 @@ export default function ContactSection({ contactInfo }) {
 
   return (
     <section className="section-wrapper" id="usaHeadquarters">
+      <style>{`
+        @media (max-width: 768px) {
+          .contact-desc {
+            text-align: justify;
+          }
+        }
+      `}</style>
       <div className="section-header">
         <h2 className="section-title">USA HEADQUARTERS &amp; CONTACT</h2>
-        <p className="section-desc">
+        <p className="section-desc contact-desc">
           While our degrees are 100% online, we maintain a physical USA administrative headquarters for official correspondence, transcript authentication, and global employer verification.
         </p>
       </div>
