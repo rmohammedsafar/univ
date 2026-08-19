@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { INITIAL_DEGREE_PROGRAMS } from '../data/initialData';
 import { sendInquiryEmailAsync } from '../services/emailService';
 import { saveInquiryRecord } from '../services/firebase';
@@ -16,8 +16,19 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
   const [enquiryProgram, setEnquiryProgram] = useState('');
   const [isSubmittingEnquiry, setIsSubmittingEnquiry] = useState(false);
   const [enquirySubmitted, setEnquirySubmitted] = useState(false);
+  const location = useLocation();
 
   const closeMobile = () => setMobileMenuOpen(false);
+
+  const isActive = (path, hash) => {
+    if (hash) {
+      return location.pathname === path && location.hash === hash;
+    }
+    // If we only provide a path (e.g. /gallery), it should be active if the pathname matches.
+    // Except for '/', if they are on /#programs it shouldn't highlight a hypothetical Home link.
+    // But since we don't have a Home link, just checking pathname is fine for /gallery and /apply
+    return location.pathname === path;
+  };
 
   const handleEnquirySubmit = (e) => {
     e.preventDefault();
@@ -85,11 +96,11 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
 
         {/* Desktop Nav Links */}
         <ul className="nav-links">
-          <li><Link to="/#programs" className="nav-link" onClick={(e) => handleNavClick(e, 'programs')}>Program</Link></li>
-          <li><Link to="/gallery" className="nav-link">Gallery</Link></li>
-          <li><Link to="/#usaHeadquarters" className="nav-link" onClick={(e) => handleNavClick(e, 'usaHeadquarters')}>Contact</Link></li>
+          <li><Link to="/#programs" className={`nav-link ${isActive('/', '#programs') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'programs')}>Program</Link></li>
+          <li><Link to="/gallery" className={`nav-link ${isActive('/gallery') ? 'active' : ''}`}>Gallery</Link></li>
+          <li><Link to="/#usaHeadquarters" className={`nav-link ${isActive('/', '#usaHeadquarters') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'usaHeadquarters')}>Contact</Link></li>
           <li><a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setEnquiryOpen(true); }}>Enquire</a></li>
-          <li><Link to="/apply" className="nav-link">Enroll Now</Link></li>
+          <li><Link to="/apply" className={`nav-link ${isActive('/apply') ? 'active' : ''}`}>Enroll Now</Link></li>
         </ul>
 
         {/* Nav Actions */}
@@ -128,11 +139,11 @@ export default function Navbar({ isLightTheme, toggleTheme, onOpenAdminLogin, is
               </svg>
             </button>
             <ul className="mobile-nav-links">
-              <li><Link to="/#programs" onClick={(e) => { closeMobile(); handleNavClick(e, 'programs'); }}>Program</Link></li>
-              <li><Link to="/gallery" onClick={closeMobile}>Gallery</Link></li>
-              <li><Link to="/#usaHeadquarters" onClick={(e) => { closeMobile(); handleNavClick(e, 'usaHeadquarters'); }}>Contact</Link></li>
+              <li><Link to="/#programs" className={isActive('/', '#programs') ? 'active' : ''} onClick={(e) => { closeMobile(); handleNavClick(e, 'programs'); }}>Program</Link></li>
+              <li><Link to="/gallery" className={isActive('/gallery') ? 'active' : ''} onClick={closeMobile}>Gallery</Link></li>
+              <li><Link to="/#usaHeadquarters" className={isActive('/', '#usaHeadquarters') ? 'active' : ''} onClick={(e) => { closeMobile(); handleNavClick(e, 'usaHeadquarters'); }}>Contact</Link></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); closeMobile(); setEnquiryOpen(true); }}>Enquire</a></li>
-              <li><Link to="/apply" onClick={closeMobile}>Enroll Now</Link></li>
+              <li><Link to="/apply" className={isActive('/apply') ? 'active' : ''} onClick={closeMobile}>Enroll Now</Link></li>
               
               <li style={{ marginTop: '16px', borderTop: '1px solid rgba(212,175,55,0.2)', paddingTop: '16px' }}>
                 <button

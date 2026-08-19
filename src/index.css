@@ -2705,7 +2705,8 @@ body.light-theme .modal-title {
   transition: color 0.2s;
 }
 
-.mobile-nav-links a:hover {
+.mobile-nav-links a:hover,
+.mobile-nav-links a.active {
   color: var(--gold-primary);
 }
 
