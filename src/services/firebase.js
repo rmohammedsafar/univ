@@ -6,6 +6,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, getDocs, orderBy, query, doc, setDoc, getDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getFunctions } from "firebase/functions";
 
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC5aK_bNcjjfVrSTpMk21kdOQCHci9vM8w",
@@ -17,9 +18,10 @@ const FIREBASE_CONFIG = {
   measurementId: "G-XRGW1FG2WX"
 };
 
-const app = initializeApp(FIREBASE_CONFIG);
+export const app = initializeApp(FIREBASE_CONFIG);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export const functions = getFunctions(app);
 
 // ============================================================
 // Generic Firestore CMS helpers (single-document per section)

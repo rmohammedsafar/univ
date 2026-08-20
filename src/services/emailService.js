@@ -1,35 +1,27 @@
 /* ==========================================================================
-   CLIENT-SIDE EMAIL DISPATCH SERVICE USING NODEMAILER API
+   CLIENT-SIDE EMAIL DISPATCH SERVICE USING FIREBASE FIRESTORE TRIGGER
    ========================================================================== */
 
+import { db } from './firebase';
+import { collection, addDoc } from 'firebase/firestore';
+
 export const sendConfirmationEmail = async (applicationData) => {
-  console.log("📧 Dispatching Nodemailer Confirmation Email:", applicationData);
+  console.log("📧 Dispatching Firebase Confirmation Email:", applicationData);
 
   try {
-    const response = await fetch('/api/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        fullName: applicationData.fullName,
-        studentEmail: applicationData.email,
-        programTitle: applicationData.programTitle,
-        highestQual: applicationData.highestQual,
-        country: applicationData.country,
-        state: applicationData.state,
-        phone: applicationData.phone
-      })
+    const docRef = await addDoc(collection(db, 'email'), {
+      type: 'confirmation',
+      fullName: applicationData.fullName,
+      studentEmail: applicationData.email,
+      programTitle: applicationData.programTitle,
+      highestQual: applicationData.highestQual,
+      country: applicationData.country,
+      state: applicationData.state,
+      phone: applicationData.phone
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("✅ Nodemailer email dispatched successfully:", data);
-      return { success: true, data };
-    } else {
-      console.warn("⚠️ API email dispatch fallback simulation");
-      return { success: true, simulated: true };
-    }
+    console.log("✅ Firebase email document created successfully:", docRef.id);
+    return { success: true, id: docRef.id };
   } catch (err) {
     console.warn("Notice: Client email service running in offline mode:", err.message);
     return { success: true, simulated: true };
@@ -53,28 +45,16 @@ export const sendInquiryEmail = async (param1, param2) => {
   }
 
   try {
-    const response = await fetch('/api/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        type: 'inquiry',
-        inquiryName,
-        inquiryEmail,
-        phone,
-        programTitle
-      })
+    const docRef = await addDoc(collection(db, 'email'), {
+      type: 'inquiry',
+      inquiryName,
+      inquiryEmail,
+      phone,
+      programTitle
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("✅ Inquiry email dispatched successfully:", data);
-      return { success: true, data };
-    } else {
-      console.warn("⚠️ API email dispatch fallback simulation");
-      return { success: true, simulated: true };
-    }
+    console.log("✅ Inquiry email document created successfully:", docRef.id);
+    return { success: true, id: docRef.id };
   } catch (err) {
     console.warn("Notice: Inquiry email service offline mode:", err.message);
     return { success: true, simulated: true };
